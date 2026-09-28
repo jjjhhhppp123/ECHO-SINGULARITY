@@ -31,14 +31,6 @@ const wallpaperDatabase = [
         fileId: "1xq6hQmr8wMw_T-HOHktnq4RUUfYeMkye" 
     },
     { 
-        id: "002", 
-        tag: {
-            category: "harbor",
-            styleDesc: { zh: "海風堤岸 / 浮雲微光", ja: "海風の堤防 / 浮雲の微光", en: "Seabreeze Embankment / Floating Cloud Glint" }
-        },
-        fileId: "1-kqeN8A0DCDT0x5mD1t6rqXMkQgV2zs4" 
-    },
-    { 
         id: "003", 
         tag: {
             category: "harbor",
