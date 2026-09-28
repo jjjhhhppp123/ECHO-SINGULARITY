@@ -93,5 +93,35 @@ const wallpaperDatabase = [
             styleDesc: { zh: "舊日商號 / 廢墟街景", ja: "往時の商店 / 廃墟の街並み", en: "Old Storefront / Ruin Streetscape" }
         },
         fileId: "1M5R7CjegP-B8B9Erl3cHMTOVa3GcPgEt" 
+    },
+    { 
+        id: "011",
+        tag: {
+            category: "city",
+            styleDesc: { 
+                zh: "霓虹光影 / 少女與微風", ja: "ネオンの光と影 / 少女と微風", en: "Neon Light and Shadow / Girl and Breeze" 
+            }
+        },
+        fileId: "1_Ev4Yusyfn4J4HPtZv8fNZSjqADpLYlK" 
+    },
+    { 
+        id: "012", 
+        tag: {
+            category: "wasteland",
+            styleDesc: { 
+                zh: "廢棄街巷 / 蔓延的綠意", ja: "廃れた路地 / 広がる緑", en: "Abandoned Alley / Creeping Greenery" 
+            }
+        },
+        fileId: "1d-Te4GGgfhNF91mpBQ86PDcEwQUSTUw-" 
+    },
+    { 
+        id: "013", 
+        tag: {
+            category: "wasteland",
+            styleDesc: { 
+                zh: "廢土生存 / 仰望天際", ja: "廃墟のサバイバル / 空を仰ぐ", en: "Wasteland Survival / Looking at the Sky" 
+            }
+        },
+        fileId: "1bf-zyAWCWY3AvxIkV9Y1QCuKEeAXUghj" 
     }
 ];
