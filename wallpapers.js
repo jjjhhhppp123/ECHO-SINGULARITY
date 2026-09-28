@@ -10,7 +10,7 @@ const wallpaperDatabase = [
             category: "wasteland",
             styleDesc: "有機賽博 / 日光青黛"
         },
-        url: "S8.png" 
+        url: "https://drive.google.com/file/d/1xq6hQmr8wMw_T-HOHktnq4RUUfYeMkye/view?usp=sharing" 
     },
     { 
         id: "002", 
@@ -18,7 +18,7 @@ const wallpaperDatabase = [
             category: "harbor",
             styleDesc: "工業大地 / 溫暖琥珀"
         },
-        url: "S2.png" 
+        url: "https://drive.google.com/file/d/1xq6hQmr8wMw_T-HOHktnq4RUUfYeMkye/view?usp=sharing" 
     },
     { 
         id: "003", 
@@ -27,6 +27,6 @@ const wallpaperDatabase = [
             styleDesc: "寧靜薄霧 / 奇異點微光"
         },
         // 這是一張測試圖片網址，您可以隨時換成自己的直鏈或檔案
-        url: "https://images.unsplash.com/photo-1533422902779-bab7120fc66b?q=80&w=800&auto=format&fit=crop" 
+        url: "https://drive.google.com/file/d/1xq6hQmr8wMw_T-HOHktnq4RUUfYeMkye/view?usp=sharing" 
     }
 ];
