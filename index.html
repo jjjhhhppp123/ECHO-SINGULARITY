@@ -5,7 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>ECHO SINGULARITY | 桌面桌布分享平台</title>
     
-    <!-- 引入 Noto Sans 黑體字型，強調方正粗體質感 -->
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;700;900&family=Noto+Sans+JP:wght@400;700;900&family=JetBrains+Mono:wght@700&display=swap" rel="stylesheet">
     <script src="https://cdn.tailwindcss.com"></script>
     
@@ -19,9 +18,9 @@
                         mono: ['"JetBrains Mono"', 'monospace'],
                     },
                     colors: {
-                        darkBg: '#080a0d',       // 深邃夜空黑
-                        cardBg: '#10141c',       // 卡片底色
-                        daylightAccent: '#e0f2fe', // 日光白/清冷藍色調
+                        darkBg: '#080a0d',
+                        cardBg: '#10141c',
+                        daylightAccent: '#e0f2fe',
                         daylightMuted: '#94a3b8',
                         borderDaylight: '#1e293b'
                     }
@@ -69,26 +68,6 @@
             border-color: rgba(224, 242, 254, 0.5);
         }
 
-        .philosophy-card {
-            background: linear-gradient(135deg, rgba(16, 20, 28, 0.9), rgba(8, 10, 13, 0.95));
-            border: 1px solid #1e293b;
-            border-radius: 2px;
-            box-shadow: 0 15px 35px -5px rgba(0, 0, 0, 0.5);
-            position: relative;
-            overflow: hidden;
-        }
-
-        .philosophy-card::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 3px;
-            height: 100%;
-            background-color: #e0f2fe;
-            box-shadow: 0 0 10px #e0f2fe;
-        }
-
         .lang-btn {
             padding: 4px 12px;
             border-radius: 2px;
@@ -121,15 +100,13 @@
             box-shadow: 0 0 10px rgba(224, 242, 254, 0.2);
         }
 
-        /* 稍微亮一點的微光特效 */
-        .subscribe-glow {
-            color: #f1f5f9;
-            text-shadow: 0 0 8px rgba(224, 242, 254, 0.4);
-            font-weight: 700;
+        /* 微微發光的訂閱提醒 */
+        .sub-glow {
+            color: #e0f2fe;
+            text-shadow: 0 0 8px rgba(224, 242, 254, 0.35);
         }
     </style>
 
-    <!-- 🌟 在這裡載入外部的圖片資料庫檔案 -->
     <script src="wallpapers.js"></script>
 </head>
 <body class="min-h-screen flex flex-col selection:bg-[#e0f2fe] selection:text-black">
@@ -146,14 +123,13 @@
                 <button onclick="setLanguage('ja')" id="btn-ja" class="lang-btn">日本語</button>
                 <button onclick="setLanguage('en')" id="btn-en" class="lang-btn">EN</button>
             </div>
-            <!-- 官方頻道網址 -->
             <a href="https://www.youtube.com/channel/UCq4BXOX5sPCVIZDUWFPS0yQ" target="_blank" class="bg-[#e0f2fe] text-[#080a0d] hover:bg-white px-4 py-2 rounded text-xs md:text-sm font-square tracking-widest hidden sm:flex items-center gap-2 transition-all shadow-[0_0_15px_rgba(224,242,254,0.2)]">
                 <span id="nav-yt-text">YouTube 頻道</span>
             </a>
         </div>
     </nav>
 
-    <header class="pt-36 pb-6 px-6 text-center max-w-4xl mx-auto">
+    <header class="pt-36 pb-8 px-6 text-center max-w-4xl mx-auto">
         <span id="hero-badge" class="inline-block py-1.5 px-4 bg-[#10141c] border border-[#1e293b] text-[#e0f2fe] text-xs font-square tracking-widest uppercase mb-6 shadow-[0_0_10px_rgba(224,242,254,0.05)]">
             桌布分享平台
         </span>
@@ -162,29 +138,26 @@
         </h1>
         <p id="hero-desc" class="text-[#94a3b8] text-sm md:text-base font-bold leading-relaxed max-w-2xl mx-auto whitespace-pre-line tracking-wide">
             創意發想提供 / 探索未來的可能性 / 不定期更新
-            <span class="subscribe-glow">如果喜歡，歡迎訂閱我的頻道</span>
+            <span class="sub-glow">如果喜歡，歡迎訂閱我的頻道</span>
         </p>
     </header>
 
-    <section class="px-6 max-w-4xl mx-auto w-full mb-10">
-        <div class="philosophy-card p-6 md:p-8">
-            <div class="flex items-center gap-3 mb-4">
-                <span class="text-xs font-mono text-[#e0f2fe] tracking-widest uppercase bg-[#1e293b] px-2 py-1">PHILOSOPHY</span>
-                <h3 id="phi-title" class="font-square text-lg text-white tracking-wider">頻道發想</h3>
-            </div>
-            <p id="phi-text" class="text-[#94a3b8] text-xs md:text-sm leading-relaxed font-bold tracking-wide">
-                在未來的殘片與事件的可能性中，尋找在世界各個角落中的浪漫...<br>
-                感受 <span class="text-[#cbd5e1] font-bold">視覺衝擊</span> 與 <span class="text-[#cbd5e1] font-bold">回音</span>
+    <!-- 頻道理念區塊 -->
+    <section class="px-6 max-w-3xl mx-auto w-full mb-12">
+        <div class="p-6 md:p-8 rounded bg-[#10141c] border border-[#1e293b] text-center shadow-lg relative overflow-hidden">
+            <div class="absolute top-0 left-0 w-1 h-full bg-[#e0f2fe]"></div>
+            <h2 id="phil-title" class="font-square text-xs tracking-widest text-[#e0f2fe] mb-3 uppercase opacity-80">頻道發想</h2>
+            <p id="phil-text" class="text-sm md:text-base text-[#cbd5e1] font-medium leading-relaxed tracking-wide whitespace-pre-line">
+                在未來的殘片與事件的可能性中，尋找在世界各個角落中的浪漫...
+                感受 <span class="text-white font-bold">視覺衝擊</span> 與 <span class="text-white font-bold">回音</span>
             </p>
         </div>
     </section>
 
+    <!-- 動態分類按鈕列 -->
     <section class="px-6 max-w-7xl mx-auto w-full mb-10">
         <div id="filter-container" class="flex flex-wrap justify-center gap-2 md:gap-3">
-            <button onclick="filterCategory('all', this)" id="filter-all" class="filter-btn active">全部地形 (All)</button>
-            <button onclick="filterCategory('wasteland', this)" id="filter-wasteland" class="filter-btn">廢土遺址 (Wasteland)</button>
-            <button onclick="filterCategory('harbor', this)" id="filter-harbor" class="filter-btn">海港工業 (Harbor)</button>
-            <button onclick="filterCategory('mist', this)" id="filter-mist" class="filter-btn">奇異薄霧 (Mist)</button>
+            <!-- 透過 JS 自動從 categoryDictionary 生成分類按鈕 -->
         </div>
     </section>
 
@@ -198,35 +171,37 @@
         &copy; 2026 ECHO SINGULARITY. ALL ECHOES PRESERVED.
     </footer>
 
-    <!-- 網頁主要邏輯 -->
     <script>
         const translations = {
             zh: {
                 navYt: "YouTube 頻道",
                 badge: "桌布分享平台",
-                desc: '創意發想提供 / 探索未來的可能性 / 不定期更新\n<span class="subscribe-glow">如果喜歡，歡迎訂閱我的頻道</span>',
-                download: "下載",
-                phiTitle: "頻道發想",
-                phiText: '在未來的殘片與事件的可能性中，尋找在世界各個角落中的浪漫...<br>感受 <span class="text-[#cbd5e1] font-bold">視覺衝擊</span> 與 <span class="text-[#cbd5e1] font-bold">回音</span>',
-                filters: { all: "全部地形 (All)", wasteland: "廢土遺址 (Wasteland)", harbor: "海港工業 (Harbor)", mist: "奇異薄霧 (Mist)" }
+                desc: "創意發想提供 / 探索未來的可能性 / 不定期更新\n",
+                subText: "如果喜歡，歡迎訂閱我的頻道",
+                philTitle: "頻道發想",
+                philText: "在未來的殘片與事件的可能性中，尋找在世界各個角落中的浪漫...\n感受 視覺衝擊 與 回音",
+                allCategory: "全部地形 (All)",
+                download: "下載"
             },
             ja: {
                 navYt: "YouTube チャンネル",
                 badge: "壁紙共有プラットフォーム",
-                desc: 'クリエイティブなアイデアの提供 / 未来の可能性の探索 / 不定期更新\n<span class="subscribe-glow">気に入っていただけたら、チャンネル登録をお願いします</span>',
-                download: "保存",
-                phiTitle: "チャンネルの理念",
-                phiText: '未来の断片と出来事の可能性の中で、世界の隅々にあるロマンを探求する…<br>感受 <span class="text-[#cbd5e1] font-bold">視覚的な衝撃</span> 與 <span class="text-[#cbd5e1] font-bold">エコー</span>',
-                filters: { all: "すべての地形 (All)", wasteland: "荒野の遺跡 (Wasteland)", harbor: "港湾工業 (Harbor)", mist: "セリーンミスト (Mist)" }
+                desc: "クリエイティブなアイデアの提供 / 未来の可能性の探索 / 不定期更新\n",
+                subText: "気に入っていただけたら、チャンネル登録をお願いします",
+                philTitle: "チャンネルのアイデア",
+                philText: "未来の断片と出来事の可能性の中で、世界の片隅にあるロマンを探す...\n視覚的衝撃 と エコー を感じて",
+                allCategory: "すべての地形 (All)",
+                download: "保存"
             },
             en: {
                 navYt: "YouTube Channel",
                 badge: "Wallpaper Sharing Platform",
-                desc: 'Creative Idea Inspiration / Exploring Future Possibilities / Regular Updates\n<span class="subscribe-glow">If you like it, please subscribe to my channel!</span>',
-                download: "SAVE",
-                phiTitle: "Channel Philosophy",
-                phiText: 'Amidst the fragments of the future and the possibilities of events, seeking romance in every corner of the world...<br>Experience <span class="text-[#cbd5e1] font-bold">visual impact</span> and <span class="text-[#cbd5e1] font-bold">echoes</span>.',
-                filters: { all: "All Terrains", wasteland: "Wasteland", harbor: "Harbor", mist: "Singularity Mist" }
+                desc: "Creative Idea Inspiration / Exploring Future Possibilities / Regular Updates\n",
+                subText: "If you like it, please subscribe to my channel!",
+                philTitle: "Channel Philosophy",
+                philText: "Searching for romance in every corner of the world amidst future fragments and event possibilities...\nFeel the Visual Impact and Echoes.",
+                allCategory: "All Terrains",
+                download: "SAVE"
             }
         };
 
@@ -241,14 +216,11 @@
             const t = translations[lang];
             document.getElementById('nav-yt-text').textContent = t.navYt;
             document.getElementById('hero-badge').textContent = t.badge;
-            document.getElementById('hero-desc').innerHTML = t.desc;
-            document.getElementById('phi-title').textContent = t.phiTitle;
-            document.getElementById('phi-text').innerHTML = t.phiText;
-            document.getElementById('filter-all').textContent = t.filters.all;
-            document.getElementById('filter-wasteland').textContent = t.filters.wasteland;
-            document.getElementById('filter-harbor').textContent = t.filters.harbor;
-            document.getElementById('filter-mist').textContent = t.filters.mist;
+            document.getElementById('hero-desc').innerHTML = t.desc + `<span class="sub-glow">${t.subText}</span>`;
+            document.getElementById('phil-title').textContent = t.philTitle;
+            document.getElementById('phil-text').innerHTML = t.philText.replace('視覺衝擊', '<span class="text-white font-bold">視覺衝擊</span>').replace('回音', '<span class="text-white font-bold">回音</span>');
             
+            renderFilters();
             renderGallery();
         }
 
@@ -258,9 +230,30 @@
             if (element) {
                 element.classList.add('active');
             } else {
-                document.getElementById('filter-' + category).classList.add('active');
+                const target = document.getElementById('filter-' + category);
+                if (target) target.classList.add('active');
             }
             renderGallery();
+        }
+
+        // 動態生成分類按鈕：直接從 categoryDictionary 讀取
+        function renderFilters() {
+            const container = document.getElementById('filter-container');
+            const t = translations[currentLang];
+            
+            let html = '';
+            const allActive = (currentCategory === 'all') ? 'active' : '';
+            html += `<button onclick="filterCategory('all', this)" id="filter-all" class="filter-btn ${allActive}">${t.allCategory}</button>`;
+
+            if (typeof categoryDictionary !== 'undefined') {
+                for (const [catKey, names] of Object.entries(categoryDictionary)) {
+                    let label = names[currentLang] || names.zh;
+                    const isActive = (currentCategory === catKey) ? 'active' : '';
+                    html += `<button onclick="filterCategory('${catKey}', this)" id="filter-${catKey}" class="filter-btn ${isActive}">${label}</button>`;
+                }
+            }
+
+            container.innerHTML = html;
         }
 
         function renderGallery() {
@@ -284,6 +277,15 @@
                     downloadUrl = `https://drive.google.com/uc?export=download&id=${item.fileId}`;
                 }
 
+                let styleDescText = "";
+                if (item.tag.styleDesc) {
+                    if (typeof item.tag.styleDesc === 'object') {
+                        styleDescText = item.tag.styleDesc[currentLang] || item.tag.styleDesc.zh;
+                    } else {
+                        styleDescText = item.tag.styleDesc;
+                    }
+                }
+
                 const cardHTML = `
                 <div class="natural-card flex flex-col group">
                     <div class="relative w-full pt-[56.25%] overflow-hidden bg-[#080a0d]">
@@ -293,7 +295,7 @@
                         <div class="absolute inset-0 bg-gradient-to-t from-[#10141c] to-transparent opacity-40 group-hover:opacity-20 transition-opacity"></div>
                     </div>
                     <div class="p-5 flex justify-between items-center bg-[#10141c] flex-grow border-t border-[#1e293b]">
-                        <div><span class="text-xs text-[#94a3b8] font-square tracking-widest">${item.tag.styleDesc}</span></div>
+                        <div><span class="text-xs text-[#94a3b8] font-square tracking-widest">${styleDescText}</span></div>
                         <a href="${downloadUrl || previewUrl}" target="_blank" download="ECHO_WP_${item.id}.png" 
                            class="px-4 py-1.5 rounded-sm bg-transparent border border-[#e0f2fe] text-[#e0f2fe] text-xs font-square tracking-wider hover:bg-[#e0f2fe] hover:text-[#080a0d] transition-all shadow-[0_0_10px_rgba(224,242,254,0.1)]">
                             ${t.download}
@@ -304,7 +306,10 @@
             });
         }
 
-        window.onload = function() { renderGallery(); };
+        window.onload = function() { 
+            renderFilters();
+            renderGallery(); 
+        };
     </script>
 </body>
 </html>
