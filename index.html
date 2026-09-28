@@ -107,6 +107,7 @@
         }
     </style>
 
+    <!-- 引入外部圖片資料庫檔案 -->
     <script src="wallpapers.js"></script>
 </head>
 <body class="min-h-screen flex flex-col selection:bg-[#e0f2fe] selection:text-black">
@@ -142,19 +143,30 @@
         </p>
     </header>
 
-    <!-- 頻道理念區塊 -->
+    <!-- 頻道理念區塊 (已升級完美排版與間距) -->
     <section class="px-6 max-w-3xl mx-auto w-full mb-12">
-        <div class="p-6 md:p-8 rounded bg-[#10141c] border border-[#1e293b] text-center shadow-lg relative overflow-hidden">
-            <div class="absolute top-0 left-0 w-1 h-full bg-[#e0f2fe]"></div>
-            <h2 id="phil-title" class="font-square text-xs tracking-widest text-[#e0f2fe] mb-3 uppercase opacity-80">頻道發想</h2>
-            <p id="phil-text" class="text-sm md:text-base text-[#cbd5e1] font-medium leading-relaxed tracking-wide whitespace-pre-line">
+        <div class="p-6 md:p-10 rounded bg-[#10141c] border border-[#1e293b] shadow-lg relative overflow-hidden flex flex-col justify-center">
+            <!-- 左側高光線條 -->
+            <div class="absolute top-0 left-0 w-1.5 h-full bg-[#e0f2fe] shadow-[0_0_15px_rgba(224,242,254,0.4)]"></div>
+            
+            <!-- 標題與標籤的組合 -->
+            <div class="flex items-center gap-3 mb-5 pl-2">
+                <span class="text-xs font-mono text-[#080a0d] bg-[#e0f2fe] px-2.5 py-1 tracking-widest uppercase font-bold rounded-sm">
+                    PHILOSOPHY
+                </span>
+                <h2 id="phil-title" class="font-square text-2xl md:text-3xl text-white tracking-widest leading-none mt-0.5">
+                    頻道發想
+                </h2>
+            </div>
+            
+            <!-- 理念內文 (加寬行高，提升易讀性) -->
+            <p id="phil-text" class="text-sm md:text-base text-[#94a3b8] font-medium leading-loose tracking-wide whitespace-pre-line text-left pl-2">
                 在未來的殘片與事件的可能性中，尋找在世界各個角落中的浪漫...
-                感受 <span class="text-white font-bold">視覺衝擊</span> 與 <span class="text-white font-bold">回音</span>
+                感受 <span class="text-[#e0f2fe] font-bold">視覺衝擊</span> 與 <span class="text-[#e0f2fe] font-bold">回音</span>
             </p>
         </div>
     </section>
 
-    <!-- 動態分類按鈕列 -->
     <section class="px-6 max-w-7xl mx-auto w-full mb-10">
         <div id="filter-container" class="flex flex-wrap justify-center gap-2 md:gap-3">
             <!-- 透過 JS 自動從 categoryDictionary 生成分類按鈕 -->
@@ -188,7 +200,7 @@
                 badge: "壁紙共有プラットフォーム",
                 desc: "クリエイティブなアイデアの提供 / 未来の可能性の探索 / 不定期更新\n",
                 subText: "気に入っていただけたら、チャンネル登録をお願いします",
-                philTitle: "チャンネルのアイデア",
+                philTitle: "チャンネルの理念",
                 philText: "未来の断片と出来事の可能性の中で、世界の片隅にあるロマンを探す...\n視覚的衝撃 と エコー を感じて",
                 allCategory: "すべての地形 (All)",
                 download: "保存"
@@ -198,7 +210,7 @@
                 badge: "Wallpaper Sharing Platform",
                 desc: "Creative Idea Inspiration / Exploring Future Possibilities / Regular Updates\n",
                 subText: "If you like it, please subscribe to my channel!",
-                philTitle: "Channel Philosophy",
+                philTitle: "Philosophy",
                 philText: "Searching for romance in every corner of the world amidst future fragments and event possibilities...\nFeel the Visual Impact and Echoes.",
                 allCategory: "All Terrains",
                 download: "SAVE"
@@ -217,8 +229,17 @@
             document.getElementById('nav-yt-text').textContent = t.navYt;
             document.getElementById('hero-badge').textContent = t.badge;
             document.getElementById('hero-desc').innerHTML = t.desc + `<span class="sub-glow">${t.subText}</span>`;
+            
+            // 更新頻道發想區塊文字與高光效果
             document.getElementById('phil-title').textContent = t.philTitle;
-            document.getElementById('phil-text').innerHTML = t.philText.replace('視覺衝擊', '<span class="text-white font-bold">視覺衝擊</span>').replace('回音', '<span class="text-white font-bold">回音</span>');
+            let formattedPhilText = t.philText
+                .replace('視覺衝擊', '<span class="text-[#e0f2fe] font-bold">視覺衝擊</span>')
+                .replace('視覚的衝撃', '<span class="text-[#e0f2fe] font-bold">視覚的衝撃</span>')
+                .replace('Visual Impact', '<span class="text-[#e0f2fe] font-bold">Visual Impact</span>')
+                .replace('回音', '<span class="text-[#e0f2fe] font-bold">回音</span>')
+                .replace('エコー', '<span class="text-[#e0f2fe] font-bold">エコー</span>')
+                .replace('Echoes', '<span class="text-[#e0f2fe] font-bold">Echoes</span>');
+            document.getElementById('phil-text').innerHTML = formattedPhilText;
             
             renderFilters();
             renderGallery();
@@ -262,7 +283,7 @@
             gallery.innerHTML = ''; 
 
             if (typeof wallpaperDatabase === 'undefined') {
-                gallery.innerHTML = '<p class="text-white col-span-3 text-center">正在載入資料庫，或找不到 wallpapers.js 檔案...</p>';
+                gallery.innerHTML = '<p class="text-white col-span-3 text-center py-10">正在載入資料庫，或找不到 wallpapers.js 檔案...</p>';
                 return;
             }
 
@@ -307,8 +328,8 @@
         }
 
         window.onload = function() { 
-            renderFilters();
-            renderGallery(); 
+            // 確保網頁讀取時執行語言與畫面初始化
+            setLanguage(currentLang);
         };
     </script>
 </body>
