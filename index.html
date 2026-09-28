@@ -69,6 +69,26 @@
             border-color: rgba(224, 242, 254, 0.5);
         }
 
+        .philosophy-card {
+            background: linear-gradient(135deg, rgba(16, 20, 28, 0.9), rgba(8, 10, 13, 0.95));
+            border: 1px solid #1e293b;
+            border-radius: 2px;
+            box-shadow: 0 15px 35px -5px rgba(0, 0, 0, 0.5);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .philosophy-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 3px;
+            height: 100%;
+            background-color: #e0f2fe;
+            box-shadow: 0 0 10px #e0f2fe;
+        }
+
         .lang-btn {
             padding: 4px 12px;
             border-radius: 2px;
@@ -100,6 +120,13 @@
             font-weight: 900;
             box-shadow: 0 0 10px rgba(224, 242, 254, 0.2);
         }
+
+        /* 稍微亮一點的微光特效 */
+        .subscribe-glow {
+            color: #f1f5f9;
+            text-shadow: 0 0 8px rgba(224, 242, 254, 0.4);
+            font-weight: 700;
+        }
     </style>
 
     <!-- 🌟 在這裡載入外部的圖片資料庫檔案 -->
@@ -119,13 +146,14 @@
                 <button onclick="setLanguage('ja')" id="btn-ja" class="lang-btn">日本語</button>
                 <button onclick="setLanguage('en')" id="btn-en" class="lang-btn">EN</button>
             </div>
-            <a href="https://www.youtube.com/@ECHOSINGULARITY1995" target="_blank" class="bg-[#e0f2fe] text-[#080a0d] hover:bg-white px-4 py-2 rounded text-xs md:text-sm font-square tracking-widest hidden sm:flex items-center gap-2 transition-all shadow-[0_0_15px_rgba(224,242,254,0.2)]">
+            <!-- 官方頻道網址 -->
+            <a href="https://www.youtube.com/channel/UCq4BXOX5sPCVIZDUWFPS0yQ" target="_blank" class="bg-[#e0f2fe] text-[#080a0d] hover:bg-white px-4 py-2 rounded text-xs md:text-sm font-square tracking-widest hidden sm:flex items-center gap-2 transition-all shadow-[0_0_15px_rgba(224,242,254,0.2)]">
                 <span id="nav-yt-text">YouTube 頻道</span>
             </a>
         </div>
     </nav>
 
-    <header class="pt-40 pb-12 px-6 text-center max-w-4xl mx-auto">
+    <header class="pt-36 pb-6 px-6 text-center max-w-4xl mx-auto">
         <span id="hero-badge" class="inline-block py-1.5 px-4 bg-[#10141c] border border-[#1e293b] text-[#e0f2fe] text-xs font-square tracking-widest uppercase mb-6 shadow-[0_0_10px_rgba(224,242,254,0.05)]">
             桌布分享平台
         </span>
@@ -134,9 +162,22 @@
         </h1>
         <p id="hero-desc" class="text-[#94a3b8] text-sm md:text-base font-bold leading-relaxed max-w-2xl mx-auto whitespace-pre-line tracking-wide">
             創意發想提供 / 探索未來的可能性 / 不定期更新
-            如果喜歡，歡迎訂閱我的頻道
+            <span class="subscribe-glow">如果喜歡，歡迎訂閱我的頻道</span>
         </p>
     </header>
+
+    <section class="px-6 max-w-4xl mx-auto w-full mb-10">
+        <div class="philosophy-card p-6 md:p-8">
+            <div class="flex items-center gap-3 mb-4">
+                <span class="text-xs font-mono text-[#e0f2fe] tracking-widest uppercase bg-[#1e293b] px-2 py-1">PHILOSOPHY</span>
+                <h3 id="phi-title" class="font-square text-lg text-white tracking-wider">頻道發想</h3>
+            </div>
+            <p id="phi-text" class="text-[#94a3b8] text-xs md:text-sm leading-relaxed font-bold tracking-wide">
+                在未來的殘片與事件的可能性中，尋找在世界各個角落中的浪漫...<br>
+                感受 <span class="text-[#cbd5e1] font-bold">視覺衝擊</span> 與 <span class="text-[#cbd5e1] font-bold">回音</span>
+            </p>
+        </div>
+    </section>
 
     <section class="px-6 max-w-7xl mx-auto w-full mb-10">
         <div id="filter-container" class="flex flex-wrap justify-center gap-2 md:gap-3">
@@ -163,22 +204,28 @@
             zh: {
                 navYt: "YouTube 頻道",
                 badge: "桌布分享平台",
-                desc: "創意發想提供 / 探索未來的可能性 / 不定期更新\n如果喜歡，歡迎訂閱我的頻道",
+                desc: '創意發想提供 / 探索未來的可能性 / 不定期更新\n<span class="subscribe-glow">如果喜歡，歡迎訂閱我的頻道</span>',
                 download: "下載",
+                phiTitle: "頻道發想",
+                phiText: '在未來的殘片與事件的可能性中，尋找在世界各個角落中的浪漫...<br>感受 <span class="text-[#cbd5e1] font-bold">視覺衝擊</span> 與 <span class="text-[#cbd5e1] font-bold">回音</span>',
                 filters: { all: "全部地形 (All)", wasteland: "廢土遺址 (Wasteland)", harbor: "海港工業 (Harbor)", mist: "奇異薄霧 (Mist)" }
             },
             ja: {
                 navYt: "YouTube チャンネル",
                 badge: "壁紙共有プラットフォーム",
-                desc: "クリエイティブなアイデアの提供 / 未来の可能性の探索 / 不定期更新\n気に入っていただけたら、チャンネル登録をお願いします",
+                desc: 'クリエイティブなアイデアの提供 / 未来の可能性の探索 / 不定期更新\n<span class="subscribe-glow">気に入っていただけたら、チャンネル登録をお願いします</span>',
                 download: "保存",
+                phiTitle: "チャンネルの理念",
+                phiText: '未来の断片と出来事の可能性の中で、世界の隅々にあるロマンを探求する…<br>感受 <span class="text-[#cbd5e1] font-bold">視覚的な衝撃</span> 與 <span class="text-[#cbd5e1] font-bold">エコー</span>',
                 filters: { all: "すべての地形 (All)", wasteland: "荒野の遺跡 (Wasteland)", harbor: "港湾工業 (Harbor)", mist: "セリーンミスト (Mist)" }
             },
             en: {
                 navYt: "YouTube Channel",
                 badge: "Wallpaper Sharing Platform",
-                desc: "Creative Idea Inspiration / Exploring Future Possibilities / Regular Updates\nIf you like it, please subscribe to my channel!",
+                desc: 'Creative Idea Inspiration / Exploring Future Possibilities / Regular Updates\n<span class="subscribe-glow">If you like it, please subscribe to my channel!</span>',
                 download: "SAVE",
+                phiTitle: "Channel Philosophy",
+                phiText: 'Amidst the fragments of the future and the possibilities of events, seeking romance in every corner of the world...<br>Experience <span class="text-[#cbd5e1] font-bold">visual impact</span> and <span class="text-[#cbd5e1] font-bold">echoes</span>.',
                 filters: { all: "All Terrains", wasteland: "Wasteland", harbor: "Harbor", mist: "Singularity Mist" }
             }
         };
@@ -194,7 +241,9 @@
             const t = translations[lang];
             document.getElementById('nav-yt-text').textContent = t.navYt;
             document.getElementById('hero-badge').textContent = t.badge;
-            document.getElementById('hero-desc').textContent = t.desc;
+            document.getElementById('hero-desc').innerHTML = t.desc;
+            document.getElementById('phi-title').textContent = t.phiTitle;
+            document.getElementById('phi-text').innerHTML = t.phiText;
             document.getElementById('filter-all').textContent = t.filters.all;
             document.getElementById('filter-wasteland').textContent = t.filters.wasteland;
             document.getElementById('filter-harbor').textContent = t.filters.harbor;
@@ -219,7 +268,6 @@
             const t = translations[currentLang];
             gallery.innerHTML = ''; 
 
-            // 確保外部的 wallpaperDatabase 有正確載入
             if (typeof wallpaperDatabase === 'undefined') {
                 gallery.innerHTML = '<p class="text-white col-span-3 text-center">正在載入資料庫，或找不到 wallpapers.js 檔案...</p>';
                 return;
@@ -228,7 +276,6 @@
             wallpaperDatabase.forEach(item => {
                 if (currentCategory !== 'all' && item.tag.category !== currentCategory) return;
 
-                // 💡 自動轉換機制：如果寫的是 fileId，就自動幫你組合出預覽與下載網址
                 let previewUrl = item.url;
                 let downloadUrl = item.downloadUrl;
 
