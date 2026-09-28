@@ -1,7 +1,7 @@
 // wallpapers.js - ECHO SINGULARITY 專屬圖片資料庫
 // ==========================================
-// 未來要新增桌布，只需要複製一組 { ... } 區塊並修改網址與資訊即可，
-// 網頁會自動抓取這個檔案的內容並排版出來。
+// 未來要新增桌布，只需要複製一組 { ... } 區塊並修改 id、分類與 fileId 即可，
+// 網頁會自動抓取這個檔案的內容並轉換成 Google 雲端硬碟的預覽與下載網址。
 
 const wallpaperDatabase = [
     { 
@@ -10,7 +10,8 @@ const wallpaperDatabase = [
             category: "wasteland",
             styleDesc: "有機賽博 / 日光青黛"
         },
-        url: "S8.png" 
+        // 只要填入 Google 雲端硬碟的檔案 ID 即可自動轉換
+        fileId: "1xq6hQmr8wMw_T-HOHktnq4RUUfYeMkye" 
     },
     { 
         id: "002", 
@@ -18,6 +19,7 @@ const wallpaperDatabase = [
             category: "harbor",
             styleDesc: "工業大地 / 溫暖琥珀"
         },
+        // 支援向下相容，如果想放本機檔案，原本的 url 寫法依然有效
         url: "S8.png" 
     },
     { 
@@ -26,7 +28,7 @@ const wallpaperDatabase = [
             category: "mist",
             styleDesc: "寧靜薄霧 / 奇異點微光"
         },
-        // 這是一張測試圖片網址，您可以隨時換成自己的直鏈或檔案
-        url: "https://drive.google.com/thumbnail?id=1xq6hQmr8wMw_T-HOHktnq4RUUfYeMkye&sz=w1920" 
+        // 這是一張測試圖片網址，您可以隨時換成自己的 fileId 或直鏈
+        url: "https://images.unsplash.com/photo-1533422902779-bab7120fc66b?q=80&w=800&auto=format&fit=crop" 
     }
 ];
