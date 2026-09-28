@@ -7,28 +7,81 @@ const wallpaperDatabase = [
     { 
         id: "001", 
         tag: {
-            category: "wasteland",
-            styleDesc: "有機賽博 / 日光青黛"
+            category: "S1",
+            styleDesc: "S1"
         },
-        // 只要填入 Google 雲端硬碟的檔案 ID 即可自動轉換
         fileId: "1xq6hQmr8wMw_T-HOHktnq4RUUfYeMkye" 
     },
     { 
         id: "002", 
         tag: {
-            category: "harbor",
-            styleDesc: "工業大地 / 溫暖琥珀"
+            category: "S2",
+            styleDesc: "S2"
         },
-        // 支援向下相容，如果想放本機檔案，原本的 url 寫法依然有效
-        url: "S8.png" 
+        fileId: "1-kqeN8A0DCDT0x5mD1t6rqXMkQgV2zs4" 
     },
     { 
         id: "003", 
         tag: {
-            category: "mist",
-            styleDesc: "寧靜薄霧 / 奇異點微光"
+            category: "S3",
+            styleDesc: "S3"
         },
-        // 只要填入 Google 雲端硬碟的檔案 ID 即可自動轉換
-        fileId: "1xq6hQmr8wMw_T-HOHktnq4RUUfYeMkye" 
+        fileId: "1L-W5qUeyV7OjPeKLZchX-ONLa2qDlf-s" 
+    },
+    { 
+        id: "004", 
+        tag: {
+            category: "S4",
+            styleDesc: "S4"
+        },
+        fileId: "1whrrQ1BXXvce6L39EogzXOpVSuiXCKtT" 
+    },
+    { 
+        id: "005", 
+        tag: {
+            category: "S5",
+            styleDesc: "S5"
+        },
+        fileId: "1AOtcwi5MONTL3g-MGeW4rDMwxO_7m-sl" 
+    },
+    { 
+        id: "006", 
+        tag: {
+            category: "S6",
+            styleDesc: "S6"
+        },
+        fileId: "1P23yTCspA7ld-fJvmCCE5DSwByco61aE" 
+    },
+    { 
+        id: "007", 
+        tag: {
+            category: "S7",
+            styleDesc: "S7"
+        },
+        fileId: "1wBHI2mFqcVLKB1uMgb7teHcXVSnWn3kr" 
+    },
+    { 
+        id: "008", 
+        tag: {
+            category: "S8",
+            styleDesc: "S8"
+        },
+        fileId: "1u7mP2L6wVroAiGhLuFsaVCk0vdVHSUff" 
+    },
+    { 
+        id: "009", 
+        tag: {
+            category: "S9",
+            styleDesc: "S9"
+        },
+        fileId: "13VW1ftxuy1ZOVwTHXNfiU0DlKDT9DerX" 
+    },
+    { 
+        id: "010", 
+        tag: {
+            category: "S10",
+            styleDesc: "S10"
+        },
+        fileId: "1M5R7CjegP-B8B9Erl3cHMTOVa3GcPgEt" 
     }
 ];
