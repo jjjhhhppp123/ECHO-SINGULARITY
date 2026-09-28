@@ -27,6 +27,6 @@ const wallpaperDatabase = [
             styleDesc: "寧靜薄霧 / 奇異點微光"
         },
         // 這是一張測試圖片網址，您可以隨時換成自己的直鏈或檔案
-        url: "S8.png" 
+        url: "https://drive.google.com/thumbnail?id=1xq6hQmr8wMw_T-HOHktnq4RUUfYeMkye&sz=w1920" 
     }
 ];
