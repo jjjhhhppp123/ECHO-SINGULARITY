@@ -1,117 +1,254 @@
 <!DOCTYPE html>
-<html lang="zh-Hant">
+<html lang="zh-Hant" class="dark">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Gemini Canvas 測試網頁</title>
+    <title>ECHO SINGULARITY | 桌面桌布分享平台</title>
+    
+    <!-- 引入 Noto Sans 黑體字型，強調方正粗體質感 -->
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;700;900&family=Noto+Sans+JP:wght@400;700;900&family=JetBrains+Mono:wght@700&display=swap" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['"Noto Sans TC"', '"Noto Sans JP"', 'sans-serif'],
+                        mono: ['"JetBrains Mono"', 'monospace'],
+                    },
+                    colors: {
+                        darkBg: '#080a0d',       // 深邃夜空黑
+                        cardBg: '#10141c',       // 卡片底色
+                        daylightAccent: '#e0f2fe', // 日光白/清冷藍色調
+                        daylightMuted: '#94a3b8',
+                        borderDaylight: '#1e293b'
+                    }
+                }
+            }
+        }
+    </script>
+
     <style>
         body {
-            margin: 0;
-            padding: 0;
-            background-color: #0d1117;
-            color: #ffffff;
-            font-family: sans-serif;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            height: 100vh;
+            background-color: #080a0d;
+            color: #e2e8f0;
+            font-family: 'Noto Sans TC', 'Noto Sans JP', sans-serif;
+            background-image: 
+                radial-gradient(circle at 50% 0%, rgba(224, 242, 254, 0.05) 0%, transparent 50%),
+                linear-gradient(to bottom, #080a0d, #040507);
+            background-attachment: fixed;
+        }
+
+        .font-square {
+            font-weight: 900;
+            letter-spacing: -0.02em;
+            text-transform: uppercase;
+        }
+
+        .glass-nav {
+            background: rgba(8, 10, 13, 0.85);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border-bottom: 1px solid rgba(224, 242, 254, 0.1);
+        }
+
+        .natural-card {
+            background-color: #10141c;
+            border-radius: 2px;
             overflow: hidden;
+            border: 1px solid #1e293b;
+            box-shadow: 0 10px 30px -5px rgba(0, 0, 0, 0.6);
+            transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
         }
-        h1 {
-            margin-bottom: 10px;
-            font-size: 1.5rem;
-            z-index: 10;
-            pointer-events: none;
-            text-shadow: 0 2px 4px rgba(0,0,0,0.5);
+
+        .natural-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 40px -10px rgba(224, 242, 254, 0.12);
+            border-color: rgba(224, 242, 254, 0.5);
         }
-        p {
-            margin-top: 0;
-            color: #8b949e;
-            z-index: 10;
-            pointer-events: none;
+
+        .lang-btn {
+            padding: 4px 12px;
+            border-radius: 2px;
+            font-size: 0.75rem;
+            transition: all 0.2s;
+            color: #94a3b8;
+            font-weight: 700;
         }
-        canvas {
-            position: absolute;
-            top: 0;
-            left: 0;
-            display: block;
+        .lang-btn.active {
+            background-color: #e0f2fe;
+            color: #080a0d;
+            font-weight: 900;
+        }
+
+        .filter-btn {
+            padding: 6px 16px;
+            border-radius: 2px;
+            font-size: 0.85rem;
+            border: 1px solid #1e293b;
+            background-color: #10141c;
+            color: #94a3b8;
+            transition: all 0.2s;
+            font-weight: 700;
+        }
+        .filter-btn.active, .filter-btn:hover {
+            background-color: #e0f2fe;
+            color: #080a0d;
+            border-color: #e0f2fe;
+            font-weight: 900;
+            box-shadow: 0 0 10px rgba(224, 242, 254, 0.2);
         }
     </style>
+
+    <!-- 🌟 在這裡載入外部的圖片資料庫檔案 -->
+    <script src="wallpapers.js"></script>
 </head>
-<body>
+<body class="min-h-screen flex flex-col selection:bg-[#e0f2fe] selection:text-black">
 
-    <h1>✨ 點擊畫面任意處測試煙火特效 ✨</h1>
-    <p>Gemini + HTML5 Canvas + GitHub Pages 測試</p>
+    <nav class="glass-nav fixed top-0 left-0 w-full z-50 px-6 md:px-12 py-4 flex justify-between items-center">
+        <a href="#" class="font-square text-lg md:text-xl tracking-wider text-white flex items-center gap-3">
+            <span class="w-3 h-3 bg-[#e0f2fe] shadow-[0_0_10px_#e0f2fe]"></span>
+            ECHO SINGULARITY
+        </a>
+        
+        <div class="flex items-center gap-4">
+            <div class="bg-[#10141c] p-1 rounded flex gap-1 border border-[#1e293b]">
+                <button onclick="setLanguage('zh')" id="btn-zh" class="lang-btn active">中文</button>
+                <button onclick="setLanguage('ja')" id="btn-ja" class="lang-btn">日本語</button>
+                <button onclick="setLanguage('en')" id="btn-en" class="lang-btn">EN</button>
+            </div>
+            <a href="https://www.youtube.com/@ECHOSINGULARITY1995" target="_blank" class="bg-[#e0f2fe] text-[#080a0d] hover:bg-white px-4 py-2 rounded text-xs md:text-sm font-square tracking-widest hidden sm:flex items-center gap-2 transition-all shadow-[0_0_15px_rgba(224,242,254,0.2)]">
+                <span id="nav-yt-text">YouTube 頻道</span>
+            </a>
+        </div>
+    </nav>
 
-    <canvas id="fireworksCanvas"></canvas>
+    <header class="pt-40 pb-12 px-6 text-center max-w-4xl mx-auto">
+        <span id="hero-badge" class="inline-block py-1.5 px-4 bg-[#10141c] border border-[#1e293b] text-[#e0f2fe] text-xs font-square tracking-widest uppercase mb-6 shadow-[0_0_10px_rgba(224,242,254,0.05)]">
+            桌布分享平台
+        </span>
+        <h1 class="font-square text-4xl md:text-6xl text-white mb-6 leading-tight tracking-tight">
+            ECHO SINGULARITY
+        </h1>
+        <p id="hero-desc" class="text-[#94a3b8] text-sm md:text-base font-bold leading-relaxed max-w-2xl mx-auto whitespace-pre-line tracking-wide">
+            創意發想提供 / 探索未來的可能性 / 不定期更新
+            如果喜歡，歡迎訂閱我的頻道
+        </p>
+    </header>
 
+    <section class="px-6 max-w-7xl mx-auto w-full mb-10">
+        <div id="filter-container" class="flex flex-wrap justify-center gap-2 md:gap-3">
+            <button onclick="filterCategory('all', this)" id="filter-all" class="filter-btn active">全部地形 (All)</button>
+            <button onclick="filterCategory('wasteland', this)" id="filter-wasteland" class="filter-btn">廢土遺址 (Wasteland)</button>
+            <button onclick="filterCategory('harbor', this)" id="filter-harbor" class="filter-btn">海港工業 (Harbor)</button>
+            <button onclick="filterCategory('mist', this)" id="filter-mist" class="filter-btn">奇異薄霧 (Mist)</button>
+        </div>
+    </section>
+
+    <main class="flex-grow max-w-7xl mx-auto px-6 md:px-12 pb-24 w-full">
+        <div id="gallery" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
+            <!-- 圖片會透過 JS 自動渲染到這裡 -->
+        </div>
+    </main>
+
+    <footer class="py-12 px-6 text-center border-t border-[#1e293b] text-[#94a3b8] text-xs font-mono tracking-widest bg-[#050608]">
+        &copy; 2026 ECHO SINGULARITY. ALL ECHOES PRESERVED.
+    </footer>
+
+    <!-- 網頁主要邏輯 -->
     <script>
-        const canvas = document.getElementById('fireworksCanvas');
-        const ctx = canvas.getContext('2d');
+        const translations = {
+            zh: {
+                navYt: "YouTube 頻道",
+                badge: "桌布分享平台",
+                desc: "創意發想提供 / 探索未來的可能性 / 不定期更新\n如果喜歡，歡迎訂閱我的頻道",
+                download: "下載",
+                filters: { all: "全部地形 (All)", wasteland: "廢土遺址 (Wasteland)", harbor: "海港工業 (Harbor)", mist: "奇異薄霧 (Mist)" }
+            },
+            ja: {
+                navYt: "YouTube チャンネル",
+                badge: "壁紙共有プラットフォーム",
+                desc: "クリエイティブなアイデアの提供 / 未来の可能性の探索 / 不定期更新\n気に入っていただけたら、チャンネル登録をお願いします",
+                download: "保存",
+                filters: { all: "すべての地形 (All)", wasteland: "荒野の遺跡 (Wasteland)", harbor: "港湾工業 (Harbor)", mist: "セリーンミスト (Mist)" }
+            },
+            en: {
+                navYt: "YouTube Channel",
+                badge: "Wallpaper Sharing Platform",
+                desc: "Creative Idea Inspiration / Exploring Future Possibilities / Regular Updates\nIf you like it, please subscribe to my channel!",
+                download: "SAVE",
+                filters: { all: "All Terrains", wasteland: "Wasteland", harbor: "Harbor", mist: "Singularity Mist" }
+            }
+        };
 
-        function resizeCanvas() {
-            canvas.width = window.innerWidth;
-            canvas.height = window.innerHeight;
+        let currentLang = 'zh';
+        let currentCategory = 'all';
+
+        function setLanguage(lang) {
+            currentLang = lang;
+            document.querySelectorAll('.lang-btn').forEach(btn => btn.classList.remove('active'));
+            document.getElementById('btn-' + lang).classList.add('active');
+
+            const t = translations[lang];
+            document.getElementById('nav-yt-text').textContent = t.navYt;
+            document.getElementById('hero-badge').textContent = t.badge;
+            document.getElementById('hero-desc').textContent = t.desc;
+            document.getElementById('filter-all').textContent = t.filters.all;
+            document.getElementById('filter-wasteland').textContent = t.filters.wasteland;
+            document.getElementById('filter-harbor').textContent = t.filters.harbor;
+            document.getElementById('filter-mist').textContent = t.filters.mist;
+            
+            renderGallery();
         }
-        window.addEventListener('resize', resizeCanvas);
-        resizeCanvas();
 
-        class Particle {
-            constructor(x, y, color) {
-                this.x = x;
-                this.y = y;
-                this.color = color;
-                const angle = Math.random() * Math.PI * 2;
-                const speed = Math.random() * 6 + 2;
-                this.vx = Math.cos(angle) * speed;
-                this.vy = Math.sin(angle) * speed;
-                this.alpha = 1;
-                this.decay = Math.random() * 0.015 + 0.015;
+        function filterCategory(category, element) {
+            currentCategory = category;
+            document.querySelectorAll('.filter-btn').forEach(btn => btn.classList.remove('active'));
+            if (element) {
+                element.classList.add('active');
+            } else {
+                document.getElementById('filter-' + category).classList.add('active');
             }
-            update() {
-                this.x += this.vx;
-                this.y += this.vy;
-                this.vy += 0.05; // 重力影響
-                this.alpha -= this.decay;
-            }
-            draw() {
-                ctx.save();
-                ctx.globalAlpha = this.alpha;
-                ctx.fillStyle = this.color;
-                ctx.beginPath();
-                ctx.arc(this.x, this.y, 3, 0, Math.PI * 2);
-                ctx.fill();
-                ctx.restore();
-            }
+            renderGallery();
         }
 
-        let particles = [];
+        function renderGallery() {
+            const gallery = document.getElementById('gallery');
+            const t = translations[currentLang];
+            gallery.innerHTML = ''; 
 
-        window.addEventListener('click', (e) => {
-            const colors = ['#ff5252', '#ffeb3b', '#4caf50', '#00bcd4', '#e040fb'];
-            const chosenColor = colors[Math.floor(Math.random() * colors.length)];
-            for (let i = 0; i < 50; i++) {
-                particles.push(new Particle(e.clientX, e.clientY, chosenColor));
+            // 確保外部的 wallpaperDatabase 有正確載入
+            if (typeof wallpaperDatabase === 'undefined') {
+                gallery.innerHTML = '<p class="text-white col-span-3 text-center">正在載入資料庫，或找不到 wallpapers.js 檔案...</p>';
+                return;
             }
-        });
 
-        function animate() {
-            ctx.fillStyle = 'rgba(13, 17, 23, 0.2)';
-            ctx.fillRect(0, 0, canvas.width, canvas.height);
+            wallpaperDatabase.forEach(item => {
+                if (currentCategory !== 'all' && item.tag.category !== currentCategory) return;
 
-            particles.forEach((particle, index) => {
-                particle.update();
-                particle.draw();
-                if (particle.alpha <= 0) {
-                    particles.splice(index, 1);
-                }
+                const cardHTML = `
+                <div class="natural-card flex flex-col group">
+                    <div class="relative w-full pt-[56.25%] overflow-hidden bg-[#080a0d]">
+                        <img src="${item.url}" alt="ECHO Wallpaper ${item.id}" loading="lazy" 
+                             class="absolute top-0 left-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" 
+                             onerror="this.src='https://placehold.co/800x450/10141c/e0f2fe?text=ECHO+WALLPAPER'">
+                        <div class="absolute inset-0 bg-gradient-to-t from-[#10141c] to-transparent opacity-40 group-hover:opacity-20 transition-opacity"></div>
+                    </div>
+                    <div class="p-5 flex justify-between items-center bg-[#10141c] flex-grow border-t border-[#1e293b]">
+                        <div><span class="text-xs text-[#94a3b8] font-square tracking-widest">${item.tag.styleDesc}</span></div>
+                        <a href="${item.url}" target="_blank" download="ECHO_WP_${item.id}.png" 
+                           class="px-4 py-1.5 rounded-sm bg-transparent border border-[#e0f2fe] text-[#e0f2fe] text-xs font-square tracking-wider hover:bg-[#e0f2fe] hover:text-[#080a0d] transition-all shadow-[0_0_10px_rgba(224,242,254,0.1)]">
+                            ${t.download}
+                        </a>
+                    </div>
+                </div>`;
+                gallery.innerHTML += cardHTML;
             });
-
-            requestAnimationFrame(animate);
         }
 
-        animate();
+        window.onload = function() { renderGallery(); };
     </script>
 </body>
 </html>
