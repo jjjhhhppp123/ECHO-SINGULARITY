@@ -28,7 +28,7 @@ const wallpaperDatabase = [
             category: "mist",
             styleDesc: "寧靜薄霧 / 奇異點微光"
         },
-        // 這是一張測試圖片網址，您可以隨時換成自己的 fileId 或直鏈
-        url: "https://images.unsplash.com/photo-1533422902779-bab7120fc66b?q=80&w=800&auto=format&fit=crop" 
+        // 只要填入 Google 雲端硬碟的檔案 ID 即可自動轉換
+        fileId: "1xq6hQmr8wMw_T-HOHktnq4RUUfYeMkye" 
     }
 ];
