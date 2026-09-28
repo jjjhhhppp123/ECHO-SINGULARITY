@@ -228,17 +228,26 @@
             wallpaperDatabase.forEach(item => {
                 if (currentCategory !== 'all' && item.tag.category !== currentCategory) return;
 
+                // 💡 自動轉換機制：如果寫的是 fileId，就自動幫你組合出預覽與下載網址
+                let previewUrl = item.url;
+                let downloadUrl = item.downloadUrl;
+
+                if (item.fileId) {
+                    previewUrl = `https://drive.google.com/thumbnail?id=${item.fileId}&sz=w1920`;
+                    downloadUrl = `https://drive.google.com/uc?export=download&id=${item.fileId}`;
+                }
+
                 const cardHTML = `
                 <div class="natural-card flex flex-col group">
                     <div class="relative w-full pt-[56.25%] overflow-hidden bg-[#080a0d]">
-                        <img src="${item.url}" alt="ECHO Wallpaper ${item.id}" loading="lazy" 
+                        <img src="${previewUrl}" alt="ECHO Wallpaper ${item.id}" loading="lazy" 
                              class="absolute top-0 left-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" 
                              onerror="this.src='https://placehold.co/800x450/10141c/e0f2fe?text=ECHO+WALLPAPER'">
                         <div class="absolute inset-0 bg-gradient-to-t from-[#10141c] to-transparent opacity-40 group-hover:opacity-20 transition-opacity"></div>
                     </div>
                     <div class="p-5 flex justify-between items-center bg-[#10141c] flex-grow border-t border-[#1e293b]">
                         <div><span class="text-xs text-[#94a3b8] font-square tracking-widest">${item.tag.styleDesc}</span></div>
-                        <a href="${item.url}" target="_blank" download="ECHO_WP_${item.id}.png" 
+                        <a href="${downloadUrl || previewUrl}" target="_blank" download="ECHO_WP_${item.id}.png" 
                            class="px-4 py-1.5 rounded-sm bg-transparent border border-[#e0f2fe] text-[#e0f2fe] text-xs font-square tracking-wider hover:bg-[#e0f2fe] hover:text-[#080a0d] transition-all shadow-[0_0_10px_rgba(224,242,254,0.1)]">
                             ${t.download}
                         </a>
