@@ -5,9 +5,13 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>ECHO SINGULARITY | 桌面桌布分享平台</title>
     
+    <!-- 載入字體 -->
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;700;900&family=Noto+Sans+JP:wght@400;700;900&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+    
+    <!-- 載入 Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
     
+    <!-- Tailwind 自訂設定 -->
     <script>
         tailwind.config = {
             darkMode: 'class',
@@ -20,9 +24,6 @@
                     colors: {
                         darkBg: '#080a0d',
                         cardBg: '#10141c',
-                        daylightAccent: '#e0f2fe',
-                        daylightMuted: '#94a3b8',
-                        borderDaylight: '#1e293b'
                     }
                 }
             }
@@ -31,85 +32,11 @@
 
     <style>
         body {
-            background-color: #080a0d;
-            color: #e2e8f0;
-            font-family: 'Noto Sans TC', 'Noto Sans JP', sans-serif;
-            background-image: 
-                radial-gradient(circle at 50% 0%, rgba(224, 242, 254, 0.05) 0%, transparent 50%),
-                linear-gradient(to bottom, #080a0d, #040507);
-            background-attachment: fixed;
+            background-color: theme('colors.darkBg');
+            color: #e5e5e5;
         }
 
-        .font-square {
-            font-weight: 900;
-            letter-spacing: -0.02em;
-            text-transform: uppercase;
-        }
-
-        .glass-nav {
-            background: rgba(8, 10, 13, 0.85);
-            backdrop-filter: blur(12px);
-            -webkit-backdrop-filter: blur(12px);
-            border-bottom: 1px solid rgba(224, 242, 254, 0.1);
-        }
-
-        .natural-card {
-            background-color: #10141c;
-            border-radius: 2px;
-            overflow: hidden;
-            border: 1px solid #1e293b;
-            box-shadow: 0 10px 30px -5px rgba(0, 0, 0, 0.6);
-            transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
-        }
-
-        .natural-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 20px 40px -10px rgba(224, 242, 254, 0.12);
-            border-color: rgba(224, 242, 254, 0.5);
-        }
-
-        .lang-btn {
-            border-radius: 2px;
-            transition: all 0.2s;
-            color: #94a3b8;
-            font-weight: 700;
-        }
-        .lang-btn.active {
-            background-color: #e0f2fe;
-            color: #080a0d;
-            font-weight: 900;
-        }
-
-        .filter-btn {
-            padding: 6px 16px;
-            border-radius: 2px;
-            font-size: 0.85rem;
-            border: 1px solid #1e293b;
-            background-color: #10141c;
-            color: #94a3b8;
-            transition: all 0.2s;
-            font-weight: 700;
-        }
-        .filter-btn.active, .filter-btn:hover {
-            background-color: #e0f2fe;
-            color: #080a0d;
-            border-color: #e0f2fe;
-            font-weight: 900;
-            box-shadow: 0 0 10px rgba(224, 242, 254, 0.2);
-        }
-
-        .sub-glow {
-            color: #e0f2fe;
-            text-shadow: 0 0 8px rgba(224, 242, 254, 0.35);
-        }
-
-        /* 終端機掃描線特效 */
-        .scanlines {
-            background: linear-gradient(to bottom, rgba(255,255,255,0), rgba(255,255,255,0) 50%, rgba(0,0,0,0.4) 50%, rgba(0,0,0,0.4));
-            background-size: 100% 4px;
-        }
-
-        /* 動態滾動捲軸特效 */
+        /* 跑馬燈動畫 */
         @keyframes marquee {
             0% { transform: translateX(0); }
             100% { transform: translateX(-50%); }
@@ -125,8 +52,8 @@
             color: #e0f2fe; 
             text-shadow: 
                 0 0 2px rgba(255, 255, 255, 0.8),
-                0 0 8px rgba(224, 242, 254, 0.6),
-                0 0 15px rgba(224, 242, 254, 0.4);
+                0 0 8px rgba(14, 165, 233, 0.6),
+                0 0 15px rgba(14, 165, 233, 0.4);
             animation: tube-flicker 4s infinite;
         }
         @keyframes tube-flicker {
@@ -134,320 +61,203 @@
                 opacity: 1;
                 text-shadow: 
                     0 0 2px rgba(255, 255, 255, 0.8),
-                    0 0 8px rgba(224, 242, 254, 0.6),
-                    0 0 15px rgba(224, 242, 254, 0.4);
+                    0 0 8px rgba(14, 165, 233, 0.6),
+                    0 0 15px rgba(14, 165, 233, 0.4);
             }
             20%, 24%, 55% {
                 opacity: 0.4;
                 text-shadow: none;
             }
         }
+
+        /* 終端機掃描線特效 */
+        .scanlines {
+            background: linear-gradient(to bottom, rgba(255,255,255,0), rgba(255,255,255,0) 50%, rgba(0,0,0,0.3) 50%, rgba(0,0,0,0.3));
+            background-size: 100% 4px;
+        }
     </style>
-
-    <!-- 載入獨立的桌布資料庫 -->
-    <script src="wallpapers.js"></script>
 </head>
-<body class="min-h-screen flex flex-col selection:bg-[#e0f2fe] selection:text-black">
+<body class="antialiased min-h-screen flex flex-col">
 
-    <nav class="glass-nav fixed top-0 left-0 w-full z-50 px-3 md:px-12 py-3 flex justify-between items-center gap-2">
-        <a href="#" class="font-square text-sm md:text-xl tracking-wider text-white flex items-center gap-2 shrink-0">
-            <span class="w-2 h-2 md:w-3 md:h-3 bg-[#e0f2fe] shadow-[0_0_10px_#e0f2fe]"></span>
-            <span class="hidden min-[380px]:inline">ECHO SINGULARITY</span>
-            <span class="inline min-[380px]:hidden">ECHO</span>
-        </a>
-        
-        <!-- 手機版自適應優化，確保 YT 按鈕與語言切換完整顯示 -->
-        <div class="flex items-center gap-1.5 md:gap-4 shrink-0">
-            <div class="bg-[#10141c] p-0.5 md:p-1 rounded flex gap-0.5 md:gap-1 border border-[#1e293b]">
-                <button onclick="setLanguage('zh')" id="btn-zh" class="lang-btn active text-[10px] md:text-xs px-1.5 md:px-3 py-1">中文</button>
-                <button onclick="setLanguage('ja')" id="btn-ja" class="lang-btn text-[10px] md:text-xs px-1.5 md:px-3 py-1">日本語</button>
-                <button onclick="setLanguage('en')" id="btn-en" class="lang-btn text-[10px] md:text-xs px-1.5 md:px-3 py-1">EN</button>
+    <!-- 頂部導覽列 -->
+    <header class="w-full bg-black/80 backdrop-blur-md sticky top-0 z-50 border-b border-gray-800">
+        <div class="max-w-7xl mx-auto px-4 h-16 flex items-center justify-between">
+            <div class="text-xl font-bold tracking-widest text-white">
+                ECHO SINGULARITY
             </div>
-            <a href="https://www.youtube.com/@ECHOSINGULARITY1995" target="_blank" class="bg-[#e0f2fe] text-[#080a0d] hover:bg-white px-2 py-1 md:px-4 md:py-1.5 rounded text-[10px] md:text-sm font-square tracking-widest flex items-center transition-all shadow-[0_0_15px_rgba(224,242,254,0.2)] whitespace-nowrap">
-                <span id="nav-yt-text">YouTube 頻道</span>
-            </a>
+            
+            <div class="flex items-center gap-4">
+                <select id="lang-select" class="bg-transparent text-gray-300 text-sm outline-none border border-gray-700 rounded px-2 py-1 hover:border-gray-500 transition-colors">
+                    <option value="zh">ZH</option>
+                    <option value="ja">JP</option>
+                    <option value="en">EN</option>
+                </select>
+                <a href="#" target="_blank" class="flex items-center gap-2 text-sm text-gray-300 hover:text-white transition-colors border border-gray-700 rounded px-3 py-1 bg-gray-900/50 hover:bg-gray-800">
+                    <svg class="w-4 h-4 text-red-500" fill="currentColor" viewBox="0 0 24 24"><path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/></svg>
+                    <span data-zh="頻道資訊" data-ja="チャンネル情報" data-en="Channel Info" class="lang-content">頻道資訊</span>
+                </a>
+            </div>
         </div>
-    </nav>
+    </header>
 
-    <div class="w-full bg-black/80 border-b border-[#1e293b] overflow-hidden py-1.5 mt-14 md:mt-16 relative shadow-[0_0_15px_rgba(224,242,254,0.03)]">
-        <div class="animate-marquee flex items-center space-x-12 opacity-90">
-            <span class="text-xs font-mono tracking-widest fluorescent-glow uppercase whitespace-nowrap" id="marquee-text-1">避難所請注意燈光微弱，行走時請留意前方</span>
-            <span class="text-xs font-mono tracking-widest fluorescent-glow uppercase whitespace-nowrap" id="marquee-text-2">避難所請注意燈光微弱，行走時請留意前方</span>
-            <span class="text-xs font-mono tracking-widest fluorescent-glow uppercase whitespace-nowrap" id="marquee-text-3">避難所請注意燈光微弱，行走時請留意前方</span>
-            <span class="text-xs font-mono tracking-widest fluorescent-glow uppercase whitespace-nowrap" id="marquee-text-4">避難所請注意燈光微弱，行走時請留意前方</span>
+    <!-- 日光燈跑馬燈 -->
+    <div class="w-full bg-black/80 border-b border-gray-800 overflow-hidden py-2 relative">
+        <div class="animate-marquee whitespace-nowrap flex items-center space-x-12">
+            <span class="text-sm tracking-widest fluorescent-glow lang-content" data-zh="避難所請注意燈光微弱，行走時請留意前方" data-ja="シェルター内の照明は微弱です、足元にご注意ください。" data-en="Shelter Notice: Dim lighting, please watch your step.">
+                避難所請注意燈光微弱，行走時請留意前方
+            </span>
+            <span class="text-sm tracking-widest fluorescent-glow lang-content" data-zh="避難所請注意燈光微弱，行走時請留意前方" data-ja="シェルター内の照明は微弱です、足元にご注意ください。" data-en="Shelter Notice: Dim lighting, please watch your step.">
+                避難所請注意燈光微弱，行走時請留意前方
+            </span>
+            <span class="text-sm tracking-widest fluorescent-glow lang-content" data-zh="避難所請注意燈光微弱，行走時請留意前方" data-ja="シェルター内の照明は微弱です、足元にご注意ください。" data-en="Shelter Notice: Dim lighting, please watch your step.">
+                避難所請注意燈光微弱，行走時請留意前方
+            </span>
+            <span class="text-sm tracking-widest fluorescent-glow lang-content" data-zh="避難所請注意燈光微弱，行走時請留意前方" data-ja="シェルター内の照明は微弱です、足元にご注意ください。" data-en="Shelter Notice: Dim lighting, please watch your step.">
+                避難所請注意燈光微弱，行走時請留意前方
+            </span>
         </div>
     </div>
 
-    <header class="pt-12 md:pt-16 pb-8 px-6 text-center max-w-4xl mx-auto w-full">
-        <span id="hero-badge" class="inline-block py-1.5 px-4 bg-[#10141c] border border-[#1e293b] text-[#e0f2fe] text-xs font-square tracking-widest uppercase mb-6 shadow-[0_0_10px_rgba(224,242,254,0.05)]">
-            桌布分享平台
-        </span>
-        <h1 class="font-square text-3xl md:text-6xl text-white mb-6 leading-tight tracking-tight fluorescent-glow">
-            ECHO SINGULARITY
-        </h1>
-        <p id="hero-desc" class="text-[#94a3b8] text-sm md:text-base font-bold leading-relaxed max-w-2xl mx-auto whitespace-pre-line tracking-wide">
-            創意發想提供 / 探索未來的可能性 / 不定期更新
-            <span class="sub-glow">如果喜歡，歡迎訂閱我的頻道</span>
-        </p>
-    </header>
-
-    <section class="px-6 max-w-3xl mx-auto w-full mb-12 flex flex-col md:flex-row gap-6">
+    <!-- 主視覺內容區塊 -->
+    <main class="flex-grow max-w-7xl mx-auto px-4 py-12 w-full">
         
-        <!-- 頻道發想 -->
-        <div class="flex-grow p-6 md:p-8 rounded bg-[#10141c] border border-[#1e293b] shadow-lg relative overflow-hidden flex flex-col justify-center">
-            <div class="absolute top-0 left-0 w-1.5 h-full bg-[#e0f2fe] shadow-[0_0_15px_rgba(224,242,254,0.4)]"></div>
-            
-            <div class="flex items-center gap-3 mb-5 pl-2">
-                <span class="text-xs font-mono text-[#080a0d] bg-[#e0f2fe] px-2.5 py-1 tracking-widest uppercase font-bold rounded-sm">
-                    PHILOSOPHY
-                </span>
-                <h2 id="phil-title" class="font-square text-2xl md:text-3xl text-white tracking-widest leading-none mt-0.5">
-                    頻道發想
-                </h2>
-            </div>
-            
-            <p id="phil-text" class="text-sm md:text-base text-[#94a3b8] font-medium leading-loose tracking-wide whitespace-pre-line text-left pl-2">
-                在未來的殘片與事件的可能性中，尋找在世界各個角落中的浪漫...
-                感受 <span class="text-[#e0f2fe] font-bold">視覺衝擊</span> 與 <span class="text-[#e0f2fe] font-bold">回音</span>
+        <div class="text-center mb-16 mt-8">
+            <h1 class="text-4xl md:text-6xl font-bold tracking-widest mb-6 fluorescent-glow">ECHO SINGULARITY</h1>
+            <p class="text-gray-400 max-w-3xl mx-auto leading-relaxed text-sm md:text-base lang-content" 
+               data-zh="崩解之後的迴響。<br><br>我們將彗星撞擊的宏大張力與末日想像，轉化為手繪鉛筆與水彩質感的視聽饗宴，結合情境配樂與角色故事，帶給你沉浸式的體驗。<br><br>當一切歸零，唯有回音長存。歡迎訂閱我的頻道！<br>另外，本頻道提供免費風格桌布資源（僅限非商業用途），歡迎點選下方連結下載："
+               data-ja="崩壊のあとの残響。<br><br>彗星衝突の壮大な緊張感と終末の想像を、手描き鉛筆と水彩の質感を備えた視聴覚の饗宴へ昇華させます。シチュエーション音楽とキャラクターの物語が織りなす没入型体験をお届けします。<br><br>すべてがゼロに戻るとき、残響のみが永遠に響き渡る。ぜひチャンネル登録をお願いします！<br>また、非商用目的にご利用いただける無料のスタイル壁紙リソースを提供しています。以下のリンクからダウンロードしてください："
+               data-en="The resonance after the collapse.<br><br>We transform comet impacts and apocalyptic visions into an audiovisual feast of hand-drawn pencil and watercolor textures, combining atmospheric soundtracks with character stories for an immersive experience.<br><br>When everything returns to zero, only the echo remains. Welcome to subscribe to my channel!<br>Additionally, free styled wallpaper resources are available for non-commercial use. Feel free to download via the link below:">
+                崩解之後的迴響。<br><br>我們將彗星撞擊的宏大張力與末日想像，轉化為手繪鉛筆與水彩質感的視聽饗宴，結合情境配樂與角色故事，帶給你沉浸式的體驗。<br><br>當一切歸零，唯有回音長存。歡迎訂閱我的頻道！<br>另外，本頻道提供免費風格桌布資源（僅限非商業用途），歡迎點選下方連結下載：
             </p>
         </div>
 
-        <!-- 末日動態時鐘 -->
-        <div class="shrink-0 flex items-center justify-center">
-            <div class="relative bg-[#050608] border border-[#1e293b] p-6 rounded shadow-[0_0_20px_rgba(0,0,0,0.8)] overflow-hidden flex flex-col items-center justify-center min-w-[200px]">
-                <div class="scanlines absolute inset-0 pointer-events-none opacity-60 z-20"></div>
-                
-                <div id="cyber-clock" class="font-mono text-4xl font-bold tracking-[0.1em] fluorescent-glow z-10 flex items-center justify-center w-full py-2">
+        <!-- 頻道發想與末日時鐘 -->
+        <div class="mb-16 border-l-4 border-cyan-500 pl-6 py-2">
+            <h2 class="text-2xl md:text-3xl font-bold tracking-widest mb-4 lang-content" data-zh="PHILOSOPHY / 頻道發想" data-ja="PHILOSOPHY / チャンネルのコンセプト" data-en="PHILOSOPHY / Concept">
+                PHILOSOPHY / 頻道發想
+            </h2>
+            
+            <div class="mt-6 inline-block relative border border-cyan-900/50 bg-black/60 p-4 rounded-sm shadow-[0_0_20px_rgba(14,165,233,0.15)]">
+                <div class="scanlines absolute inset-0 pointer-events-none opacity-50 z-10"></div>
+                <div id="cyber-clock" class="text-4xl md:text-5xl font-mono tracking-widest fluorescent-glow relative z-0">
                     00:00:00
                 </div>
-
-                <div class="flex justify-between w-full mt-2 z-10 opacity-60 border-t border-[#1e293b] pt-2">
-                    <span id="clock-label" class="text-[10px] text-[#94a3b8] font-mono tracking-widest uppercase">系統時間</span>
-                    <span class="text-[10px] text-[#e0f2fe] font-mono tracking-widest uppercase">SYS</span>
+                <div class="text-right text-xs mt-2 text-cyan-600 tracking-widest lang-content" data-zh="系統時間" data-ja="システム時刻" data-en="SYSTEM TIME">
+                    系統時間
                 </div>
             </div>
         </div>
-    </section>
 
-    <section class="px-6 max-w-7xl mx-auto w-full mb-10">
-        <div id="filter-container" class="flex flex-wrap justify-center gap-2 md:gap-3">
-            <!-- 透過 JS 自動生成分類按鈕 -->
-        </div>
-    </section>
-
-    <main class="flex-grow max-w-7xl mx-auto px-6 md:px-12 pb-24 w-full">
-        <div id="gallery" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
-            <!-- 圖片會透過 JS 自動渲染到這裡 -->
+        <h2 class="text-xl md:text-2xl font-bold tracking-widest mb-8 text-center border-b border-gray-800 pb-4 lang-content" 
+            data-zh="資源下載首頁" 
+            data-ja="リソースダウンロード ホーム" 
+            data-en="Resource Download Home">
+            資源下載首頁
+        </h2>
+        
+        <!-- 動態圖片容器 -->
+        <div id="wallpaper-grid" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
+            <!-- 圖片卡片將會由 JavaScript 生成在這裡 -->
         </div>
     </main>
 
-    <footer class="py-10 px-6 text-center border-t border-[#1e293b] bg-[#050608] flex flex-col items-center gap-3">
-        <!-- 私人使用版權聲明 -->
-        <p id="usage-notice" class="text-xs font-mono tracking-wide text-[#94a3b8] opacity-80">
+    <!-- 頁尾 -->
+    <footer class="w-full bg-black border-t border-gray-900 py-6 mt-auto text-center">
+        <p class="text-xs text-gray-500 tracking-wider lang-content" 
+           data-zh="所有桌布與內容僅供個人私人非商業用途使用。" 
+           data-ja="すべての壁紙とコンテンツは、個人的なプライベートおよび非商用目的にのみご利用いただけます。" 
+           data-en="All wallpapers and content are provided for personal, private, and non-commercial use only.">
             所有桌布與內容僅供個人私人非商業用途使用。
-        </p>
-        <p class="text-[10px] font-mono tracking-widest text-[#1e293b]">
-            &copy; 2026 ECHO SINGULARITY
         </p>
     </footer>
 
+    <!-- 1. 引入外部資料庫 (極重要，確保檔案在同一層目錄) -->
+    <script src="wallpapers.js"></script>
+
+    <!-- 2. 網頁互動與圖片渲染邏輯 -->
     <script>
-        // 定義分類字典 (加入最新的 crater 隕石巨坑)
-        const categoryDictionary = {
-            harbor: { zh: "海港工業", ja: "港湾工業", en: "Harbor" },
-            wasteland: { zh: "廢墟遺跡", ja: "荒野の遺跡", en: "Wasteland" },
-            city: { zh: "都會街景", ja: "都市の街並み", en: "Cityscape" },
-            crater: { zh: "隕石巨坑", ja: "クレーター", en: "Crater" }
-        };
+        const langSelect = document.getElementById('lang-select');
+        const langContents = document.querySelectorAll('.lang-content');
+        const grid = document.getElementById('wallpaper-grid');
 
-        // 翻譯文本庫
-        const translations = {
-            zh: {
-                navYt: "YouTube 頻道",
-                badge: "桌布分享平台",
-                marqueeText: "避難所請注意燈光微弱，行走時請留意前方",
-                desc: "創意發想提供 / 探索未來的可能性 / 不定期更新\n",
-                subText: "如果喜歡，歡迎訂閱我的頻道",
-                philTitle: "頻道發想",
-                philText: "在未來的殘片與事件的可能性中，尋找在世界各個角落中的浪漫...\n感受 視覺衝擊 與 回音",
-                allCategory: "全部地貌 (All)",
-                download: "下載",
-                usageNotice: "所有桌布與內容僅供個人私人非商業用途使用。",
-                clockLabel: "系統時間"
-            },
-            ja: {
-                navYt: "YouTube チャンネル",
-                badge: "壁紙共有プラットフォーム",
-                marqueeText: "シェルター内の照明は微弱です、足元にご注意ください。",
-                desc: "クリエイティブなアイデアの提供 / 未来の可能性の探索 / 不定期更新\n",
-                subText: "気に入っていただけたら、チャンネル登録をお願いします",
-                philTitle: "チャンネルの理念",
-                philText: "未来の断片と出来事の可能性の中で、世界の片隅にあるロマンを探す...\n視覚的衝撃 と エコー を感じて",
-                allCategory: "すべての地形 (All)",
-                download: "保存",
-                usageNotice: "すべての壁紙とコンテンツは、個人的なプライベートおよび非商用目的にのみご利用いただけます。",
-                clockLabel: "システム時刻"
-            },
-            en: {
-                navYt: "YouTube Channel",
-                badge: "Wallpaper Sharing Platform",
-                marqueeText: "Shelter Notice: Dim lighting, please watch your step.",
-                desc: "Creative Idea Inspiration / Exploring Future Possibilities / Regular Updates\n",
-                subText: "If you like it, please subscribe to my channel!",
-                philTitle: "Philosophy",
-                philText: "Searching for romance in every corner of the world amidst future fragments and event possibilities...\nFeel the Visual Impact and Echoes.",
-                allCategory: "All Terrains",
-                download: "SAVE",
-                usageNotice: "All wallpapers and content are provided for personal, private, and non-commercial use only.",
-                clockLabel: "SYSTEM TIME"
-            }
-        };
-
-        let currentLang = 'zh';
-        let currentCategory = 'all';
-
-        // --- 語言切換邏輯 ---
-        function setLanguage(lang) {
-            currentLang = lang;
-            document.querySelectorAll('.lang-btn').forEach(btn => btn.classList.remove('active'));
-            document.getElementById('btn-' + lang).classList.add('active');
-
-            const t = translations[lang];
-            document.getElementById('nav-yt-text').textContent = t.navYt;
-            
-            // 更新跑馬燈 (4個元素)
-            for(let i=1; i<=4; i++) {
-                document.getElementById('marquee-text-' + i).textContent = t.marqueeText;
-            }
-
-            document.getElementById('hero-badge').textContent = t.badge;
-            document.getElementById('hero-desc').innerHTML = t.desc + `<span class="sub-glow">${t.subText}</span>`;
-            
-            document.getElementById('phil-title').textContent = t.philTitle;
-            let formattedPhilText = t.philText
-                .replace('視覺衝擊', '<span class="text-[#e0f2fe] font-bold">視覺衝擊</span>')
-                .replace('視覚的衝撃', '<span class="text-[#e0f2fe] font-bold">視覚的衝撃</span>')
-                .replace('Visual Impact', '<span class="text-[#e0f2fe] font-bold">Visual Impact</span>')
-                .replace('回音', '<span class="text-[#e0f2fe] font-bold">回音</span>')
-                .replace('エコー', '<span class="text-[#e0f2fe] font-bold">エコー</span>')
-                .replace('Echoes', '<span class="text-[#e0f2fe] font-bold">Echoes</span>');
-            document.getElementById('phil-text').innerHTML = formattedPhilText;
-            
-            document.getElementById('clock-label').textContent = t.clockLabel;
-            document.getElementById('usage-notice').textContent = t.usageNotice;
-
-            renderFilters();
-            renderGallery();
+        // 更新靜態文字語言
+        function updateLanguageText(lang) {
+            langContents.forEach(el => {
+                if (el.hasAttribute(`data-${lang}`)) {
+                    el.innerHTML = el.getAttribute(`data-${lang}`);
+                }
+            });
         }
 
-        // --- 分類切換邏輯 ---
-        function filterCategory(category, element) {
-            currentCategory = category;
-            document.querySelectorAll('.filter-btn').forEach(btn => btn.classList.remove('active'));
-            if (element) {
-                element.classList.add('active');
-            } else {
-                const target = document.getElementById('filter-' + category);
-                if (target) target.classList.add('active');
-            }
-            renderGallery();
-        }
-
-        // --- 渲染分類按鈕 ---
-        function renderFilters() {
-            const container = document.getElementById('filter-container');
-            const t = translations[currentLang];
+        // 渲染桌布圖片網格
+        function renderWallpapers(lang) {
+            grid.innerHTML = ''; // 清空現有內容
             
-            let html = '';
-            const allActive = (currentCategory === 'all') ? 'active' : '';
-            html += `<button onclick="filterCategory('all', this)" id="filter-all" class="filter-btn ${allActive}">${t.allCategory}</button>`;
-
-            for (const [catKey, names] of Object.entries(categoryDictionary)) {
-                let label = names[currentLang] || names.zh;
-                const isActive = (currentCategory === catKey) ? 'active' : '';
-                html += `<button onclick="filterCategory('${catKey}', this)" id="filter-${catKey}" class="filter-btn ${isActive}">${label}</button>`;
-            }
-
-            container.innerHTML = html;
-        }
-
-        // --- 渲染藝廊卡片邏輯 ---
-        function renderGallery() {
-            const gallery = document.getElementById('gallery');
-            const t = translations[currentLang];
-            gallery.innerHTML = ''; 
-
-            if (typeof wallpaperDatabase === 'undefined') {
-                gallery.innerHTML = `
-                    <p class="text-white col-span-3 text-center py-10">
-                        正在等待載入圖片資料庫 (wallpapers.js)...<br>
-                        <span class="text-xs text-[#94a3b8]">請確保您的資料庫格式已正確設定，包含 ID、標籤與 fileId。</span>
-                    </p>`;
+            // 確保 wallpaperDatabase 和 categoryDictionary 已經從 wallpapers.js 載入
+            if (typeof wallpaperDatabase === 'undefined' || typeof categoryDictionary === 'undefined') {
+                console.error("找不到 wallpapers.js 的資料庫！請確認檔案路徑是否正確。");
                 return;
             }
 
             wallpaperDatabase.forEach(item => {
-                if (currentCategory !== 'all' && item.tag.category !== currentCategory) return;
-
-                let previewUrl = item.url;
-                let downloadUrl = item.downloadUrl;
-
-                if (item.fileId) {
-                    previewUrl = `https://drive.google.com/thumbnail?id=${item.fileId}&sz=w1920`;
-                    downloadUrl = `https://drive.google.com/uc?export=download&id=${item.fileId}`;
-                } else if (item.fileName) { 
-                     previewUrl = item.fileName;
-                     downloadUrl = item.fileName;
+                // 判斷圖片來源是本機檔案還是 Google Drive ID
+                let imgSrc = '';
+                if (item.fileName) {
+                    imgSrc = item.fileName; // 例如 "S14.png" 或 "./S14.png"
+                } else if (item.fileId) {
+                    imgSrc = `https://drive.google.com/uc?export=view&id=${item.fileId}`;
                 }
 
-                let styleDescText = "";
-                if (item.tag.styleDesc) {
-                    if (typeof item.tag.styleDesc === 'object') {
-                        styleDescText = item.tag.styleDesc[currentLang] || item.tag.styleDesc.zh;
-                    } else {
-                        styleDescText = item.tag.styleDesc;
-                    }
-                }
+                // 取得分類翻譯與描述翻譯
+                const catData = categoryDictionary[item.tag.category];
+                const catName = catData ? catData[lang] : item.tag.category;
+                const styleDesc = item.tag.styleDesc[lang] || item.tag.styleDesc.zh;
 
-                const cardHTML = `
-                <div class="natural-card flex flex-col group">
-                    <div class="relative w-full pt-[56.25%] overflow-hidden bg-[#080a0d]">
-                        <img src="${previewUrl}" alt="ECHO Wallpaper ${item.id}" loading="lazy" 
-                             class="absolute top-0 left-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" 
-                             onerror="this.src='https://placehold.co/800x450/10141c/e0f2fe?text=ECHO+WALLPAPER'">
-                        <div class="absolute inset-0 bg-gradient-to-t from-[#10141c] to-transparent opacity-40 group-hover:opacity-20 transition-opacity"></div>
+                // 建立卡片
+                const card = document.createElement('div');
+                card.className = 'bg-[#10141c] border border-gray-800 rounded overflow-hidden group hover:border-cyan-500 transition-colors duration-300 flex flex-col';
+                
+                card.innerHTML = `
+                    <div class="aspect-video w-full overflow-hidden bg-gray-800 relative">
+                        <img src="${imgSrc}" alt="${styleDesc}" class="w-full h-full object-cover opacity-80 group-hover:opacity-100 transition-opacity duration-300" loading="lazy">
                     </div>
-                    <div class="p-5 flex justify-between items-center bg-[#10141c] flex-grow border-t border-[#1e293b]">
-                        <div><span class="text-xs text-[#94a3b8] font-square tracking-widest">${styleDescText}</span></div>
-                        <a href="${downloadUrl}" target="_blank" download="ECHO_WP_${item.id}.png" 
-                           class="px-4 py-1.5 rounded-sm bg-transparent border border-[#e0f2fe] text-[#e0f2fe] text-xs font-square tracking-wider hover:bg-[#e0f2fe] hover:text-[#080a0d] transition-all shadow-[0_0_10px_rgba(224,242,254,0.1)]">
-                            ${t.download}
-                        </a>
+                    <div class="p-4 flex flex-col flex-grow">
+                        <div class="text-xs text-cyan-500 mb-1 tracking-widest">${catName}</div>
+                        <div class="text-sm text-gray-300 tracking-wider flex-grow">${styleDesc}</div>
+                        <div class="mt-4 flex justify-between items-center">
+                            <span class="text-xs text-gray-600">ID: ${item.id}</span>
+                            <a href="${imgSrc}" target="_blank" download="${item.fileName || 'wallpaper.png'}" class="text-xs border border-gray-700 px-3 py-1 rounded hover:bg-gray-800 transition-colors lang-content-dynamic" data-zh="下載" data-ja="ダウンロード" data-en="Download">
+                                ${lang === 'zh' ? '下載' : lang === 'ja' ? 'ダウンロード' : 'Download'}
+                            </a>
+                        </div>
                     </div>
-                </div>`;
-                gallery.innerHTML += cardHTML;
+                `;
+                grid.appendChild(card);
             });
         }
 
-        // --- 賽博時鐘邏輯 ---
-        function initCyberClock() {
-            const clockEl = document.getElementById('cyber-clock');
-            function updateClock() {
-                const now = new Date();
-                const h = String(now.getHours()).padStart(2, '0');
-                const m = String(now.getMinutes()).padStart(2, '0');
-                const s = String(now.getSeconds()).padStart(2, '0');
-                clockEl.textContent = `${h}:${m}:${s}`;
-            }
-            setInterval(updateClock, 1000);
-            updateClock(); 
-        }
+        // 監聽語言切換事件
+        langSelect.addEventListener('change', (e) => {
+            const selectedLang = e.target.value;
+            updateLanguageText(selectedLang);
+            renderWallpapers(selectedLang);
+        });
 
-        // 初始化
-        window.onload = function() { 
-            setLanguage(currentLang);
-            initCyberClock(); 
-        };
+        // 初始載入渲染
+        updateLanguageText('zh');
+        renderWallpapers('zh');
+
+        // 末日時鐘功能
+        function updateClock() {
+            const now = new Date();
+            const hours = String(now.getHours()).padStart(2, '0');
+            const minutes = String(now.getMinutes()).padStart(2, '0');
+            const seconds = String(now.getSeconds()).padStart(2, '0');
+            document.getElementById('cyber-clock').textContent = `${hours}:${minutes}:${seconds}`;
+        }
+        
+        updateClock();
+        setInterval(updateClock, 1000);
     </script>
 </body>
 </html>
