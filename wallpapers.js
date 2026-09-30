@@ -17,6 +17,11 @@ const categoryDictionary = {
         zh: "都會街景",
         ja: "都市の街並み",
         en: "Cityscape"
+    },
+    crater: {
+        zh: "隕石巨坑",
+        ja: "クレーター",
+        en: "Crater"
     }
 };
 
@@ -123,5 +128,77 @@ const wallpaperDatabase = [
             }
         },
         fileId: "1bf-zyAWCWY3AvxIkV9Y1QCuKEeAXUghj" 
+    },
+    { 
+        id: "014",
+        tag: {
+            category: "crater",
+            styleDesc: { 
+                zh: "隕石坑邊緣 / 俯瞰深谷", 
+                ja: "クレーターの縁 / 深き谷を見下ろす", 
+                en: "Crater Edge / Overlooking the Abyss" 
+            }
+        },
+        fileId: "1IqJssXQDtEQtyN0ad5Fxay8kSlpQvexh" 
+    },
+    { 
+        id: "015", 
+        tag: {
+            category: "crater",
+            styleDesc: { 
+                zh: "谷底微光 / 岩壁間的探索", 
+                ja: "谷底の微光 / 岩壁の探索", 
+                en: "Glimmer in the Valley / Exploring the Rock Walls" 
+            }
+        },
+        fileId: "12iTGIUnSk19y7Wlwa3h4ZgNDq--W78D-" 
+    },
+    { 
+        id: "016", 
+        tag: {
+            category: "crater",
+            styleDesc: { 
+                zh: "日落峽谷 / 溫暖的餘暉", 
+                ja: "日没の峡谷 / 温かい夕日", 
+                en: "Sunset Canyon / Warm Glow" 
+            }
+        },
+        fileId: "1dus8aqGT3o2MLQXPpM41I1tX7kboCz4u" 
+    },
+    { 
+        id: "017", 
+        tag: {
+            category: "crater",
+            styleDesc: { 
+                zh: "巨石裂縫 / 踏上旅程", 
+                ja: "巨岩の裂け目 / 旅立ち", 
+                en: "Giant Rock Fissure / Embarking on a Journey" 
+            }
+        },
+        fileId: "1pF6Jtgee8jEcuWL5UpzbAYUhZsNiN6Y1" 
+    },
+    { 
+        id: "018", 
+        tag: {
+            category: "crater",
+            styleDesc: { 
+                zh: "堅定的眼眸 / 旅途的印記", 
+                ja: "決意の瞳 / 旅の印", 
+                en: "Determined Eyes / Mark of the Journey" 
+            }
+        },
+        fileId: "1p5spkfuuP_hMbQXzcwJJOFZth9K8W8ve" 
+    },
+    { 
+        id: "019", 
+        tag: {
+            category: "crater",
+            styleDesc: { 
+                zh: "隕石坑的生機 / 陽光灑落", 
+                ja: "クレーターの息吹 / 降り注ぐ陽光", 
+                en: "Life in the Crater / Sunlight Bath" 
+            }
+        },
+        fileId: "1cnaP4ymbS6ilkSDekgxIzg0RNKE95X0j" 
     }
 ];
