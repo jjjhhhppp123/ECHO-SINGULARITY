@@ -103,70 +103,86 @@
             text-shadow: 0 0 8px rgba(224, 242, 254, 0.35);
         }
 
-        /* -------------------------------------
-           末日日光燈時鐘特效 (Doomsday Glow)
-        -------------------------------------- */
-        .doomsday-glow {
-            text-shadow: 
-                0 0 4px rgba(224, 242, 254, 0.6),
-                0 0 10px rgba(224, 242, 254, 0.3),
-                0 0 20px rgba(224, 242, 254, 0.2);
-            animation: textFlicker 5s infinite alternate;
+        /* 終端機掃描線特效 */
+        .scanlines {
+            background: linear-gradient(to bottom, rgba(255,255,255,0), rgba(255,255,255,0) 50%, rgba(0,0,0,0.4) 50%, rgba(0,0,0,0.4));
+            background-size: 100% 4px;
         }
 
-        @keyframes textFlicker {
-            0%, 19.999%, 22%, 62.999%, 64%, 64.999%, 70%, 100% {
+        /* 動態滾動捲軸特效 */
+        @keyframes marquee {
+            0% { transform: translateX(0); }
+            100% { transform: translateX(-50%); }
+        }
+        .animate-marquee {
+            display: inline-flex;
+            width: max-content;
+            animation: marquee 20s linear infinite;
+        }
+
+        /* 日光燈閃爍與發光特效 */
+        .fluorescent-glow {
+            color: #e0f2fe; 
+            text-shadow: 
+                0 0 2px rgba(255, 255, 255, 0.8),
+                0 0 8px rgba(224, 242, 254, 0.6),
+                0 0 15px rgba(224, 242, 254, 0.4);
+            animation: tube-flicker 4s infinite;
+        }
+        @keyframes tube-flicker {
+            0%, 18%, 22%, 25%, 53%, 57%, 100% {
                 opacity: 1;
                 text-shadow: 
-                    0 0 4px rgba(224, 242, 254, 0.6),
-                    0 0 10px rgba(224, 242, 254, 0.3),
-                    0 0 20px rgba(224, 242, 254, 0.2);
+                    0 0 2px rgba(255, 255, 255, 0.8),
+                    0 0 8px rgba(224, 242, 254, 0.6),
+                    0 0 15px rgba(224, 242, 254, 0.4);
             }
-            20%, 21.999%, 63%, 63.999%, 65%, 69.999% {
-                opacity: 0.85;
-                text-shadow: 0 0 2px rgba(224, 242, 254, 0.2);
+            20%, 24%, 55% {
+                opacity: 0.4;
+                text-shadow: none;
             }
-        }
-        
-        .scanlines {
-            background: linear-gradient(to bottom, rgba(255,255,255,0), rgba(255,255,255,0) 50%, rgba(0,0,0,0.2) 50%, rgba(0,0,0,0.2));
-            background-size: 100% 4px;
         }
     </style>
 
+    <!-- 載入獨立的桌布資料庫 -->
     <script src="wallpapers.js"></script>
 </head>
 <body class="min-h-screen flex flex-col selection:bg-[#e0f2fe] selection:text-black">
 
-    <!-- 導覽列 (已修正手機版排版，避免 YT 按鈕消失) -->
-    <nav class="glass-nav fixed top-0 left-0 w-full z-50 px-4 md:px-12 py-3 flex justify-between items-center gap-2">
-        <!-- LOGO (極小螢幕時縮寫為 ECHO) -->
+    <nav class="glass-nav fixed top-0 left-0 w-full z-50 px-3 md:px-12 py-3 flex justify-between items-center gap-2">
         <a href="#" class="font-square text-sm md:text-xl tracking-wider text-white flex items-center gap-2 shrink-0">
-            <span class="w-2.5 h-2.5 md:w-3 md:h-3 bg-[#e0f2fe] shadow-[0_0_10px_#e0f2fe]"></span>
-            <span class="hidden min-[400px]:inline">ECHO SINGULARITY</span>
-            <span class="inline min-[400px]:hidden">ECHO</span>
+            <span class="w-2 h-2 md:w-3 md:h-3 bg-[#e0f2fe] shadow-[0_0_10px_#e0f2fe]"></span>
+            <span class="hidden min-[380px]:inline">ECHO SINGULARITY</span>
+            <span class="inline min-[380px]:hidden">ECHO</span>
         </a>
         
-        <!-- 右側按鈕區 -->
-        <div class="flex items-center gap-2 md:gap-4 shrink-0">
-            <!-- 語系切換 (適配手機版大小) -->
-            <div class="bg-[#10141c] p-1 rounded flex gap-1 border border-[#1e293b]">
-                <button onclick="setLanguage('zh')" id="btn-zh" class="lang-btn active text-[10px] md:text-xs px-2 md:px-3 py-1">中文</button>
-                <button onclick="setLanguage('ja')" id="btn-ja" class="lang-btn text-[10px] md:text-xs px-2 md:px-3 py-1">日本語</button>
-                <button onclick="setLanguage('en')" id="btn-en" class="lang-btn text-[10px] md:text-xs px-2 md:px-3 py-1">EN</button>
+        <!-- 手機版自適應優化，確保 YT 按鈕與語言切換完整顯示 -->
+        <div class="flex items-center gap-1.5 md:gap-4 shrink-0">
+            <div class="bg-[#10141c] p-0.5 md:p-1 rounded flex gap-0.5 md:gap-1 border border-[#1e293b]">
+                <button onclick="setLanguage('zh')" id="btn-zh" class="lang-btn active text-[10px] md:text-xs px-1.5 md:px-3 py-1">中文</button>
+                <button onclick="setLanguage('ja')" id="btn-ja" class="lang-btn text-[10px] md:text-xs px-1.5 md:px-3 py-1">日本語</button>
+                <button onclick="setLanguage('en')" id="btn-en" class="lang-btn text-[10px] md:text-xs px-1.5 md:px-3 py-1">EN</button>
             </div>
-            <!-- YouTube 頻道按鈕 (移除 hidden sm:flex，改為全面顯示並微調尺寸) -->
-            <a href="https://www.youtube.com/channel/UCq4BXOX5sPCVIZDUWFPS0yQ" target="_blank" class="bg-[#e0f2fe] text-[#080a0d] hover:bg-white px-2.5 py-1 md:px-4 md:py-1.5 rounded text-[10px] md:text-sm font-square tracking-widest flex items-center transition-all shadow-[0_0_15px_rgba(224,242,254,0.2)] whitespace-nowrap">
+            <a href="https://www.youtube.com/@ECHOSINGULARITY1995" target="_blank" class="bg-[#e0f2fe] text-[#080a0d] hover:bg-white px-2 py-1 md:px-4 md:py-1.5 rounded text-[10px] md:text-sm font-square tracking-widest flex items-center transition-all shadow-[0_0_15px_rgba(224,242,254,0.2)] whitespace-nowrap">
                 <span id="nav-yt-text">YouTube 頻道</span>
             </a>
         </div>
     </nav>
 
-    <header class="pt-32 md:pt-36 pb-8 px-6 text-center max-w-4xl mx-auto">
+    <div class="w-full bg-black/80 border-b border-[#1e293b] overflow-hidden py-1.5 mt-14 md:mt-16 relative shadow-[0_0_15px_rgba(224,242,254,0.03)]">
+        <div class="animate-marquee flex items-center space-x-12 opacity-90">
+            <span class="text-xs font-mono tracking-widest fluorescent-glow uppercase whitespace-nowrap" id="marquee-text-1">避難所請注意燈光微弱，行走時請留意前方</span>
+            <span class="text-xs font-mono tracking-widest fluorescent-glow uppercase whitespace-nowrap" id="marquee-text-2">避難所請注意燈光微弱，行走時請留意前方</span>
+            <span class="text-xs font-mono tracking-widest fluorescent-glow uppercase whitespace-nowrap" id="marquee-text-3">避難所請注意燈光微弱，行走時請留意前方</span>
+            <span class="text-xs font-mono tracking-widest fluorescent-glow uppercase whitespace-nowrap" id="marquee-text-4">避難所請注意燈光微弱，行走時請留意前方</span>
+        </div>
+    </div>
+
+    <header class="pt-12 md:pt-16 pb-8 px-6 text-center max-w-4xl mx-auto w-full">
         <span id="hero-badge" class="inline-block py-1.5 px-4 bg-[#10141c] border border-[#1e293b] text-[#e0f2fe] text-xs font-square tracking-widest uppercase mb-6 shadow-[0_0_10px_rgba(224,242,254,0.05)]">
             桌布分享平台
         </span>
-        <h1 class="font-square text-3xl md:text-6xl text-white mb-6 leading-tight tracking-tight">
+        <h1 class="font-square text-3xl md:text-6xl text-white mb-6 leading-tight tracking-tight fluorescent-glow">
             ECHO SINGULARITY
         </h1>
         <p id="hero-desc" class="text-[#94a3b8] text-sm md:text-base font-bold leading-relaxed max-w-2xl mx-auto whitespace-pre-line tracking-wide">
@@ -175,9 +191,10 @@
         </p>
     </header>
 
-    <!-- 頻道理念區塊 -->
-    <section class="px-6 max-w-3xl mx-auto w-full mb-8">
-        <div class="p-6 md:p-10 rounded bg-[#10141c] border border-[#1e293b] shadow-lg relative overflow-hidden flex flex-col justify-center">
+    <section class="px-6 max-w-3xl mx-auto w-full mb-12 flex flex-col md:flex-row gap-6">
+        
+        <!-- 頻道發想 -->
+        <div class="flex-grow p-6 md:p-8 rounded bg-[#10141c] border border-[#1e293b] shadow-lg relative overflow-hidden flex flex-col justify-center">
             <div class="absolute top-0 left-0 w-1.5 h-full bg-[#e0f2fe] shadow-[0_0_15px_rgba(224,242,254,0.4)]"></div>
             
             <div class="flex items-center gap-3 mb-5 pl-2">
@@ -194,37 +211,27 @@
                 感受 <span class="text-[#e0f2fe] font-bold">視覺衝擊</span> 與 <span class="text-[#e0f2fe] font-bold">回音</span>
             </p>
         </div>
-    </section>
 
-    <!-- 末日動態時鐘區塊 -->
-    <section class="px-6 max-w-3xl mx-auto w-full mb-12">
-        <div class="relative bg-[#050608] border border-[#1e293b] p-6 rounded shadow-[0_0_20px_rgba(0,0,0,0.8)] overflow-hidden flex flex-col items-center justify-center">
-            <!-- 終端機掃描線特效 -->
-            <div class="scanlines absolute inset-0 pointer-events-none opacity-40 z-20"></div>
-            
-            <!-- 時鐘上方資訊 HUD -->
-            <div class="flex justify-between w-full max-w-[320px] mb-1 z-10 opacity-60">
-                <span class="text-[10px] text-[#94a3b8] font-mono tracking-widest uppercase">SYS.STATUS: ONLINE</span>
-                <span class="text-[10px] text-[#94a3b8] font-mono tracking-widest uppercase">LOCAL TIME</span>
-            </div>
-            
-            <!-- 時鐘本體 -->
-            <div id="doomsday-clock" class="font-mono text-5xl md:text-7xl font-bold tracking-[0.1em] text-[#e0f2fe] doomsday-glow z-10 flex items-center justify-center w-full py-2">
-                00:00:00
-            </div>
+        <!-- 末日動態時鐘 -->
+        <div class="shrink-0 flex items-center justify-center">
+            <div class="relative bg-[#050608] border border-[#1e293b] p-6 rounded shadow-[0_0_20px_rgba(0,0,0,0.8)] overflow-hidden flex flex-col items-center justify-center min-w-[200px]">
+                <div class="scanlines absolute inset-0 pointer-events-none opacity-60 z-20"></div>
+                
+                <div id="cyber-clock" class="font-mono text-4xl font-bold tracking-[0.1em] fluorescent-glow z-10 flex items-center justify-center w-full py-2">
+                    00:00:00
+                </div>
 
-            <!-- 時鐘下方日期 HUD -->
-            <div class="flex justify-between w-full max-w-[320px] mt-1 z-10 opacity-60">
-                <span id="doomsday-date" class="text-[10px] text-[#94a3b8] font-mono tracking-[0.2em] uppercase">YYYY.MM.DD</span>
-                <span class="text-[10px] text-[#94a3b8] font-mono tracking-widest uppercase">ECHO-SYNC</span>
+                <div class="flex justify-between w-full mt-2 z-10 opacity-60 border-t border-[#1e293b] pt-2">
+                    <span id="clock-label" class="text-[10px] text-[#94a3b8] font-mono tracking-widest uppercase">系統時間</span>
+                    <span class="text-[10px] text-[#e0f2fe] font-mono tracking-widest uppercase">SYS</span>
+                </div>
             </div>
         </div>
     </section>
 
-    <!-- 動態分類按鈕列 -->
     <section class="px-6 max-w-7xl mx-auto w-full mb-10">
         <div id="filter-container" class="flex flex-wrap justify-center gap-2 md:gap-3">
-            <!-- 透過 JS 自動從 categoryDictionary 生成分類按鈕 -->
+            <!-- 透過 JS 自動生成分類按鈕 -->
         </div>
     </section>
 
@@ -234,47 +241,72 @@
         </div>
     </main>
 
-    <footer class="py-12 px-6 text-center border-t border-[#1e293b] text-[#94a3b8] text-xs font-mono tracking-widest bg-[#050608]">
-        &copy; 2026 ECHO SINGULARITY. ALL ECHOES PRESERVED.
+    <footer class="py-10 px-6 text-center border-t border-[#1e293b] bg-[#050608] flex flex-col items-center gap-3">
+        <!-- 私人使用版權聲明 -->
+        <p id="usage-notice" class="text-xs font-mono tracking-wide text-[#94a3b8] opacity-80">
+            所有桌布與內容僅供個人私人非商業用途使用。
+        </p>
+        <p class="text-[10px] font-mono tracking-widest text-[#1e293b]">
+            &copy; 2026 ECHO SINGULARITY
+        </p>
     </footer>
 
     <script>
+        // 定義分類字典 (加入最新的 crater 隕石巨坑)
+        const categoryDictionary = {
+            harbor: { zh: "海港工業", ja: "港湾工業", en: "Harbor" },
+            wasteland: { zh: "廢墟遺跡", ja: "荒野の遺跡", en: "Wasteland" },
+            city: { zh: "都會街景", ja: "都市の街並み", en: "Cityscape" },
+            crater: { zh: "隕石巨坑", ja: "クレーター", en: "Crater" }
+        };
+
+        // 翻譯文本庫
         const translations = {
             zh: {
                 navYt: "YouTube 頻道",
                 badge: "桌布分享平台",
+                marqueeText: "避難所請注意燈光微弱，行走時請留意前方",
                 desc: "創意發想提供 / 探索未來的可能性 / 不定期更新\n",
                 subText: "如果喜歡，歡迎訂閱我的頻道",
                 philTitle: "頻道發想",
                 philText: "在未來的殘片與事件的可能性中，尋找在世界各個角落中的浪漫...\n感受 視覺衝擊 與 回音",
-                allCategory: "全部地形 (All)",
-                download: "下載"
+                allCategory: "全部地貌 (All)",
+                download: "下載",
+                usageNotice: "所有桌布與內容僅供個人私人非商業用途使用。",
+                clockLabel: "系統時間"
             },
             ja: {
                 navYt: "YouTube チャンネル",
                 badge: "壁紙共有プラットフォーム",
+                marqueeText: "シェルター内の照明は微弱です、足元にご注意ください。",
                 desc: "クリエイティブなアイデアの提供 / 未来の可能性の探索 / 不定期更新\n",
                 subText: "気に入っていただけたら、チャンネル登録をお願いします",
                 philTitle: "チャンネルの理念",
                 philText: "未来の断片と出来事の可能性の中で、世界の片隅にあるロマンを探す...\n視覚的衝撃 と エコー を感じて",
                 allCategory: "すべての地形 (All)",
-                download: "保存"
+                download: "保存",
+                usageNotice: "すべての壁紙とコンテンツは、個人的なプライベートおよび非商用目的にのみご利用いただけます。",
+                clockLabel: "システム時刻"
             },
             en: {
                 navYt: "YouTube Channel",
                 badge: "Wallpaper Sharing Platform",
+                marqueeText: "Shelter Notice: Dim lighting, please watch your step.",
                 desc: "Creative Idea Inspiration / Exploring Future Possibilities / Regular Updates\n",
                 subText: "If you like it, please subscribe to my channel!",
                 philTitle: "Philosophy",
                 philText: "Searching for romance in every corner of the world amidst future fragments and event possibilities...\nFeel the Visual Impact and Echoes.",
                 allCategory: "All Terrains",
-                download: "SAVE"
+                download: "SAVE",
+                usageNotice: "All wallpapers and content are provided for personal, private, and non-commercial use only.",
+                clockLabel: "SYSTEM TIME"
             }
         };
 
         let currentLang = 'zh';
         let currentCategory = 'all';
 
+        // --- 語言切換邏輯 ---
         function setLanguage(lang) {
             currentLang = lang;
             document.querySelectorAll('.lang-btn').forEach(btn => btn.classList.remove('active'));
@@ -282,10 +314,15 @@
 
             const t = translations[lang];
             document.getElementById('nav-yt-text').textContent = t.navYt;
+            
+            // 更新跑馬燈 (4個元素)
+            for(let i=1; i<=4; i++) {
+                document.getElementById('marquee-text-' + i).textContent = t.marqueeText;
+            }
+
             document.getElementById('hero-badge').textContent = t.badge;
             document.getElementById('hero-desc').innerHTML = t.desc + `<span class="sub-glow">${t.subText}</span>`;
             
-            // 更新頻道發想標題與內文高光
             document.getElementById('phil-title').textContent = t.philTitle;
             let formattedPhilText = t.philText
                 .replace('視覺衝擊', '<span class="text-[#e0f2fe] font-bold">視覺衝擊</span>')
@@ -296,10 +333,14 @@
                 .replace('Echoes', '<span class="text-[#e0f2fe] font-bold">Echoes</span>');
             document.getElementById('phil-text').innerHTML = formattedPhilText;
             
+            document.getElementById('clock-label').textContent = t.clockLabel;
+            document.getElementById('usage-notice').textContent = t.usageNotice;
+
             renderFilters();
             renderGallery();
         }
 
+        // --- 分類切換邏輯 ---
         function filterCategory(category, element) {
             currentCategory = category;
             document.querySelectorAll('.filter-btn').forEach(btn => btn.classList.remove('active'));
@@ -312,6 +353,7 @@
             renderGallery();
         }
 
+        // --- 渲染分類按鈕 ---
         function renderFilters() {
             const container = document.getElementById('filter-container');
             const t = translations[currentLang];
@@ -320,24 +362,27 @@
             const allActive = (currentCategory === 'all') ? 'active' : '';
             html += `<button onclick="filterCategory('all', this)" id="filter-all" class="filter-btn ${allActive}">${t.allCategory}</button>`;
 
-            if (typeof categoryDictionary !== 'undefined') {
-                for (const [catKey, names] of Object.entries(categoryDictionary)) {
-                    let label = names[currentLang] || names.zh;
-                    const isActive = (currentCategory === catKey) ? 'active' : '';
-                    html += `<button onclick="filterCategory('${catKey}', this)" id="filter-${catKey}" class="filter-btn ${isActive}">${label}</button>`;
-                }
+            for (const [catKey, names] of Object.entries(categoryDictionary)) {
+                let label = names[currentLang] || names.zh;
+                const isActive = (currentCategory === catKey) ? 'active' : '';
+                html += `<button onclick="filterCategory('${catKey}', this)" id="filter-${catKey}" class="filter-btn ${isActive}">${label}</button>`;
             }
 
             container.innerHTML = html;
         }
 
+        // --- 渲染藝廊卡片邏輯 ---
         function renderGallery() {
             const gallery = document.getElementById('gallery');
             const t = translations[currentLang];
             gallery.innerHTML = ''; 
 
             if (typeof wallpaperDatabase === 'undefined') {
-                gallery.innerHTML = '<p class="text-white col-span-3 text-center py-10">正在載入資料庫，或找不到 wallpapers.js 檔案...</p>';
+                gallery.innerHTML = `
+                    <p class="text-white col-span-3 text-center py-10">
+                        正在等待載入圖片資料庫 (wallpapers.js)...<br>
+                        <span class="text-xs text-[#94a3b8]">請確保您的資料庫格式已正確設定，包含 ID、標籤與 fileId。</span>
+                    </p>`;
                 return;
             }
 
@@ -350,6 +395,9 @@
                 if (item.fileId) {
                     previewUrl = `https://drive.google.com/thumbnail?id=${item.fileId}&sz=w1920`;
                     downloadUrl = `https://drive.google.com/uc?export=download&id=${item.fileId}`;
+                } else if (item.fileName) { 
+                     previewUrl = item.fileName;
+                     downloadUrl = item.fileName;
                 }
 
                 let styleDescText = "";
@@ -371,7 +419,7 @@
                     </div>
                     <div class="p-5 flex justify-between items-center bg-[#10141c] flex-grow border-t border-[#1e293b]">
                         <div><span class="text-xs text-[#94a3b8] font-square tracking-widest">${styleDescText}</span></div>
-                        <a href="${downloadUrl || previewUrl}" target="_blank" download="ECHO_WP_${item.id}.png" 
+                        <a href="${downloadUrl}" target="_blank" download="ECHO_WP_${item.id}.png" 
                            class="px-4 py-1.5 rounded-sm bg-transparent border border-[#e0f2fe] text-[#e0f2fe] text-xs font-square tracking-wider hover:bg-[#e0f2fe] hover:text-[#080a0d] transition-all shadow-[0_0_10px_rgba(224,242,254,0.1)]">
                             ${t.download}
                         </a>
@@ -381,35 +429,24 @@
             });
         }
 
-        // 末日動態時鐘初始化腳本
-        function initDoomsdayClock() {
-            const clockEl = document.getElementById('doomsday-clock');
-            const dateEl = document.getElementById('doomsday-date');
-            
+        // --- 賽博時鐘邏輯 ---
+        function initCyberClock() {
+            const clockEl = document.getElementById('cyber-clock');
             function updateClock() {
                 const now = new Date();
-                
-                // 時間格式化 (補零)
                 const h = String(now.getHours()).padStart(2, '0');
                 const m = String(now.getMinutes()).padStart(2, '0');
                 const s = String(now.getSeconds()).padStart(2, '0');
                 clockEl.textContent = `${h}:${m}:${s}`;
-                
-                // 日期格式化
-                const y = now.getFullYear();
-                const mo = String(now.getMonth() + 1).padStart(2, '0');
-                const d = String(now.getDate()).padStart(2, '0');
-                dateEl.textContent = `${y}.${mo}.${d}`;
             }
-            
-            // 每秒更新一次
             setInterval(updateClock, 1000);
-            updateClock(); // 網頁載入時立刻執行一次，避免出現 00:00:00 延遲
+            updateClock(); 
         }
 
+        // 初始化
         window.onload = function() { 
             setLanguage(currentLang);
-            initDoomsdayClock(); // 啟動末日時鐘
+            initCyberClock(); 
         };
     </script>
 </body>
