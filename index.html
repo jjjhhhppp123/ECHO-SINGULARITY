@@ -38,6 +38,7 @@
                 radial-gradient(circle at 50% 0%, rgba(224, 242, 254, 0.05) 0%, transparent 50%),
                 linear-gradient(to bottom, #080a0d, #040507);
             background-attachment: fixed;
+            overflow-x: hidden; /* 防止右側絕對定位元素造成橫向捲軸 */
         }
 
         .font-square {
@@ -98,6 +99,7 @@
             box-shadow: 0 0 10px rgba(224, 242, 254, 0.2);
         }
 
+        /* 隨機排序按鈕樣式 */
         .shuffle-btn {
             padding: 6px 16px;
             border-radius: 2px;
@@ -108,7 +110,7 @@
             transition: all 0.2s;
             font-weight: 700;
         }
-        .shuffle-btn:hover {
+        .shuffle-btn:hover, .shuffle-btn.active {
             background-color: #e0f2fe;
             color: #080a0d;
             box-shadow: 0 0 15px rgba(224, 242, 254, 0.4);
@@ -119,11 +121,13 @@
             text-shadow: 0 0 8px rgba(224, 242, 254, 0.35);
         }
 
-        /* 首圖輪播動畫樣式 */
+        /* -------------------------------------
+           首圖輪播動畫樣式
+        -------------------------------------- */
         .hero-slideshow-container {
             position: relative;
             width: 100%;
-            max-width: 672px; /* 放大後的寬度 */
+            max-width: 672px; /* max-w-2xl 放大 */
             aspect-ratio: 16 / 9;
             margin: 0 auto 1.5rem auto;
             border-radius: 2px;
@@ -152,29 +156,29 @@
         -------------------------------------- */
         .right-square-fixture {
             position: absolute;
-            right: 20px;
-            width: 60px;
-            height: 120px;
-            background: rgba(16, 20, 28, 0.9);
-            border: 2px solid #334155;
-            border-radius: 4px;
+            right: 0; /* 緊貼右側邊緣，避免擠壓到圖片 grid */
+            width: 25px;
+            height: 140px;
+            background: #080a0d;
+            border: 2px solid #1e293b;
+            border-right: none;
             display: flex;
             align-items: center;
             justify-content: center;
-            box-shadow: 0 0 15px rgba(0,0,0,0.9);
             z-index: 10;
         }
 
         .square-neon-tube {
-            width: 24px;
-            height: 90px;
+            width: 100%;
+            height: 90%;
             background: #ffffff;
-            border-radius: 2px;
+            border-radius: 0px; /* 方形燈管 */
             box-shadow: 
                 0 0 10px #ffffff,
-                0 0 25px #e0f2fe,
-                0 0 50px #e0f2fe,
-                inset 0 0 10px #ffffff;
+                0 0 20px #e0f2fe,
+                0 0 40px #e0f2fe,
+                0 0 80px #e0f2fe,
+                -10px 0 30px rgba(224, 242, 254, 0.5); /* 往左擴散的光暈 */
             animation: squareFlicker 4s infinite alternate;
         }
 
@@ -185,13 +189,40 @@
                     0 0 10px #ffffff,
                     0 0 30px #e0f2fe,
                     0 0 60px #e0f2fe,
-                    inset 0 0 10px #ffffff;
+                    0 0 100px #e0f2fe,
+                    -15px 0 40px rgba(224, 242, 254, 0.8);
             }
             20%, 61%, 65% {
-                opacity: 0.7;
+                opacity: 0.8;
                 box-shadow: 
                     0 0 5px #ffffff,
-                    0 0 10px #e0f2fe;
+                    0 0 15px #e0f2fe,
+                    -5px 0 10px rgba(224, 242, 254, 0.4);
+            }
+        }
+
+        /* -------------------------------------
+           末日日光燈時鐘特效 (Doomsday Glow)
+        -------------------------------------- */
+        .doomsday-glow {
+            text-shadow: 
+                0 0 4px rgba(224, 242, 254, 0.6),
+                0 0 10px rgba(224, 242, 254, 0.3),
+                0 0 20px rgba(224, 242, 254, 0.2);
+            animation: textFlicker 5s infinite alternate;
+        }
+
+        @keyframes textFlicker {
+            0%, 19.999%, 22%, 62.999%, 64%, 64.999%, 70%, 100% {
+                opacity: 1;
+                text-shadow: 
+                    0 0 4px rgba(224, 242, 254, 0.6),
+                    0 0 10px rgba(224, 242, 254, 0.3),
+                    0 0 20px rgba(224, 242, 254, 0.2);
+            }
+            20%, 21.999%, 63%, 63.999%, 65%, 69.999% {
+                opacity: 0.85;
+                text-shadow: 0 0 2px rgba(224, 242, 254, 0.2);
             }
         }
         
@@ -230,12 +261,14 @@
             桌布分享平台
         </span>
 
-        <!-- 放大且支援 15 秒漸變暗下輪播的圖片區塊 (對應本地 assets 路徑) -->
+        <!-- 首圖輪播區塊 (使用 GitHub 的 assets/images 路徑) -->
         <div class="hero-slideshow-container">
-            <img src="./assets/image1.png" alt="Hero 1" class="hero-image active" onerror="this.src='https://placehold.co/1280x720/10141c/e0f2fe?text=ECHO+HERO+1'">
-            <img src="./assets/image2.png" alt="Hero 2" class="hero-image" onerror="this.src='https://placehold.co/1280x720/10141c/e0f2fe?text=ECHO+HERO+2'">
-            <img src="./assets/image3.png" alt="Hero 3" class="hero-image" onerror="this.src='https://placehold.co/1280x720/10141c/e0f2fe?text=ECHO+HERO+3'">
-            <div class="scanlines absolute inset-0 pointer-events-none opacity-30 z-10"></div>
+            <!-- 掃描線特效覆蓋在圖片上 -->
+            <div class="scanlines absolute inset-0 pointer-events-none opacity-30 z-10 mix-blend-overlay"></div>
+            
+            <img src="./assets/images/hero-1.png" alt="Hero 1" class="hero-image active sepia-[.2] hue-rotate-[-10deg] saturate-50 group-hover:opacity-100 group-hover:saturate-100 transition-all duration-[2000ms]" onerror="this.src='https://placehold.co/1280x720/10141c/e0f2fe?text=ECHO+HERO+1'">
+            <img src="./assets/images/hero-2.png" alt="Hero 2" class="hero-image sepia-[.2] hue-rotate-[-10deg] saturate-50 group-hover:opacity-100 group-hover:saturate-100 transition-all duration-[2000ms]" onerror="this.src='https://placehold.co/1280x720/10141c/e0f2fe?text=ECHO+HERO+2'">
+            <img src="./assets/images/hero-3.png" alt="Hero 3" class="hero-image sepia-[.2] hue-rotate-[-10deg] saturate-50 group-hover:opacity-100 group-hover:saturate-100 transition-all duration-[2000ms]" onerror="this.src='https://placehold.co/1280x720/10141c/e0f2fe?text=ECHO+HERO+3'">
         </div>
 
         <h1 class="font-square text-3xl md:text-6xl text-white mb-6 leading-tight tracking-tight">
@@ -289,24 +322,26 @@
         </div>
     </section>
 
-    <!-- 動態分類按鈕列與隨機排序按鈕 -->
+    <!-- 動態分類與隨機按鈕列 -->
     <section class="px-6 max-w-7xl mx-auto w-full mb-10">
-        <div id="filter-container" class="flex flex-wrap justify-center items-center gap-2 md:gap-3">
-            <!-- 透過 JS 自動生成分類按鈕與隨機按鈕 -->
+        <div id="filter-container" class="flex flex-wrap justify-center gap-2 md:gap-3">
+            <!-- JS 生成按鈕的地方 -->
         </div>
     </section>
 
-    <!-- 圖庫主體區域 (加入右側超亮方形日光燈裝飾) -->
+    <!-- 圖庫主體區域 -->
+    <!-- 加上 relative 以定位右側日光燈 -->
     <main class="flex-grow max-w-7xl mx-auto px-6 md:px-12 pb-24 w-full relative">
-        <!-- 右側超亮方形日光燈裝飾 (每隔一段距離配置一個，不干擾圖片間距) -->
-        <div class="right-square-fixture" style="top: 15%;">
+        
+        <!-- 右側超亮方形日光燈裝飾 (不會影響到裡面的 grid) -->
+        <div class="right-square-fixture hidden lg:flex" style="top: 15%;">
             <div class="square-neon-tube"></div>
         </div>
-        <div class="right-square-fixture" style="top: 55%;">
+        <div class="right-square-fixture hidden lg:flex" style="top: 65%;">
             <div class="square-neon-tube"></div>
         </div>
 
-        <div id="gallery" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
+        <div id="gallery" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 relative z-20">
             <!-- 圖片會透過 JS 自動渲染到這裡 -->
         </div>
     </main>
@@ -383,7 +418,7 @@
 
         function filterCategory(category, element) {
             currentCategory = category;
-            isShuffled = false; // 切換分類時重置隨機狀態
+            isShuffled = false; // 取消隨機狀態
             document.querySelectorAll('.filter-btn').forEach(btn => btn.classList.remove('active'));
             if (element) {
                 element.classList.add('active');
@@ -394,12 +429,11 @@
             renderGallery();
         }
 
-        // 隨機排序切換函式
         function toggleShuffle() {
             if (typeof wallpaperDatabase === 'undefined') return;
             
             if (!isShuffled) {
-                // 進行隨機洗牌演算法 (Fisher-Yates Shuffle)
+                // Fisher-Yates 洗牌
                 shuffledDatabase = [...wallpaperDatabase];
                 for (let i = shuffledDatabase.length - 1; i > 0; i--) {
                     const j = Math.floor(Math.random() * (i + 1));
@@ -417,6 +451,11 @@
             const t = translations[currentLang];
             
             let html = '';
+            
+            // 隨機按鈕
+            const shuffleActive = isShuffled ? 'active' : '';
+            html += `<button onclick="toggleShuffle()" id="shuffle-btn" class="shuffle-btn mr-2 ${shuffleActive}">${t.shuffleBtn}</button>`;
+
             const allActive = (currentCategory === 'all' && !isShuffled) ? 'active' : '';
             html += `<button onclick="filterCategory('all', this)" id="filter-all" class="filter-btn ${allActive}">${t.allCategory}</button>`;
 
@@ -427,10 +466,6 @@
                     html += `<button onclick="filterCategory('${catKey}', this)" id="filter-${catKey}" class="filter-btn ${isActive}">${label}</button>`;
                 }
             }
-
-            // 加入隨機排序按鈕
-            const shuffleActive = isShuffled ? 'active' : '';
-            html += `<button onclick="toggleShuffle()" id="shuffle-btn" class="shuffle-btn ${shuffleActive}">${t.shuffleBtn}</button>`;
 
             container.innerHTML = html;
         }
@@ -445,7 +480,6 @@
                 return;
             }
 
-            // 決定要使用隨機陣列還是原本的資料庫
             let dataSource = isShuffled ? shuffledDatabase : wallpaperDatabase;
 
             dataSource.forEach(item => {
@@ -483,12 +517,12 @@
                             ${t.download}
                         </a>
                     </div>
-                `;
+                </div>`;
                 gallery.innerHTML += cardHTML;
             });
         }
 
-        // 15 秒間隔輪播背景圖片與漸暗特效
+        // 首圖輪播 (15秒漸暗切換)
         function initHeroSlideshow() {
             const slides = document.querySelectorAll('.hero-image');
             if (slides.length === 0) return;
@@ -498,10 +532,9 @@
                 slides[currentSlide].classList.remove('active');
                 currentSlide = (currentSlide + 1) % slides.length;
                 slides[currentSlide].classList.add('active');
-            }, 15000); // 15秒切換一次
+            }, 15000); 
         }
 
-        // 末日動態時鐘初始化
         function initDoomsdayClock() {
             const clockEl = document.getElementById('doomsday-clock');
             const dateEl = document.getElementById('doomsday-date');
@@ -520,7 +553,7 @@
             }
             
             setInterval(updateClock, 1000);
-            updateClock();
+            updateClock(); 
         }
 
         window.onload = function() { 
