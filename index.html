@@ -38,7 +38,6 @@
                 radial-gradient(circle at 50% 0%, rgba(224, 242, 254, 0.05) 0%, transparent 50%),
                 linear-gradient(to bottom, #080a0d, #040507);
             background-attachment: fixed;
-            overflow-x: hidden; /* 防止右側絕對定位元素造成橫向捲軸 */
         }
 
         .font-square {
@@ -99,106 +98,9 @@
             box-shadow: 0 0 10px rgba(224, 242, 254, 0.2);
         }
 
-        /* 隨機排序按鈕樣式 */
-        .shuffle-btn {
-            padding: 6px 16px;
-            border-radius: 2px;
-            font-size: 0.85rem;
-            border: 1px solid rgba(224, 242, 254, 0.4);
-            background-color: rgba(224, 242, 254, 0.05);
-            color: #e0f2fe;
-            transition: all 0.2s;
-            font-weight: 700;
-        }
-        .shuffle-btn:hover, .shuffle-btn.active {
-            background-color: #e0f2fe;
-            color: #080a0d;
-            box-shadow: 0 0 15px rgba(224, 242, 254, 0.4);
-        }
-
         .sub-glow {
             color: #e0f2fe;
             text-shadow: 0 0 8px rgba(224, 242, 254, 0.35);
-        }
-
-        /* -------------------------------------
-           首圖輪播動畫樣式
-        -------------------------------------- */
-        .hero-slideshow-container {
-            position: relative;
-            width: 100%;
-            max-width: 672px; /* max-w-2xl 放大 */
-            aspect-ratio: 16 / 9;
-            margin: 0 auto 1.5rem auto;
-            border-radius: 2px;
-            overflow: hidden;
-            border: 1px solid #1e293b;
-            box-shadow: 0 10px 30px -5px rgba(0, 0, 0, 0.8), 0 0 20px rgba(224, 242, 254, 0.1);
-        }
-
-        .hero-image {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            opacity: 0;
-            transition: opacity 1.5s ease-in-out;
-        }
-
-        .hero-image.active {
-            opacity: 1;
-        }
-
-        /* -------------------------------------
-           右側方形超亮日光燈裝飾 (Square Fluorescent Light)
-        -------------------------------------- */
-        .right-square-fixture {
-            position: absolute;
-            right: 0; /* 緊貼右側邊緣，避免擠壓到圖片 grid */
-            width: 25px;
-            height: 140px;
-            background: #080a0d;
-            border: 2px solid #1e293b;
-            border-right: none;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            z-index: 10;
-        }
-
-        .square-neon-tube {
-            width: 100%;
-            height: 90%;
-            background: #ffffff;
-            border-radius: 0px; /* 方形燈管 */
-            box-shadow: 
-                0 0 10px #ffffff,
-                0 0 20px #e0f2fe,
-                0 0 40px #e0f2fe,
-                0 0 80px #e0f2fe,
-                -10px 0 30px rgba(224, 242, 254, 0.5); /* 往左擴散的光暈 */
-            animation: squareFlicker 4s infinite alternate;
-        }
-
-        @keyframes squareFlicker {
-            0%, 18%, 22%, 60%, 63%, 70%, 100% {
-                opacity: 1;
-                box-shadow: 
-                    0 0 10px #ffffff,
-                    0 0 30px #e0f2fe,
-                    0 0 60px #e0f2fe,
-                    0 0 100px #e0f2fe,
-                    -15px 0 40px rgba(224, 242, 254, 0.8);
-            }
-            20%, 61%, 65% {
-                opacity: 0.8;
-                box-shadow: 
-                    0 0 5px #ffffff,
-                    0 0 15px #e0f2fe,
-                    -5px 0 10px rgba(224, 242, 254, 0.4);
-            }
         }
 
         /* -------------------------------------
@@ -230,47 +132,124 @@
             background: linear-gradient(to bottom, rgba(255,255,255,0), rgba(255,255,255,0) 50%, rgba(0,0,0,0.2) 50%, rgba(0,0,0,0.2));
             background-size: 100% 4px;
         }
+
+        /* -------------------------------------
+           日光燈裝飾特效 (Fluorescent Light)
+        -------------------------------------- */
+        .fluorescent-light-container {
+            display: flex;
+            align-items: center;
+            justify-content: flex-end;
+            height: 100%;
+            padding-right: 1rem;
+        }
+
+        .fluorescent-light-fixture {
+            width: 12px;
+            height: 120px;
+            background-color: #1e293b;
+            border-radius: 4px;
+            border: 1px solid #334155;
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 2px 2px 5px rgba(0,0,0,0.5);
+        }
+
+        .fluorescent-tube {
+            width: 6px;
+            height: 110px;
+            background-color: #e0f2fe;
+            border-radius: 2px;
+            box-shadow: 
+                0 0 5px rgba(224, 242, 254, 0.8),
+                0 0 15px rgba(224, 242, 254, 0.5),
+                0 0 30px rgba(224, 242, 254, 0.2);
+            animation: textFlicker 7s infinite alternate; /* 借用原本的閃爍動畫 */
+        }
+        
+        /* -------------------------------------
+           首圖輪播特效 (Hero Slideshow)
+        -------------------------------------- */
+        .hero-image-container {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            background-color: #040507; /* 當圖片變暗時的底色 */
+        }
+
+        .hero-image {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: opacity 1.5s ease-in-out; /* 圖片透明度漸變 */
+            opacity: 0;
+        }
+
+        .hero-image.active {
+            opacity: 1; /* 將過濾器移至 inline 或統一管理，這裡只負責透明度 */
+        }
     </style>
 
     <script src="wallpapers.js"></script>
 </head>
 <body class="min-h-screen flex flex-col selection:bg-[#e0f2fe] selection:text-black">
 
-    <!-- 導覽列 -->
+    <!-- 導覽列 (已修正手機版排版，避免 YT 按鈕消失) -->
     <nav class="glass-nav fixed top-0 left-0 w-full z-50 px-4 md:px-12 py-3 flex justify-between items-center gap-2">
+        <!-- LOGO (極小螢幕時縮寫為 ECHO) -->
         <a href="#" class="font-square text-sm md:text-xl tracking-wider text-white flex items-center gap-2 shrink-0">
             <span class="w-2.5 h-2.5 md:w-3 md:h-3 bg-[#e0f2fe] shadow-[0_0_10px_#e0f2fe]"></span>
             <span class="hidden min-[400px]:inline">ECHO SINGULARITY</span>
             <span class="inline min-[400px]:hidden">ECHO</span>
         </a>
         
+        <!-- 右側按鈕區 -->
         <div class="flex items-center gap-2 md:gap-4 shrink-0">
+            <!-- 語系切換 (適配手機版大小) -->
             <div class="bg-[#10141c] p-1 rounded flex gap-1 border border-[#1e293b]">
                 <button onclick="setLanguage('zh')" id="btn-zh" class="lang-btn active text-[10px] md:text-xs px-2 md:px-3 py-1">中文</button>
                 <button onclick="setLanguage('ja')" id="btn-ja" class="lang-btn text-[10px] md:text-xs px-2 md:px-3 py-1">日本語</button>
                 <button onclick="setLanguage('en')" id="btn-en" class="lang-btn text-[10px] md:text-xs px-2 md:px-3 py-1">EN</button>
             </div>
+            <!-- YouTube 頻道按鈕 (移除 hidden sm:flex，改為全面顯示並微調尺寸) -->
             <a href="https://www.youtube.com/channel/UCq4BXOX5sPCVIZDUWFPS0yQ" target="_blank" class="bg-[#e0f2fe] text-[#080a0d] hover:bg-white px-2.5 py-1 md:px-4 md:py-1.5 rounded text-[10px] md:text-sm font-square tracking-widest flex items-center transition-all shadow-[0_0_15px_rgba(224,242,254,0.2)] whitespace-nowrap">
                 <span id="nav-yt-text">YouTube 頻道</span>
             </a>
         </div>
     </nav>
 
-    <header class="pt-32 md:pt-36 pb-8 px-6 text-center max-w-4xl mx-auto">
-        <span id="hero-badge" class="inline-block py-1.5 px-4 bg-[#10141c] border border-[#1e293b] text-[#e0f2fe] text-xs font-square tracking-widest uppercase mb-6 shadow-[0_0_10px_rgba(224,242,254,0.05)]">
-            桌布分享平台
-        </span>
-
-        <!-- 首圖輪播區塊 (使用 GitHub 的 assets/images 路徑) -->
-        <div class="hero-slideshow-container">
+    <header class="pt-32 md:pt-36 pb-8 px-6 text-center max-w-4xl mx-auto flex flex-col items-center">
+        <!-- 頂部動態圖片輪播區塊 (已放大 max-w-2xl) -->
+        <div class="relative w-full max-w-2xl aspect-video mx-auto mb-8 rounded-sm overflow-hidden border border-[#1e293b] shadow-[0_0_20px_rgba(224,242,254,0.1)] group hero-image-container">
             <!-- 掃描線特效覆蓋在圖片上 -->
             <div class="scanlines absolute inset-0 pointer-events-none opacity-30 z-10 mix-blend-overlay"></div>
             
-            <img src="./assets/images/hero-1.png" alt="Hero 1" class="hero-image active sepia-[.2] hue-rotate-[-10deg] saturate-50 group-hover:opacity-100 group-hover:saturate-100 transition-all duration-[2000ms]" onerror="this.src='https://placehold.co/1280x720/10141c/e0f2fe?text=ECHO+HERO+1'">
-            <img src="./assets/images/hero-2.png" alt="Hero 2" class="hero-image sepia-[.2] hue-rotate-[-10deg] saturate-50 group-hover:opacity-100 group-hover:saturate-100 transition-all duration-[2000ms]" onerror="this.src='https://placehold.co/1280x720/10141c/e0f2fe?text=ECHO+HERO+2'">
-            <img src="./assets/images/hero-3.png" alt="Hero 3" class="hero-image sepia-[.2] hue-rotate-[-10deg] saturate-50 group-hover:opacity-100 group-hover:saturate-100 transition-all duration-[2000ms]" onerror="this.src='https://placehold.co/1280x720/10141c/e0f2fe?text=ECHO+HERO+3'">
+            <!-- 輪播圖片 (透過 JS 切換 .active 類別) -->
+            <img src="https://cdn.discordapp.com/attachments/1545816550282367059/1555195405250334863/Jacky_pencil_sketch_and_watercolor_art_style_post-apocalyptic_a_c7d086fd-7b6a-49cb-9dd6-154a619b113a.png?backend=b2&ex=6abfa416&is=6abe5296&hm=948a6cdaeb2b2bd907df95e719c3b60f0a4a320fd16218d4c1d70a4ecfcdb176&" 
+                 alt="ECHO SINGULARITY Art 1" 
+                 class="hero-image active sepia-[.2] hue-rotate-[-10deg] saturate-50 group-hover:opacity-100 group-hover:saturate-100 transition-all duration-[2000ms]">
+            
+            <img src="https://cdn.discordapp.com/attachments/1545816550282367059/1555198714942066759/Jacky_pencil_sketch_and_watercolor_art_style_post-apocalyptic_a_81daae94-6bc0-4f24-881b-19e04ca170ef.png?backend=b2&ex=6abfa72b&is=6abe55ab&hm=09e2e58b46215b85a6824a8347286d3d799947e4439c6afddd208a05f36c2bc1&" 
+                 alt="ECHO SINGULARITY Art 2" 
+                 class="hero-image sepia-[.2] hue-rotate-[-10deg] saturate-50 group-hover:opacity-100 group-hover:saturate-100 transition-all duration-[2000ms]">
+            
+            <img src="https://cdn.discordapp.com/attachments/1545816550282367059/1555195848928006216/Jacky_pencil_sketch_and_watercolor_art_style_post-apocalyptic_a_86cede1e-7c8a-4b3e-8d38-1c4c73d4b582.png?backend=b2&ex=6abfa480&is=6abe5300&hm=2d6ff7ff2a7ea8944c1a16cd48b65d34efcd46898da95b908f0789ac01c2c5aa&" 
+                 alt="ECHO SINGULARITY Art 3" 
+                 class="hero-image sepia-[.2] hue-rotate-[-10deg] saturate-50 group-hover:opacity-100 group-hover:saturate-100 transition-all duration-[2000ms]">
+
+            <!-- 邊緣發光效果 -->
+            <div class="absolute inset-0 border border-[#e0f2fe] opacity-20 z-20 pointer-events-none"></div>
         </div>
 
+        <span id="hero-badge" class="inline-block py-1.5 px-4 bg-[#10141c] border border-[#1e293b] text-[#e0f2fe] text-xs font-square tracking-widest uppercase mb-6 shadow-[0_0_10px_rgba(224,242,254,0.05)]">
+            桌布分享平台
+        </span>
         <h1 class="font-square text-3xl md:text-6xl text-white mb-6 leading-tight tracking-tight">
             ECHO SINGULARITY
         </h1>
@@ -304,17 +283,21 @@
     <!-- 末日動態時鐘區塊 -->
     <section class="px-6 max-w-3xl mx-auto w-full mb-12">
         <div class="relative bg-[#050608] border border-[#1e293b] p-6 rounded shadow-[0_0_20px_rgba(0,0,0,0.8)] overflow-hidden flex flex-col items-center justify-center">
+            <!-- 終端機掃描線特效 -->
             <div class="scanlines absolute inset-0 pointer-events-none opacity-40 z-20"></div>
             
+            <!-- 時鐘上方資訊 HUD -->
             <div class="flex justify-between w-full max-w-[320px] mb-1 z-10 opacity-60">
                 <span class="text-[10px] text-[#94a3b8] font-mono tracking-widest uppercase">SYS.STATUS: ONLINE</span>
                 <span class="text-[10px] text-[#94a3b8] font-mono tracking-widest uppercase">LOCAL TIME</span>
             </div>
             
+            <!-- 時鐘本體 -->
             <div id="doomsday-clock" class="font-mono text-5xl md:text-7xl font-bold tracking-[0.1em] text-[#e0f2fe] doomsday-glow z-10 flex items-center justify-center w-full py-2">
                 00:00:00
             </div>
 
+            <!-- 時鐘下方日期 HUD -->
             <div class="flex justify-between w-full max-w-[320px] mt-1 z-10 opacity-60">
                 <span id="doomsday-date" class="text-[10px] text-[#94a3b8] font-mono tracking-[0.2em] uppercase">YYYY.MM.DD</span>
                 <span class="text-[10px] text-[#94a3b8] font-mono tracking-widest uppercase">ECHO-SYNC</span>
@@ -322,27 +305,17 @@
         </div>
     </section>
 
-    <!-- 動態分類與隨機按鈕列 -->
+    <!-- 動態分類按鈕列 -->
     <section class="px-6 max-w-7xl mx-auto w-full mb-10">
         <div id="filter-container" class="flex flex-wrap justify-center gap-2 md:gap-3">
-            <!-- JS 生成按鈕的地方 -->
+            <!-- 透過 JS 自動從 categoryDictionary 生成分類按鈕 -->
         </div>
     </section>
 
-    <!-- 圖庫主體區域 -->
-    <!-- 加上 relative 以定位右側日光燈 -->
-    <main class="flex-grow max-w-7xl mx-auto px-6 md:px-12 pb-24 w-full relative">
-        
-        <!-- 右側超亮方形日光燈裝飾 (不會影響到裡面的 grid) -->
-        <div class="right-square-fixture hidden lg:flex" style="top: 15%;">
-            <div class="square-neon-tube"></div>
-        </div>
-        <div class="right-square-fixture hidden lg:flex" style="top: 65%;">
-            <div class="square-neon-tube"></div>
-        </div>
-
-        <div id="gallery" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 relative z-20">
-            <!-- 圖片會透過 JS 自動渲染到這裡 -->
+    <main class="flex-grow max-w-7xl mx-auto px-6 md:px-12 pb-24 w-full">
+        <!-- 將 grid columns 設定調整為允許插入裝飾物 -->
+        <div id="gallery" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 relative">
+            <!-- 圖片與裝飾物會透過 JS 自動渲染到這裡 -->
         </div>
     </main>
 
@@ -360,7 +333,6 @@
                 philTitle: "頻道發想",
                 philText: "在未來的殘片與事件的可能性中，尋找在世界各個角落中的浪漫...\n感受 視覺衝擊 與 回音",
                 allCategory: "全部地形 (All)",
-                shuffleBtn: "🔀 隨機排序",
                 download: "下載"
             },
             ja: {
@@ -371,7 +343,6 @@
                 philTitle: "チャンネルの理念",
                 philText: "未来の断片と出来事の可能性の中で、世界の片隅にあるロマンを探す...\n視覚的衝撃 と エコー を感じて",
                 allCategory: "すべての地形 (All)",
-                shuffleBtn: "🔀 ランダム",
                 download: "保存"
             },
             en: {
@@ -382,15 +353,12 @@
                 philTitle: "Philosophy",
                 philText: "Searching for romance in every corner of the world amidst future fragments and event possibilities...\nFeel the Visual Impact and Echoes.",
                 allCategory: "All Terrains",
-                shuffleBtn: "🔀 Shuffle",
                 download: "SAVE"
             }
         };
 
         let currentLang = 'zh';
         let currentCategory = 'all';
-        let isShuffled = false;
-        let shuffledDatabase = [];
 
         function setLanguage(lang) {
             currentLang = lang;
@@ -402,6 +370,7 @@
             document.getElementById('hero-badge').textContent = t.badge;
             document.getElementById('hero-desc').innerHTML = t.desc + `<span class="sub-glow">${t.subText}</span>`;
             
+            // 更新頻道發想標題與內文高光
             document.getElementById('phil-title').textContent = t.philTitle;
             let formattedPhilText = t.philText
                 .replace('視覺衝擊', '<span class="text-[#e0f2fe] font-bold">視覺衝擊</span>')
@@ -418,7 +387,6 @@
 
         function filterCategory(category, element) {
             currentCategory = category;
-            isShuffled = false; // 取消隨機狀態
             document.querySelectorAll('.filter-btn').forEach(btn => btn.classList.remove('active'));
             if (element) {
                 element.classList.add('active');
@@ -429,40 +397,18 @@
             renderGallery();
         }
 
-        function toggleShuffle() {
-            if (typeof wallpaperDatabase === 'undefined') return;
-            
-            if (!isShuffled) {
-                // Fisher-Yates 洗牌
-                shuffledDatabase = [...wallpaperDatabase];
-                for (let i = shuffledDatabase.length - 1; i > 0; i--) {
-                    const j = Math.floor(Math.random() * (i + 1));
-                    [shuffledDatabase[i], shuffledDatabase[j]] = [shuffledDatabase[j], shuffledDatabase[i]];
-                }
-                isShuffled = true;
-            } else {
-                isShuffled = false;
-            }
-            renderGallery();
-        }
-
         function renderFilters() {
             const container = document.getElementById('filter-container');
             const t = translations[currentLang];
             
             let html = '';
-            
-            // 隨機按鈕
-            const shuffleActive = isShuffled ? 'active' : '';
-            html += `<button onclick="toggleShuffle()" id="shuffle-btn" class="shuffle-btn mr-2 ${shuffleActive}">${t.shuffleBtn}</button>`;
-
-            const allActive = (currentCategory === 'all' && !isShuffled) ? 'active' : '';
+            const allActive = (currentCategory === 'all') ? 'active' : '';
             html += `<button onclick="filterCategory('all', this)" id="filter-all" class="filter-btn ${allActive}">${t.allCategory}</button>`;
 
             if (typeof categoryDictionary !== 'undefined') {
                 for (const [catKey, names] of Object.entries(categoryDictionary)) {
                     let label = names[currentLang] || names.zh;
-                    const isActive = (currentCategory === catKey && !isShuffled) ? 'active' : '';
+                    const isActive = (currentCategory === catKey) ? 'active' : '';
                     html += `<button onclick="filterCategory('${catKey}', this)" id="filter-${catKey}" class="filter-btn ${isActive}">${label}</button>`;
                 }
             }
@@ -480,11 +426,27 @@
                 return;
             }
 
-            let dataSource = isShuffled ? shuffledDatabase : wallpaperDatabase;
+            // 先過濾出要顯示的項目
+            const filteredItems = wallpaperDatabase.filter(item => {
+                return currentCategory === 'all' || item.tag.category === currentCategory;
+            });
 
-            dataSource.forEach(item => {
-                if (!isShuffled && currentCategory !== 'all' && item.tag.category !== currentCategory) return;
+            // 計算當前螢幕寬度對應的欄數，以決定何時插入日光燈
+            // 由於視窗縮放可能改變佈局，這裡用一個簡單的邏輯：
+            // 大螢幕 (lg: 3欄)：每 6 個項目 (2列) 後面插入一個燈管 (佔據剩餘空間或絕對定位)
+            // 為了不打亂 Grid 佈局，最安全的方法是使用絕對定位將燈管放在外側，
+            // 或者在特定的 index 插入一個 span-1 的特殊卡片。
+            // 這裡採用在每處理 N 個元素後，插入一個視覺用的卡片
+            
+            // 判斷目前的欄數粗略估計
+            let columns = 1;
+            if (window.innerWidth >= 1024) columns = 3;
+            else if (window.innerWidth >= 640) columns = 2;
 
+            const itemsPerTwoRows = columns * 2;
+            let displayCount = 0;
+
+            filteredItems.forEach((item, index) => {
                 let previewUrl = item.url;
                 let downloadUrl = item.downloadUrl;
 
@@ -519,47 +481,101 @@
                     </div>
                 </div>`;
                 gallery.innerHTML += cardHTML;
+                displayCount++;
+
+                // 判斷是否需要插入日光燈裝飾
+                // 當前處理的項目數量剛好是兩層的數量，且不是最後一個項目時
+                if (displayCount > 0 && displayCount % itemsPerTwoRows === 0 && index < filteredItems.length - 1) {
+                    // 如果是 3 欄，插入一個空白卡片 (或裝飾)，並要求它在最右邊
+                    // 但為了不破壞現有的圖庫排列，我們用相對+絕對定位的技巧
+                    // 這裡改為直接在 grid 裡面插入一個特殊的 0 寬度裝飾容器
+                    // 但 grid 佈局插入元素會佔用一格，所以我們改用絕對定位在父容器上的特定高度。
+                    // 由於難以精準計算絕對高度，另一個方法是插入一個「裝飾用的 Grid Item」，
+                    // 這個 Item 會在特定斷點隱藏或顯示。
+                    
+                    // 我們選擇插入一個跨滿整列的裝飾分隔線，或者直接在最後一個卡片的右側添加效果。
+                    // 為了符合「在右側多個日光燈裝飾」，我們在 Grid 佈局中插入一個只在右側顯示燈管的特殊列。
+                    
+                    // 為了不打亂卡片的順序，我們插入一個佔滿所有欄位的容器
+                    const lightDecorationHTML = `
+                        <div class="col-span-1 sm:col-span-2 lg:col-span-3 flex justify-end items-center py-4 my-2 opacity-80 pointer-events-none">
+                            <div class="flex items-center gap-2">
+                                <span class="text-[10px] text-[#1e293b] font-mono tracking-widest hidden md:inline">ECHO-SECTOR-DIVIDER</span>
+                                <div class="fluorescent-light-fixture rotate-90">
+                                    <div class="fluorescent-tube"></div>
+                                </div>
+                            </div>
+                        </div>
+                    `;
+                    gallery.innerHTML += lightDecorationHTML;
+                    // 重置計數器，讓下一個 2 列重新計算 (如果需要的話)
+                    // 如果希望每兩列都出現，就保持累加並使用取餘數判斷
+                }
             });
         }
 
-        // 首圖輪播 (15秒漸暗切換)
-        function initHeroSlideshow() {
-            const slides = document.querySelectorAll('.hero-image');
-            if (slides.length === 0) return;
-            let currentSlide = 0;
+        // 監聽視窗大小改變，重新渲染以確保日光燈位置正確
+        window.addEventListener('resize', () => {
+            // 使用 debounce 避免頻繁觸發
+            clearTimeout(window.resizeTimer);
+            window.resizeTimer = setTimeout(() => {
+                renderGallery();
+            }, 250);
+        });
 
-            setInterval(() => {
-                slides[currentSlide].classList.remove('active');
-                currentSlide = (currentSlide + 1) % slides.length;
-                slides[currentSlide].classList.add('active');
-            }, 15000); 
-        }
-
+        // 末日動態時鐘初始化腳本
         function initDoomsdayClock() {
             const clockEl = document.getElementById('doomsday-clock');
             const dateEl = document.getElementById('doomsday-date');
             
             function updateClock() {
                 const now = new Date();
+                
+                // 時間格式化 (補零)
                 const h = String(now.getHours()).padStart(2, '0');
                 const m = String(now.getMinutes()).padStart(2, '0');
                 const s = String(now.getSeconds()).padStart(2, '0');
                 clockEl.textContent = `${h}:${m}:${s}`;
                 
+                // 日期格式化
                 const y = now.getFullYear();
                 const mo = String(now.getMonth() + 1).padStart(2, '0');
                 const d = String(now.getDate()).padStart(2, '0');
                 dateEl.textContent = `${y}.${mo}.${d}`;
             }
             
+            // 每秒更新一次
             setInterval(updateClock, 1000);
-            updateClock(); 
+            updateClock(); // 網頁載入時立刻執行一次，避免出現 00:00:00 延遲
+        }
+
+        // 首圖輪播動畫腳本
+        function initHeroSlideshow() {
+            const images = document.querySelectorAll('.hero-image');
+            if (images.length <= 1) return;
+
+            let currentIndex = 0;
+
+            setInterval(() => {
+                // 先將目前的圖片淡出
+                images[currentIndex].classList.remove('active');
+                
+                // 計算下一張圖片的索引
+                currentIndex = (currentIndex + 1) % images.length;
+                
+                // 等待淡出動畫（1.5秒）完成一小部分後，將下一張圖片淡入。
+                // 設定 500ms 延遲會產生一個兩張圖片都較暗的短暫交錯期。
+                setTimeout(() => {
+                    images[currentIndex].classList.add('active');
+                }, 500); 
+
+            }, 15000); // 每 15 秒切換一次
         }
 
         window.onload = function() { 
             setLanguage(currentLang);
-            initDoomsdayClock();
-            initHeroSlideshow();
+            initDoomsdayClock(); // 啟動末日時鐘
+            initHeroSlideshow(); // 啟動首圖輪播
         };
     </script>
 </body>
