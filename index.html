@@ -132,6 +132,68 @@
             background: linear-gradient(to bottom, rgba(255,255,255,0), rgba(255,255,255,0) 50%, rgba(0,0,0,0.2) 50%, rgba(0,0,0,0.2));
             background-size: 100% 4px;
         }
+
+        /* -------------------------------------
+           日光燈裝飾特效 (Fluorescent Light)
+        -------------------------------------- */
+        .fluorescent-light-container {
+            display: flex;
+            align-items: center;
+            justify-content: flex-end;
+            height: 100%;
+            padding-right: 1rem;
+        }
+
+        .fluorescent-light-fixture {
+            width: 12px;
+            height: 120px;
+            background-color: #1e293b;
+            border-radius: 4px;
+            border: 1px solid #334155;
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 2px 2px 5px rgba(0,0,0,0.5);
+        }
+
+        .fluorescent-tube {
+            width: 6px;
+            height: 110px;
+            background-color: #e0f2fe;
+            border-radius: 2px;
+            box-shadow: 
+                0 0 5px rgba(224, 242, 254, 0.8),
+                0 0 15px rgba(224, 242, 254, 0.5),
+                0 0 30px rgba(224, 242, 254, 0.2);
+            animation: textFlicker 7s infinite alternate; /* 借用原本的閃爍動畫 */
+        }
+        
+        /* -------------------------------------
+           首圖輪播特效 (Hero Slideshow)
+        -------------------------------------- */
+        .hero-image-container {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            background-color: #040507; /* 當圖片變暗時的底色 */
+        }
+
+        .hero-image {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: opacity 1.5s ease-in-out; /* 圖片透明度漸變 */
+            opacity: 0;
+        }
+
+        .hero-image.active {
+            opacity: 1; /* 將過濾器移至 inline 或統一管理，這裡只負責透明度 */
+        }
     </style>
 
     <script src="wallpapers.js"></script>
@@ -162,7 +224,29 @@
         </div>
     </nav>
 
-    <header class="pt-32 md:pt-36 pb-8 px-6 text-center max-w-4xl mx-auto">
+    <header class="pt-32 md:pt-36 pb-8 px-6 text-center max-w-4xl mx-auto flex flex-col items-center">
+        <!-- 頂部動態圖片輪播區塊 (已放大 max-w-2xl) -->
+        <div class="relative w-full max-w-2xl aspect-video mx-auto mb-8 rounded-sm overflow-hidden border border-[#1e293b] shadow-[0_0_20px_rgba(224,242,254,0.1)] group hero-image-container">
+            <!-- 掃描線特效覆蓋在圖片上 -->
+            <div class="scanlines absolute inset-0 pointer-events-none opacity-30 z-10 mix-blend-overlay"></div>
+            
+            <!-- 輪播圖片 (透過 JS 切換 .active 類別) -->
+            <img src="https://cdn.discordapp.com/attachments/1545816550282367059/1555195405250334863/Jacky_pencil_sketch_and_watercolor_art_style_post-apocalyptic_a_c7d086fd-7b6a-49cb-9dd6-154a619b113a.png?backend=b2&ex=6abfa416&is=6abe5296&hm=948a6cdaeb2b2bd907df95e719c3b60f0a4a320fd16218d4c1d70a4ecfcdb176&" 
+                 alt="ECHO SINGULARITY Art 1" 
+                 class="hero-image active sepia-[.2] hue-rotate-[-10deg] saturate-50 group-hover:opacity-100 group-hover:saturate-100 transition-all duration-[2000ms]">
+            
+            <img src="https://cdn.discordapp.com/attachments/1545816550282367059/1555198714942066759/Jacky_pencil_sketch_and_watercolor_art_style_post-apocalyptic_a_81daae94-6bc0-4f24-881b-19e04ca170ef.png?backend=b2&ex=6abfa72b&is=6abe55ab&hm=09e2e58b46215b85a6824a8347286d3d799947e4439c6afddd208a05f36c2bc1&" 
+                 alt="ECHO SINGULARITY Art 2" 
+                 class="hero-image sepia-[.2] hue-rotate-[-10deg] saturate-50 group-hover:opacity-100 group-hover:saturate-100 transition-all duration-[2000ms]">
+            
+            <img src="https://cdn.discordapp.com/attachments/1545816550282367059/1555195848928006216/Jacky_pencil_sketch_and_watercolor_art_style_post-apocalyptic_a_86cede1e-7c8a-4b3e-8d38-1c4c73d4b582.png?backend=b2&ex=6abfa480&is=6abe5300&hm=2d6ff7ff2a7ea8944c1a16cd48b65d34efcd46898da95b908f0789ac01c2c5aa&" 
+                 alt="ECHO SINGULARITY Art 3" 
+                 class="hero-image sepia-[.2] hue-rotate-[-10deg] saturate-50 group-hover:opacity-100 group-hover:saturate-100 transition-all duration-[2000ms]">
+
+            <!-- 邊緣發光效果 -->
+            <div class="absolute inset-0 border border-[#e0f2fe] opacity-20 z-20 pointer-events-none"></div>
+        </div>
+
         <span id="hero-badge" class="inline-block py-1.5 px-4 bg-[#10141c] border border-[#1e293b] text-[#e0f2fe] text-xs font-square tracking-widest uppercase mb-6 shadow-[0_0_10px_rgba(224,242,254,0.05)]">
             桌布分享平台
         </span>
@@ -229,8 +313,9 @@
     </section>
 
     <main class="flex-grow max-w-7xl mx-auto px-6 md:px-12 pb-24 w-full">
-        <div id="gallery" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
-            <!-- 圖片會透過 JS 自動渲染到這裡 -->
+        <!-- 將 grid columns 設定調整為允許插入裝飾物 -->
+        <div id="gallery" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 relative">
+            <!-- 圖片與裝飾物會透過 JS 自動渲染到這裡 -->
         </div>
     </main>
 
@@ -341,9 +426,27 @@
                 return;
             }
 
-            wallpaperDatabase.forEach(item => {
-                if (currentCategory !== 'all' && item.tag.category !== currentCategory) return;
+            // 先過濾出要顯示的項目
+            const filteredItems = wallpaperDatabase.filter(item => {
+                return currentCategory === 'all' || item.tag.category === currentCategory;
+            });
 
+            // 計算當前螢幕寬度對應的欄數，以決定何時插入日光燈
+            // 由於視窗縮放可能改變佈局，這裡用一個簡單的邏輯：
+            // 大螢幕 (lg: 3欄)：每 6 個項目 (2列) 後面插入一個燈管 (佔據剩餘空間或絕對定位)
+            // 為了不打亂 Grid 佈局，最安全的方法是使用絕對定位將燈管放在外側，
+            // 或者在特定的 index 插入一個 span-1 的特殊卡片。
+            // 這裡採用在每處理 N 個元素後，插入一個視覺用的卡片
+            
+            // 判斷目前的欄數粗略估計
+            let columns = 1;
+            if (window.innerWidth >= 1024) columns = 3;
+            else if (window.innerWidth >= 640) columns = 2;
+
+            const itemsPerTwoRows = columns * 2;
+            let displayCount = 0;
+
+            filteredItems.forEach((item, index) => {
                 let previewUrl = item.url;
                 let downloadUrl = item.downloadUrl;
 
@@ -378,8 +481,47 @@
                     </div>
                 </div>`;
                 gallery.innerHTML += cardHTML;
+                displayCount++;
+
+                // 判斷是否需要插入日光燈裝飾
+                // 當前處理的項目數量剛好是兩層的數量，且不是最後一個項目時
+                if (displayCount > 0 && displayCount % itemsPerTwoRows === 0 && index < filteredItems.length - 1) {
+                    // 如果是 3 欄，插入一個空白卡片 (或裝飾)，並要求它在最右邊
+                    // 但為了不破壞現有的圖庫排列，我們用相對+絕對定位的技巧
+                    // 這裡改為直接在 grid 裡面插入一個特殊的 0 寬度裝飾容器
+                    // 但 grid 佈局插入元素會佔用一格，所以我們改用絕對定位在父容器上的特定高度。
+                    // 由於難以精準計算絕對高度，另一個方法是插入一個「裝飾用的 Grid Item」，
+                    // 這個 Item 會在特定斷點隱藏或顯示。
+                    
+                    // 我們選擇插入一個跨滿整列的裝飾分隔線，或者直接在最後一個卡片的右側添加效果。
+                    // 為了符合「在右側多個日光燈裝飾」，我們在 Grid 佈局中插入一個只在右側顯示燈管的特殊列。
+                    
+                    // 為了不打亂卡片的順序，我們插入一個佔滿所有欄位的容器
+                    const lightDecorationHTML = `
+                        <div class="col-span-1 sm:col-span-2 lg:col-span-3 flex justify-end items-center py-4 my-2 opacity-80 pointer-events-none">
+                            <div class="flex items-center gap-2">
+                                <span class="text-[10px] text-[#1e293b] font-mono tracking-widest hidden md:inline">ECHO-SECTOR-DIVIDER</span>
+                                <div class="fluorescent-light-fixture rotate-90">
+                                    <div class="fluorescent-tube"></div>
+                                </div>
+                            </div>
+                        </div>
+                    `;
+                    gallery.innerHTML += lightDecorationHTML;
+                    // 重置計數器，讓下一個 2 列重新計算 (如果需要的話)
+                    // 如果希望每兩列都出現，就保持累加並使用取餘數判斷
+                }
             });
         }
+
+        // 監聽視窗大小改變，重新渲染以確保日光燈位置正確
+        window.addEventListener('resize', () => {
+            // 使用 debounce 避免頻繁觸發
+            clearTimeout(window.resizeTimer);
+            window.resizeTimer = setTimeout(() => {
+                renderGallery();
+            }, 250);
+        });
 
         // 末日動態時鐘初始化腳本
         function initDoomsdayClock() {
@@ -407,9 +549,33 @@
             updateClock(); // 網頁載入時立刻執行一次，避免出現 00:00:00 延遲
         }
 
+        // 首圖輪播動畫腳本
+        function initHeroSlideshow() {
+            const images = document.querySelectorAll('.hero-image');
+            if (images.length <= 1) return;
+
+            let currentIndex = 0;
+
+            setInterval(() => {
+                // 先將目前的圖片淡出
+                images[currentIndex].classList.remove('active');
+                
+                // 計算下一張圖片的索引
+                currentIndex = (currentIndex + 1) % images.length;
+                
+                // 等待淡出動畫（1.5秒）完成一小部分後，將下一張圖片淡入。
+                // 設定 500ms 延遲會產生一個兩張圖片都較暗的短暫交錯期。
+                setTimeout(() => {
+                    images[currentIndex].classList.add('active');
+                }, 500); 
+
+            }, 15000); // 每 15 秒切換一次
+        }
+
         window.onload = function() { 
             setLanguage(currentLang);
             initDoomsdayClock(); // 啟動末日時鐘
+            initHeroSlideshow(); // 啟動首圖輪播
         };
     </script>
 </body>
