@@ -38,6 +38,8 @@
                 radial-gradient(circle at 50% 0%, rgba(224, 242, 254, 0.05) 0%, transparent 50%),
                 linear-gradient(to bottom, #080a0d, #040507);
             background-attachment: fixed;
+            margin: 0;
+            padding: 0;
         }
 
         .font-square {
@@ -47,7 +49,7 @@
         }
 
         .glass-nav {
-            background: rgba(8, 10, 13, 0.85);
+            background: rgba(8, 10, 13, 0.6);
             backdrop-filter: blur(12px);
             -webkit-backdrop-filter: blur(12px);
             border-bottom: 1px solid rgba(224, 242, 254, 0.1);
@@ -103,9 +105,7 @@
             text-shadow: 0 0 8px rgba(224, 242, 254, 0.35);
         }
 
-        /* -------------------------------------
-           末日日光燈時鐘特效 (Doomsday Glow)
-        -------------------------------------- */
+        /* 末日日光燈時鐘特效 (Doomsday Glow) */
         .doomsday-glow {
             text-shadow: 
                 0 0 4px rgba(224, 242, 254, 0.6),
@@ -133,135 +133,113 @@
             background-size: 100% 4px;
         }
 
+        /* 輪播圖平滑過渡 */
+        .slider-bg {
+            transition: opacity 1.5s ease-in-out;
+        }
+
         /* -------------------------------------
-           日光燈裝飾特效 (Fluorescent Light)
+           新增特效：掃描光澤與禁止捲動
         -------------------------------------- */
-        .fluorescent-light-container {
-            display: flex;
-            align-items: center;
-            justify-content: flex-end;
-            height: 100%;
-            padding-right: 1rem;
-        }
-
-        .fluorescent-light-fixture {
-            width: 12px;
-            height: 120px;
-            background-color: #1e293b;
-            border-radius: 4px;
-            border: 1px solid #334155;
-            position: relative;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            box-shadow: 2px 2px 5px rgba(0,0,0,0.5);
-        }
-
-        .fluorescent-tube {
-            width: 6px;
-            height: 110px;
-            background-color: #e0f2fe;
-            border-radius: 2px;
-            box-shadow: 
-                0 0 5px rgba(224, 242, 254, 0.8),
-                0 0 15px rgba(224, 242, 254, 0.5),
-                0 0 30px rgba(224, 242, 254, 0.2);
-            animation: textFlicker 7s infinite alternate; /* 借用原本的閃爍動畫 */
+        @keyframes shimmer {
+            0% { transform: translateX(-100%); }
+            100% { transform: translateX(100%); }
         }
         
-        /* -------------------------------------
-           首圖輪播特效 (Hero Slideshow)
-        -------------------------------------- */
-        .hero-image-container {
-            position: relative;
-            width: 100%;
-            height: 100%;
-            overflow: hidden;
-            background-color: #040507; /* 當圖片變暗時的底色 */
+        .shimmer-effect {
+            animation: shimmer 1.5s infinite;
         }
 
-        .hero-image {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            transition: opacity 1.5s ease-in-out; /* 圖片透明度漸變 */
-            opacity: 0;
-        }
-
-        .hero-image.active {
-            opacity: 1; /* 將過濾器移至 inline 或統一管理，這裡只負責透明度 */
+        body.modal-open {
+            overflow: hidden; /* 防止彈出視窗時背景可以滑動 */
         }
     </style>
 
-    <script src="wallpapers.js"></script>
+    <script>
+        // wallpapers.js - ECHO SINGULARITY 專屬圖片資料庫
+        // ==========================================
+
+        const categoryDictionary = {
+            harbor: { zh: "海港工業", ja: "港湾工業", en: "Harbor" },
+            wasteland: { zh: "廢墟遺跡", ja: "荒野の遺跡", en: "Wasteland" },
+            city: { zh: "都會街景", ja: "都市の街並み", en: "Cityscape" },
+            crater: { zh: "隕石巨坑", ja: "クレーター", en: "Crater" }
+        };
+
+        const wallpaperDatabase = [
+            { id: "001", tag: { category: "harbor", styleDesc: { zh: "重機港口 / 晨曦青黛", ja: "重機港口 / 朝焼けの青黛", en: "Heavy Machinery Harbor / Dawn Cyan" } }, fileId: "1xq6hQmr8wMw_T-HOHktnq4RUUfYeMkye" },
+            { id: "003", tag: { category: "harbor", styleDesc: { zh: "鋼構起重機 / 殘存工業", ja: "鋼鉄のクレーン / 残された工業", en: "Steel Crane / Remnant Industry" } }, fileId: "1L-W5qUeyV7OjPeKLZchX-ONLa2qDlf-s" },
+            { id: "004", tag: { category: "harbor", styleDesc: { zh: "港灣機具 / 盛夏雲層", ja: "港の機械 / 真夏の雲層", en: "Harbor Machinery / Midsummer Clouds" } }, fileId: "1whrrQ1BXXvce6L39EogzXOpVSuiXCKtT" },
+            { id: "005", tag: { category: "harbor", styleDesc: { zh: "遠眺海平線 / 靜謐水面", ja: "水平線の遠望 / 静穏な水面", en: "Distant Horizon / Serene Waters" } }, fileId: "1AOtcwi5MONTL3g-MGeW4rDMwxO_7m-sl" },
+            { id: "006", tag: { category: "wasteland", styleDesc: { zh: "廢棄街區 / 荒蕪綠意", ja: "放棄された街並み / 荒涼とした緑", en: "Abandoned District / Desolate Greenery" } }, fileId: "1P23yTCspA7ld-fJvmCCE5DSwByco61aE" },
+            { id: "007", tag: { category: "city", styleDesc: { zh: "藍調都會 / 奇異光點", ja: "ブルートーンの都市 / 異世界の光点", en: "Blue-tone Metropolis / Singular Glow" } }, fileId: "1wBHI2mFqcVLKB1uMgb7teHcXVSnWn3kr" },
+            { id: "008", tag: { category: "wasteland", styleDesc: { zh: "殘垣斷壁 / 荒野漫步", ja: "崩れた壁 / 荒野の散歩", en: "Broken Walls / Wasteland Stroll" } }, fileId: "1u7mP2L6wVroAiGhLuFsaVCk0vdVHSUff" },
+            { id: "009", tag: { category: "wasteland", styleDesc: { zh: "廢棄溫室 / 綠意蔓延", ja: "放棄された温室 / 広がる緑", en: "Abandoned Greenhouse / Creeping Green" } }, fileId: "13VW1ftxuy1ZOVwTHXNfiU0DlKDT9DerX" },
+            { id: "010", tag: { category: "city", styleDesc: { zh: "舊日商號 / 廢墟街景", ja: "往時の商店 / 廃墟の街並み", en: "Old Storefront / Ruin Streetscape" } }, fileId: "1M5R7CjegP-B8B9Erl3cHMTOVa3GcPgEt" },
+            { id: "011", tag: { category: "city", styleDesc: { zh: "霓虹光影 / 少女與微風", ja: "ネオンの光と影 / 少女と微風", en: "Neon Light and Shadow / Girl and Breeze" } }, fileId: "1_Ev4Yusyfn4J4HPtZv8fNZSjqADpLYlK" },
+            { id: "012", tag: { category: "wasteland", styleDesc: { zh: "廢棄街巷 / 蔓延的綠意", ja: "廃れた路地 / 広がる緑", en: "Abandoned Alley / Creeping Greenery" } }, fileId: "1d-Te4GGgfhNF91mpBQ86PDcEwQUSTUw-" },
+            { id: "013", tag: { category: "wasteland", styleDesc: { zh: "廢土生存 / 仰望天際", ja: "廃墟のサバイバル / 空を仰ぐ", en: "Wasteland Survival / Looking at the Sky" } }, fileId: "1bf-zyAWCWY3AvxIkV9Y1QCuKEeAXUghj" },
+            { id: "014", tag: { category: "crater", styleDesc: { zh: "隕石坑邊緣 / 俯瞰深谷", ja: "クレーターの縁 / 深き谷を見下ろす", en: "Crater Edge / Overlooking the Abyss" } }, fileId: "1IqJssXQDtEQtyN0ad5Fxay8kSlpQvexh" },
+            { id: "015", tag: { category: "crater", styleDesc: { zh: "谷底微光 / 岩壁間的探索", ja: "谷底の微光 / 岩壁の探索", en: "Glimmer in the Valley / Exploring the Rock Walls" } }, fileId: "12iTGIUnSk19y7Wlwa3h4ZgNDq--W78D-" },
+            { id: "016", tag: { category: "crater", styleDesc: { zh: "日落峽谷 / 溫暖的餘暉", ja: "日没の峡谷 / 温かい夕日", en: "Sunset Canyon / Warm Glow" } }, fileId: "1dus8aqGT3o2MLQXPpM41I1tX7kboCz4u" },
+            { id: "017", tag: { category: "crater", styleDesc: { zh: "巨石裂縫 / 踏上旅程", ja: "巨岩の裂け目 / 旅立ち", en: "Giant Rock Fissure / Embarking on a Journey" } }, fileId: "1pF6Jtgee8jEcuWL5UpzbAYUhZsNiN6Y1" },
+            { id: "018", tag: { category: "crater", styleDesc: { zh: "堅定的眼眸 / 旅途的印記", ja: "決意の瞳 / 旅の印", en: "Determined Eyes / Mark of the Journey" } }, fileId: "1p5spkfuuP_hMbQXzcwJJOFZth9K8W8ve" },
+            { id: "019", tag: { category: "crater", styleDesc: { zh: "隕石坑的生機 / 陽光灑落", ja: "クレーターの息吹 / 降り注ぐ陽光", en: "Life in the Crater / Sunlight Bath" } }, fileId: "1cnaP4ymbS6ilkSDekgxIzg0RNKE95X0j" }
+        ];
+    </script>
 </head>
 <body class="min-h-screen flex flex-col selection:bg-[#e0f2fe] selection:text-black">
 
-    <!-- 導覽列 (已修正手機版排版，避免 YT 按鈕消失) -->
     <nav class="glass-nav fixed top-0 left-0 w-full z-50 px-4 md:px-12 py-3 flex justify-between items-center gap-2">
-        <!-- LOGO (極小螢幕時縮寫為 ECHO) -->
         <a href="#" class="font-square text-sm md:text-xl tracking-wider text-white flex items-center gap-2 shrink-0">
             <span class="w-2.5 h-2.5 md:w-3 md:h-3 bg-[#e0f2fe] shadow-[0_0_10px_#e0f2fe]"></span>
             <span class="hidden min-[400px]:inline">ECHO SINGULARITY</span>
             <span class="inline min-[400px]:hidden">ECHO</span>
         </a>
         
-        <!-- 右側按鈕區 -->
         <div class="flex items-center gap-2 md:gap-4 shrink-0">
-            <!-- 語系切換 (適配手機版大小) -->
             <div class="bg-[#10141c] p-1 rounded flex gap-1 border border-[#1e293b]">
                 <button onclick="setLanguage('zh')" id="btn-zh" class="lang-btn active text-[10px] md:text-xs px-2 md:px-3 py-1">中文</button>
                 <button onclick="setLanguage('ja')" id="btn-ja" class="lang-btn text-[10px] md:text-xs px-2 md:px-3 py-1">日本語</button>
                 <button onclick="setLanguage('en')" id="btn-en" class="lang-btn text-[10px] md:text-xs px-2 md:px-3 py-1">EN</button>
             </div>
-            <!-- YouTube 頻道按鈕 (移除 hidden sm:flex，改為全面顯示並微調尺寸) -->
             <a href="https://www.youtube.com/channel/UCq4BXOX5sPCVIZDUWFPS0yQ" target="_blank" class="bg-[#e0f2fe] text-[#080a0d] hover:bg-white px-2.5 py-1 md:px-4 md:py-1.5 rounded text-[10px] md:text-sm font-square tracking-widest flex items-center transition-all shadow-[0_0_15px_rgba(224,242,254,0.2)] whitespace-nowrap">
                 <span id="nav-yt-text">YouTube 頻道</span>
             </a>
         </div>
     </nav>
 
-    <header class="pt-32 md:pt-36 pb-8 px-6 text-center max-w-4xl mx-auto flex flex-col items-center">
-        <!-- 頂部動態圖片輪播區塊 (已放大 max-w-2xl) -->
-        <div class="relative w-full max-w-2xl aspect-video mx-auto mb-8 rounded-sm overflow-hidden border border-[#1e293b] shadow-[0_0_20px_rgba(224,242,254,0.1)] group hero-image-container">
-            <!-- 掃描線特效覆蓋在圖片上 -->
-            <div class="scanlines absolute inset-0 pointer-events-none opacity-30 z-10 mix-blend-overlay"></div>
+    <section class="relative w-full min-h-[60vh] flex flex-col justify-center border-b border-[#1e293b] mb-8">
+        
+        <!-- 背景輪播圖容器 -->
+        <div id="hero-slider" class="absolute inset-0 z-0 overflow-hidden">
+            <!-- 替換為您提供的三張 Google Drive 圖片 -->
+            <div class="slider-bg absolute inset-0 bg-cover bg-center bg-no-repeat opacity-100" style="background-image: url('https://drive.google.com/thumbnail?id=1BboKu1z-HZS8nl5Qil-jS_ue9G9gEjpB&sz=w1920');"></div>
+            <div class="slider-bg absolute inset-0 bg-cover bg-center bg-no-repeat opacity-0" style="background-image: url('https://drive.google.com/thumbnail?id=1nzhrqLfUnrC58tA4rQGqvfobOqeVc09j&sz=w1920');"></div>
+            <div class="slider-bg absolute inset-0 bg-cover bg-center bg-no-repeat opacity-0" style="background-image: url('https://drive.google.com/thumbnail?id=1-gKo3XQlTHO0neK5VMstn0a-GE_lptOZ&sz=w1920');"></div>
             
-            <!-- 輪播圖片 (透過 JS 切換 .active 類別) -->
-            <img src="https://cdn.discordapp.com/attachments/1545816550282367059/1555195405250334863/Jacky_pencil_sketch_and_watercolor_art_style_post-apocalyptic_a_c7d086fd-7b6a-49cb-9dd6-154a619b113a.png?backend=b2&ex=6abfa416&is=6abe5296&hm=948a6cdaeb2b2bd907df95e719c3b60f0a4a320fd16218d4c1d70a4ecfcdb176&" 
-                 alt="ECHO SINGULARITY Art 1" 
-                 class="hero-image active sepia-[.2] hue-rotate-[-10deg] saturate-50 group-hover:opacity-100 group-hover:saturate-100 transition-all duration-[2000ms]">
-            
-            <img src="https://cdn.discordapp.com/attachments/1545816550282367059/1555198714942066759/Jacky_pencil_sketch_and_watercolor_art_style_post-apocalyptic_a_81daae94-6bc0-4f24-881b-19e04ca170ef.png?backend=b2&ex=6abfa72b&is=6abe55ab&hm=09e2e58b46215b85a6824a8347286d3d799947e4439c6afddd208a05f36c2bc1&" 
-                 alt="ECHO SINGULARITY Art 2" 
-                 class="hero-image sepia-[.2] hue-rotate-[-10deg] saturate-50 group-hover:opacity-100 group-hover:saturate-100 transition-all duration-[2000ms]">
-            
-            <img src="https://cdn.discordapp.com/attachments/1545816550282367059/1555195848928006216/Jacky_pencil_sketch_and_watercolor_art_style_post-apocalyptic_a_86cede1e-7c8a-4b3e-8d38-1c4c73d4b582.png?backend=b2&ex=6abfa480&is=6abe5300&hm=2d6ff7ff2a7ea8944c1a16cd48b65d34efcd46898da95b908f0789ac01c2c5aa&" 
-                 alt="ECHO SINGULARITY Art 3" 
-                 class="hero-image sepia-[.2] hue-rotate-[-10deg] saturate-50 group-hover:opacity-100 group-hover:saturate-100 transition-all duration-[2000ms]">
-
-            <!-- 邊緣發光效果 -->
-            <div class="absolute inset-0 border border-[#e0f2fe] opacity-20 z-20 pointer-events-none"></div>
+            <!-- 漸層遮罩，確保文字在圖片上能清楚顯示，並與下方背景融合 -->
+            <div class="absolute inset-0 bg-gradient-to-b from-[#080a0d]/40 via-[#080a0d]/70 to-[#080a0d]"></div>
+            <div class="absolute inset-0 bg-gradient-to-t from-[#080a0d] via-transparent to-transparent"></div>
         </div>
 
-        <span id="hero-badge" class="inline-block py-1.5 px-4 bg-[#10141c] border border-[#1e293b] text-[#e0f2fe] text-xs font-square tracking-widest uppercase mb-6 shadow-[0_0_10px_rgba(224,242,254,0.05)]">
-            桌布分享平台
-        </span>
-        <h1 class="font-square text-3xl md:text-6xl text-white mb-6 leading-tight tracking-tight">
-            ECHO SINGULARITY
-        </h1>
-        <p id="hero-desc" class="text-[#94a3b8] text-sm md:text-base font-bold leading-relaxed max-w-2xl mx-auto whitespace-pre-line tracking-wide">
-            創意發想提供 / 探索未來的可能性 / 不定期更新
-            <span class="sub-glow">如果喜歡，歡迎訂閱我的頻道</span>
-        </p>
-    </header>
+        <!-- 原本的 Header 內容 (確保 z-index 在輪播圖之上) -->
+        <header class="relative z-10 pt-32 pb-12 px-6 text-center max-w-4xl mx-auto w-full">
+            <span id="hero-badge" class="inline-block py-1.5 px-4 bg-[#10141c]/80 backdrop-blur border border-[#1e293b] text-[#e0f2fe] text-xs font-square tracking-widest uppercase mb-6 shadow-[0_0_15px_rgba(224,242,254,0.1)]">
+                桌布分享平台
+            </span>
+            <h1 class="font-square text-4xl md:text-6xl lg:text-7xl text-white mb-6 leading-tight tracking-tight drop-shadow-2xl">
+                ECHO SINGULARITY
+            </h1>
+            <p id="hero-desc" class="text-[#94a3b8] text-sm md:text-base font-bold leading-relaxed max-w-2xl mx-auto whitespace-pre-line tracking-wide [text-shadow:0_2px_10px_rgba(0,0,0,1)] drop-shadow-md">
+                創意發想提供 / 探索未來的可能性 / 不定期更新
+                <span class="sub-glow block mt-1">如果喜歡，歡迎訂閱我的頻道</span>
+            </p>
+        </header>
+    </section>
 
-    <!-- 頻道理念區塊 -->
-    <section class="px-6 max-w-3xl mx-auto w-full mb-8">
-        <div class="p-6 md:p-10 rounded bg-[#10141c] border border-[#1e293b] shadow-lg relative overflow-hidden flex flex-col justify-center">
+    <section class="px-6 max-w-3xl mx-auto w-full mb-8 relative z-10 -mt-16">
+        <div class="p-6 md:p-10 rounded bg-[#10141c]/90 backdrop-blur border border-[#1e293b] shadow-2xl relative overflow-hidden flex flex-col justify-center">
             <div class="absolute top-0 left-0 w-1.5 h-full bg-[#e0f2fe] shadow-[0_0_15px_rgba(224,242,254,0.4)]"></div>
             
             <div class="flex items-center gap-3 mb-5 pl-2">
@@ -280,24 +258,19 @@
         </div>
     </section>
 
-    <!-- 末日動態時鐘區塊 -->
     <section class="px-6 max-w-3xl mx-auto w-full mb-12">
         <div class="relative bg-[#050608] border border-[#1e293b] p-6 rounded shadow-[0_0_20px_rgba(0,0,0,0.8)] overflow-hidden flex flex-col items-center justify-center">
-            <!-- 終端機掃描線特效 -->
             <div class="scanlines absolute inset-0 pointer-events-none opacity-40 z-20"></div>
             
-            <!-- 時鐘上方資訊 HUD -->
             <div class="flex justify-between w-full max-w-[320px] mb-1 z-10 opacity-60">
                 <span class="text-[10px] text-[#94a3b8] font-mono tracking-widest uppercase">SYS.STATUS: ONLINE</span>
                 <span class="text-[10px] text-[#94a3b8] font-mono tracking-widest uppercase">LOCAL TIME</span>
             </div>
             
-            <!-- 時鐘本體 -->
             <div id="doomsday-clock" class="font-mono text-5xl md:text-7xl font-bold tracking-[0.1em] text-[#e0f2fe] doomsday-glow z-10 flex items-center justify-center w-full py-2">
                 00:00:00
             </div>
 
-            <!-- 時鐘下方日期 HUD -->
             <div class="flex justify-between w-full max-w-[320px] mt-1 z-10 opacity-60">
                 <span id="doomsday-date" class="text-[10px] text-[#94a3b8] font-mono tracking-[0.2em] uppercase">YYYY.MM.DD</span>
                 <span class="text-[10px] text-[#94a3b8] font-mono tracking-widest uppercase">ECHO-SYNC</span>
@@ -305,22 +278,76 @@
         </div>
     </section>
 
-    <!-- 動態分類按鈕列 -->
     <section class="px-6 max-w-7xl mx-auto w-full mb-10">
-        <div id="filter-container" class="flex flex-wrap justify-center gap-2 md:gap-3">
-            <!-- 透過 JS 自動從 categoryDictionary 生成分類按鈕 -->
+        <div class="flex flex-col md:flex-row justify-between items-center gap-6 md:gap-4">
+            <div id="filter-container" class="flex flex-wrap justify-center md:justify-start gap-2 md:gap-3 flex-grow">
+                <!-- 透過 JS 自動生成 -->
+            </div>
+            
+            <!-- 賽博龐克風格「隨機排序」按鈕重製 (調整尺寸與分類按鈕統一) -->
+            <button onclick="shuffleGallery()" id="btn-shuffle" class="relative group overflow-hidden shrink-0 flex items-center gap-2 px-[16px] py-[6px] bg-[#080a0d] text-[#e0f2fe] font-square text-[0.85rem] tracking-widest uppercase transition-all duration-300 border border-[#1e293b] hover:border-[#e0f2fe] shadow-[0_0_15px_rgba(0,0,0,0.8)] hover:shadow-[0_0_25px_rgba(224,242,254,0.3)]">
+                <!-- 掃描光澤特效 -->
+                <div class="absolute inset-0 -translate-x-full bg-gradient-to-r from-transparent via-[#e0f2fe]/20 to-transparent group-hover:shimmer-effect"></div>
+                <!-- 切角裝飾 -->
+                <div class="absolute top-0 left-0 w-2.5 h-2.5 border-t border-l border-[#e0f2fe] opacity-50 group-hover:opacity-100 transition-opacity"></div>
+                <div class="absolute bottom-0 right-0 w-2.5 h-2.5 border-b border-r border-[#e0f2fe] opacity-50 group-hover:opacity-100 transition-opacity"></div>
+                
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 transition-transform duration-500 group-active:rotate-[360deg] group-hover:scale-125 text-[#e0f2fe]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
+                </svg>
+                <span id="shuffle-text" class="relative z-10 font-bold tracking-[0.2em]">隨機排序</span>
+            </button>
         </div>
     </section>
 
     <main class="flex-grow max-w-7xl mx-auto px-6 md:px-12 pb-24 w-full">
-        <!-- 將 grid columns 設定調整為允許插入裝飾物 -->
-        <div id="gallery" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 relative">
-            <!-- 圖片與裝飾物會透過 JS 自動渲染到這裡 -->
+        <div id="gallery" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
+            <!-- 圖片透過 JS 自動渲染 -->
         </div>
     </main>
 
-    <footer class="py-12 px-6 text-center border-t border-[#1e293b] text-[#94a3b8] text-xs font-mono tracking-widest bg-[#050608]">
-        &copy; 2026 ECHO SINGULARITY. ALL ECHOES PRESERVED.
+    <!-- 圖片預覽彈出視窗 (Modal) -->
+    <div id="image-modal" class="fixed inset-0 z-[100] hidden flex-col items-center justify-center p-4 sm:p-8 bg-[#040507]/90 backdrop-blur-md transition-opacity duration-300 opacity-0" onclick="if(event.target === this) closeModal()">
+        
+        <!-- 關閉按鈕 -->
+        <button onclick="closeModal()" class="absolute top-6 right-6 sm:top-10 sm:right-10 text-[#94a3b8] hover:text-[#e0f2fe] hover:scale-110 transition-all cursor-pointer z-50 bg-black/50 p-2 rounded-full border border-gray-700 hover:border-[#e0f2fe] hover:shadow-[0_0_15px_rgba(224,242,254,0.5)]">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 sm:h-8 sm:w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+            </svg>
+        </button>
+
+        <!-- 放大圖片本體 -->
+        <div class="relative w-full max-w-6xl max-h-[80vh] flex justify-center items-center pointer-events-none">
+            <img id="modal-image" src="" alt="ECHO Preview" class="max-w-full max-h-[75vh] object-contain shadow-[0_0_40px_rgba(224,242,254,0.15)] border border-[#1e293b] rounded-sm transform scale-95 opacity-0 transition-all duration-300 pointer-events-auto">
+        </div>
+
+        <!-- 下載高畫質按鈕與宣傳區塊 -->
+        <div class="mt-6 sm:mt-8 z-50 flex flex-col items-center gap-4">
+            <!-- 原本的下載按鈕 -->
+            <a id="modal-download-btn" href="#" target="_blank" class="px-6 py-2.5 rounded-sm bg-[#e0f2fe] text-[#080a0d] font-square tracking-widest text-xs sm:text-sm hover:bg-white transition-all shadow-[0_0_15px_rgba(224,242,254,0.4)] flex items-center gap-2 hover:scale-105 active:scale-95">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
+                </svg>
+                <span id="modal-download-text" class="uppercase font-bold">下載高畫質桌布</span>
+            </a>
+            
+            <!-- 新增：宣傳語與 YT 捷徑 -->
+            <div class="flex flex-col sm:flex-row items-center gap-3">
+                <span id="modal-promo-text" class="text-[#e0f2fe] drop-shadow-[0_0_8px_rgba(224,242,254,0.8)] text-xs sm:text-sm font-bold tracking-widest text-center">喜歡請訂閱頻道隨時追蹤更新動態</span>
+                <a href="https://www.youtube.com/channel/UCq4BXOX5sPCVIZDUWFPS0yQ" target="_blank" class="px-3 py-1.5 border border-[#e0f2fe] text-[#e0f2fe] hover:bg-[#e0f2fe] hover:text-[#080a0d] transition-all text-xs font-square tracking-wider rounded-sm flex items-center gap-1 shadow-[0_0_10px_rgba(224,242,254,0.1)]">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="currentColor" viewBox="0 0 24 24">
+                        <path d="M19.615 3.184c-3.604-.246-11.631-.245-15.23 0-3.897.266-4.356 2.62-4.385 8.816.029 6.185.484 8.549 4.385 8.816 3.6.245 11.626.246 15.23 0 3.897-.266 4.356-2.62 4.385-8.816-.029-6.185-.484-8.549-4.385-8.816zm-10.615 12.816v-8l8 3.993-8 4.007z"/>
+                    </svg>
+                    <span>YouTube</span>
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <!-- 頁尾與版權聲明區塊 -->
+    <footer class="py-12 px-6 text-center border-t border-[#1e293b] text-[#94a3b8] text-xs font-mono tracking-widest bg-[#050608] flex flex-col gap-3 items-center">
+        <div>&copy; 2026 ECHO SINGULARITY. ALL ECHOES PRESERVED.</div>
+        <div id="footer-copyright" class="text-[#e0f2fe] bg-[#1e293b]/50 px-3 py-1.5 rounded-sm border border-[#1e293b] inline-block font-sans font-bold shadow-[0_0_10px_rgba(0,0,0,0.5)]">圖片資源僅限私人非商業用途使用</div>
     </footer>
 
     <script>
@@ -333,7 +360,11 @@
                 philTitle: "頻道發想",
                 philText: "在未來的殘片與事件的可能性中，尋找在世界各個角落中的浪漫...\n感受 視覺衝擊 與 回音",
                 allCategory: "全部地形 (All)",
-                download: "下載"
+                download: "下載",
+                shuffle: "隨機排序",
+                modalDown: "下載高畫質桌布",
+                modalPromo: "喜歡請訂閱頻道隨時追蹤更新動態",
+                copyright: "圖片資源僅限私人非商業用途使用"
             },
             ja: {
                 navYt: "YouTube チャンネル",
@@ -343,7 +374,11 @@
                 philTitle: "チャンネルの理念",
                 philText: "未来の断片と出来事の可能性の中で、世界の片隅にあるロマンを探す...\n視覚的衝撃 と エコー を感じて",
                 allCategory: "すべての地形 (All)",
-                download: "保存"
+                download: "保存",
+                shuffle: "ランダム",
+                modalDown: "高画質壁紙を保存",
+                modalPromo: "気に入ったらチャンネル登録して最新情報をお見逃しなく",
+                copyright: "画像リソースは私的かつ非商業目的でのみ使用可能です"
             },
             en: {
                 navYt: "YouTube Channel",
@@ -353,12 +388,44 @@
                 philTitle: "Philosophy",
                 philText: "Searching for romance in every corner of the world amidst future fragments and event possibilities...\nFeel the Visual Impact and Echoes.",
                 allCategory: "All Terrains",
-                download: "SAVE"
+                download: "SAVE",
+                shuffle: "SHUFFLE",
+                modalDown: "DOWNLOAD HD WALLPAPER",
+                modalPromo: "Subscribe to the channel for more updates",
+                copyright: "Image resources are for personal and non-commercial use only"
             }
         };
 
         let currentLang = 'zh';
         let currentCategory = 'all';
+        let currentDisplayList = []; // 用於儲存當前排序的桌布陣列
+
+        // Fisher-Yates 洗牌演算法 (用於隨機排序)
+        function shuffleArray(array) {
+            let currentIndex = array.length, randomIndex;
+            while (currentIndex != 0) {
+                randomIndex = Math.floor(Math.random() * currentIndex);
+                currentIndex--;
+                [array[currentIndex], array[randomIndex]] = [array[randomIndex], array[currentIndex]];
+            }
+            return array;
+        }
+
+        // 觸發洗牌並重新渲染畫廊
+        function shuffleGallery() {
+            currentDisplayList = shuffleArray([...currentDisplayList]);
+            
+            const gallery = document.getElementById('gallery');
+            // 添加淡出動畫過渡
+            gallery.style.opacity = '0';
+            gallery.style.transition = 'opacity 0.3s ease-in-out';
+            
+            setTimeout(() => {
+                renderGallery();
+                // 渲染完成後淡入
+                gallery.style.opacity = '1';
+            }, 300);
+        }
 
         function setLanguage(lang) {
             currentLang = lang;
@@ -368,9 +435,19 @@
             const t = translations[lang];
             document.getElementById('nav-yt-text').textContent = t.navYt;
             document.getElementById('hero-badge').textContent = t.badge;
-            document.getElementById('hero-desc').innerHTML = t.desc + `<span class="sub-glow">${t.subText}</span>`;
+            document.getElementById('hero-desc').innerHTML = t.desc + `<span class="sub-glow block mt-1">${t.subText}</span>`;
+            document.getElementById('shuffle-text').textContent = t.shuffle;
             
-            // 更新頻道發想標題與內文高光
+            if(document.getElementById('modal-download-text')) {
+                document.getElementById('modal-download-text').textContent = t.modalDown;
+            }
+            if(document.getElementById('modal-promo-text')) {
+                document.getElementById('modal-promo-text').textContent = t.modalPromo;
+            }
+            if(document.getElementById('footer-copyright')) {
+                document.getElementById('footer-copyright').textContent = t.copyright;
+            }
+            
             document.getElementById('phil-title').textContent = t.philTitle;
             let formattedPhilText = t.philText
                 .replace('視覺衝擊', '<span class="text-[#e0f2fe] font-bold">視覺衝擊</span>')
@@ -412,7 +489,6 @@
                     html += `<button onclick="filterCategory('${catKey}', this)" id="filter-${catKey}" class="filter-btn ${isActive}">${label}</button>`;
                 }
             }
-
             container.innerHTML = html;
         }
 
@@ -421,161 +497,131 @@
             const t = translations[currentLang];
             gallery.innerHTML = ''; 
 
-            if (typeof wallpaperDatabase === 'undefined') {
-                gallery.innerHTML = '<p class="text-white col-span-3 text-center py-10">正在載入資料庫，或找不到 wallpapers.js 檔案...</p>';
-                return;
-            }
+            // 改為使用已洗牌過的 currentDisplayList 來進行渲染
+            currentDisplayList.forEach(item => {
+                if (currentCategory !== 'all' && item.tag.category !== currentCategory) return;
 
-            // 先過濾出要顯示的項目
-            const filteredItems = wallpaperDatabase.filter(item => {
-                return currentCategory === 'all' || item.tag.category === currentCategory;
-            });
+                let previewUrl = `https://drive.google.com/thumbnail?id=${item.fileId}&sz=w1920`;
+                let downloadUrl = `https://drive.google.com/uc?export=download&id=${item.fileId}`;
 
-            // 計算當前螢幕寬度對應的欄數，以決定何時插入日光燈
-            // 由於視窗縮放可能改變佈局，這裡用一個簡單的邏輯：
-            // 大螢幕 (lg: 3欄)：每 6 個項目 (2列) 後面插入一個燈管 (佔據剩餘空間或絕對定位)
-            // 為了不打亂 Grid 佈局，最安全的方法是使用絕對定位將燈管放在外側，
-            // 或者在特定的 index 插入一個 span-1 的特殊卡片。
-            // 這裡採用在每處理 N 個元素後，插入一個視覺用的卡片
-            
-            // 判斷目前的欄數粗略估計
-            let columns = 1;
-            if (window.innerWidth >= 1024) columns = 3;
-            else if (window.innerWidth >= 640) columns = 2;
-
-            const itemsPerTwoRows = columns * 2;
-            let displayCount = 0;
-
-            filteredItems.forEach((item, index) => {
-                let previewUrl = item.url;
-                let downloadUrl = item.downloadUrl;
-
-                if (item.fileId) {
-                    previewUrl = `https://drive.google.com/thumbnail?id=${item.fileId}&sz=w1920`;
-                    downloadUrl = `https://drive.google.com/uc?export=download&id=${item.fileId}`;
-                }
-
-                let styleDescText = "";
-                if (item.tag.styleDesc) {
-                    if (typeof item.tag.styleDesc === 'object') {
-                        styleDescText = item.tag.styleDesc[currentLang] || item.tag.styleDesc.zh;
-                    } else {
-                        styleDescText = item.tag.styleDesc;
-                    }
-                }
+                let styleDescText = item.tag.styleDesc[currentLang] || item.tag.styleDesc.zh;
 
                 const cardHTML = `
                 <div class="natural-card flex flex-col group">
-                    <div class="relative w-full pt-[56.25%] overflow-hidden bg-[#080a0d]">
+                    <div class="relative w-full pt-[56.25%] overflow-hidden bg-[#080a0d] cursor-pointer" onclick="openModal('${previewUrl}', '${downloadUrl}')">
                         <img src="${previewUrl}" alt="ECHO Wallpaper ${item.id}" loading="lazy" 
-                             class="absolute top-0 left-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" 
+                             class="absolute top-0 left-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" 
                              onerror="this.src='https://placehold.co/800x450/10141c/e0f2fe?text=ECHO+WALLPAPER'">
-                        <div class="absolute inset-0 bg-gradient-to-t from-[#10141c] to-transparent opacity-40 group-hover:opacity-20 transition-opacity"></div>
+                        
+                        <div class="absolute inset-0 bg-gradient-to-t from-[#10141c] via-[#10141c]/20 to-transparent opacity-40 group-hover:opacity-10 transition-opacity"></div>
+                        
+                        <!-- 放大預覽遮罩與放大鏡圖標 (Hover時顯示) -->
+                        <div class="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none">
+                            <div class="bg-black/50 backdrop-blur-sm p-3 md:p-4 rounded-full border border-[#e0f2fe]/40 shadow-[0_0_15px_rgba(224,242,254,0.3)] transform scale-50 group-hover:scale-100 transition-transform duration-300">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 md:h-8 md:w-8 text-[#e0f2fe]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0zM10 7v3m0 0v3m0-3h3m-3 0H7" />
+                                </svg>
+                            </div>
+                        </div>
                     </div>
                     <div class="p-5 flex justify-between items-center bg-[#10141c] flex-grow border-t border-[#1e293b]">
                         <div><span class="text-xs text-[#94a3b8] font-square tracking-widest">${styleDescText}</span></div>
-                        <a href="${downloadUrl || previewUrl}" target="_blank" download="ECHO_WP_${item.id}.png" 
-                           class="px-4 py-1.5 rounded-sm bg-transparent border border-[#e0f2fe] text-[#e0f2fe] text-xs font-square tracking-wider hover:bg-[#e0f2fe] hover:text-[#080a0d] transition-all shadow-[0_0_10px_rgba(224,242,254,0.1)]">
+                        <a href="${downloadUrl}" target="_blank" download="ECHO_WP_${item.id}.png" 
+                           class="px-4 py-1.5 rounded-sm bg-transparent border border-[#e0f2fe] text-[#e0f2fe] text-xs font-square tracking-wider hover:bg-[#e0f2fe] hover:text-[#080a0d] transition-all shadow-[0_0_10px_rgba(224,242,254,0.1)] relative z-10" onclick="event.stopPropagation();">
                             ${t.download}
                         </a>
                     </div>
                 </div>`;
                 gallery.innerHTML += cardHTML;
-                displayCount++;
-
-                // 判斷是否需要插入日光燈裝飾
-                // 當前處理的項目數量剛好是兩層的數量，且不是最後一個項目時
-                if (displayCount > 0 && displayCount % itemsPerTwoRows === 0 && index < filteredItems.length - 1) {
-                    // 如果是 3 欄，插入一個空白卡片 (或裝飾)，並要求它在最右邊
-                    // 但為了不破壞現有的圖庫排列，我們用相對+絕對定位的技巧
-                    // 這裡改為直接在 grid 裡面插入一個特殊的 0 寬度裝飾容器
-                    // 但 grid 佈局插入元素會佔用一格，所以我們改用絕對定位在父容器上的特定高度。
-                    // 由於難以精準計算絕對高度，另一個方法是插入一個「裝飾用的 Grid Item」，
-                    // 這個 Item 會在特定斷點隱藏或顯示。
-                    
-                    // 我們選擇插入一個跨滿整列的裝飾分隔線，或者直接在最後一個卡片的右側添加效果。
-                    // 為了符合「在右側多個日光燈裝飾」，我們在 Grid 佈局中插入一個只在右側顯示燈管的特殊列。
-                    
-                    // 為了不打亂卡片的順序，我們插入一個佔滿所有欄位的容器
-                    const lightDecorationHTML = `
-                        <div class="col-span-1 sm:col-span-2 lg:col-span-3 flex justify-end items-center py-4 my-2 opacity-80 pointer-events-none">
-                            <div class="flex items-center gap-2">
-                                <span class="text-[10px] text-[#1e293b] font-mono tracking-widest hidden md:inline">ECHO-SECTOR-DIVIDER</span>
-                                <div class="fluorescent-light-fixture rotate-90">
-                                    <div class="fluorescent-tube"></div>
-                                </div>
-                            </div>
-                        </div>
-                    `;
-                    gallery.innerHTML += lightDecorationHTML;
-                    // 重置計數器，讓下一個 2 列重新計算 (如果需要的話)
-                    // 如果希望每兩列都出現，就保持累加並使用取餘數判斷
-                }
             });
         }
 
-        // 監聽視窗大小改變，重新渲染以確保日光燈位置正確
-        window.addEventListener('resize', () => {
-            // 使用 debounce 避免頻繁觸發
-            clearTimeout(window.resizeTimer);
-            window.resizeTimer = setTimeout(() => {
-                renderGallery();
-            }, 250);
-        });
+        function openModal(imgSrc, downloadUrl) {
+            const modal = document.getElementById('image-modal');
+            const modalImg = document.getElementById('modal-image');
+            const downloadBtn = document.getElementById('modal-download-btn');
+            
+            modalImg.src = imgSrc;
+            downloadBtn.href = downloadUrl;
+            
+            // 顯示遮罩層
+            modal.classList.remove('hidden');
+            modal.classList.add('flex');
+            document.body.classList.add('modal-open');
+            
+            // 延遲以觸發 CSS 動畫
+            setTimeout(() => {
+                modal.classList.remove('opacity-0');
+                modalImg.classList.remove('opacity-0', 'scale-95');
+                modalImg.classList.add('opacity-100', 'scale-100');
+            }, 20);
+        }
 
-        // 末日動態時鐘初始化腳本
+        function closeModal() {
+            const modal = document.getElementById('image-modal');
+            const modalImg = document.getElementById('modal-image');
+            
+            // 淡出遮罩層與縮小圖片
+            modal.classList.add('opacity-0');
+            modalImg.classList.remove('opacity-100', 'scale-100');
+            modalImg.classList.add('opacity-0', 'scale-95');
+            
+            // 動畫結束後隱藏元素
+            setTimeout(() => {
+                modal.classList.remove('flex');
+                modal.classList.add('hidden');
+                document.body.classList.remove('modal-open');
+                modalImg.src = ''; // 清除圖片，避免下次打開時殘留上一張圖
+            }, 300);
+        }
+
         function initDoomsdayClock() {
             const clockEl = document.getElementById('doomsday-clock');
             const dateEl = document.getElementById('doomsday-date');
             
             function updateClock() {
                 const now = new Date();
-                
-                // 時間格式化 (補零)
                 const h = String(now.getHours()).padStart(2, '0');
                 const m = String(now.getMinutes()).padStart(2, '0');
                 const s = String(now.getSeconds()).padStart(2, '0');
                 clockEl.textContent = `${h}:${m}:${s}`;
                 
-                // 日期格式化
                 const y = now.getFullYear();
                 const mo = String(now.getMonth() + 1).padStart(2, '0');
                 const d = String(now.getDate()).padStart(2, '0');
                 dateEl.textContent = `${y}.${mo}.${d}`;
             }
-            
-            // 每秒更新一次
             setInterval(updateClock, 1000);
-            updateClock(); // 網頁載入時立刻執行一次，避免出現 00:00:00 延遲
+            updateClock(); 
         }
 
-        // 首圖輪播動畫腳本
-        function initHeroSlideshow() {
-            const images = document.querySelectorAll('.hero-image');
-            if (images.length <= 1) return;
-
-            let currentIndex = 0;
-
+        // 背景輪播圖邏輯
+        function initHeroSlider() {
+            const slides = document.querySelectorAll('.slider-bg');
+            if (slides.length <= 1) return;
+            
+            let currentSlide = 0;
+            // 每 6 秒切換一次圖片 (可依需求調整時間)
             setInterval(() => {
-                // 先將目前的圖片淡出
-                images[currentIndex].classList.remove('active');
+                slides[currentSlide].classList.remove('opacity-100');
+                slides[currentSlide].classList.add('opacity-0');
                 
-                // 計算下一張圖片的索引
-                currentIndex = (currentIndex + 1) % images.length;
+                currentSlide = (currentSlide + 1) % slides.length;
                 
-                // 等待淡出動畫（1.5秒）完成一小部分後，將下一張圖片淡入。
-                // 設定 500ms 延遲會產生一個兩張圖片都較暗的短暫交錯期。
-                setTimeout(() => {
-                    images[currentIndex].classList.add('active');
-                }, 500); 
-
-            }, 15000); // 每 15 秒切換一次
+                slides[currentSlide].classList.remove('opacity-0');
+                slides[currentSlide].classList.add('opacity-100');
+            }, 6000); 
         }
 
         window.onload = function() { 
+            // 頁面初次載入時，將資料庫複製並打亂順序
+            if (typeof wallpaperDatabase !== 'undefined') {
+                currentDisplayList = shuffleArray([...wallpaperDatabase]);
+            }
+            
             setLanguage(currentLang);
-            initDoomsdayClock(); // 啟動末日時鐘
-            initHeroSlideshow(); // 啟動首圖輪播
+            initDoomsdayClock(); 
+            initHeroSlider(); // 啟動背景輪播
         };
     </script>
 </body>
